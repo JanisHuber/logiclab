@@ -1,0 +1,14 @@
+<server description="LogicLab Open Liberty Server">
+
+    <featureManager>
+        <feature>restfulWS-3.1</feature>
+    </featureManager>
+
+    <httpEndpoint id="defaultHttpEndpoint"
+                  host="*"
+                  httpPort="9090"
+                  httpsPort="9443" />
+
+    <webApplication location="logiclab-backend.war" contextRoot="/" />
+
+</server>
