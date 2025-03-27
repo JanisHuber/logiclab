@@ -37,7 +37,7 @@ public class GameOutput {
         return Optional.empty();
     }
 
-    public static Optional<String> getMastermindNumber(int gameId) { //todo
+    public static Optional<String> getMastermindNumber(int gameId) {
         try {
             DatabaseConnection dbCon = new DatabaseConnection();
 
