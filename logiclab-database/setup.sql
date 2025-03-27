@@ -21,10 +21,10 @@ CREATE TABLE IF NOT EXISTS guesstogame (
 );
 
 
-DROP TABLE IF EXISTS guesstogame;
+/*DROP TABLE IF EXISTS guesstogame;
 DROP TABLE IF EXISTS mastermind;
 DROP TABLE IF EXISTS playerGuesses;
 
 TRUNCATE TABLE guesstogame;
 TRUNCATE TABLE mastermind;
-TRUNCATE TABLE playerGuesses;
+TRUNCATE TABLE playerGuesses;*/
