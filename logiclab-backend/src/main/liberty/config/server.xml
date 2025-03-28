@@ -36,10 +36,14 @@
     <ssl id="defaultSSLConfig" trustDefaultCerts="true" />
 
     <dataSource id="logiclab" jndiName="jdbc/logiclab">
-        <jdbcDriver libraryRef="mariadb" javax.sql.DataSource="org.mariadb.jdbc.MariaDbDataSource" />
+        <jdbcDriver libraryRef="mariadb" javax.sql.DataSource="org.mariadb.jdbc.MariaDbDataSource"
+                    javax.sql.XADataSource="org.mariadb.jdbc.MariaDbDataSource"
+                    javax.sql.ConnectionPoolDataSource="org.mariadb.jdbc.MariaDbDataSource"/>
+
         <properties url="jdbc:mariadb://localhost:3306/logiclab"
                     user="root"
                     password="1234"/>
+<!--        <properties serverName="localhost" portNumber="3306" databaseName="logiclab" user="root" password="1234"/>-->
     </dataSource>
 
     <library id="mariadb">
