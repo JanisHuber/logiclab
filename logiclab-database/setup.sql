@@ -8,23 +8,9 @@ CREATE TABLE IF NOT EXISTS mastermind (
 
 CREATE TABLE IF NOT EXISTS playerGuesses (
     guessId INT PRIMARY KEY AUTO_INCREMENT,
+    gameId INT NOT NULL,
     guess VARCHAR(4) NOT NULL,
     correctPosition INT NOT NULL,
-    correctNumber INT NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS guesstogame (
-    guessId INT,
-    gameId INT,
-    FOREIGN KEY (guessId) REFERENCES playerGuesses(guessId) ON DELETE CASCADE,
+    correctNumber INT NOT NULL,
     FOREIGN KEY (gameId) REFERENCES mastermind(gameId) ON DELETE CASCADE
 );
-
-
-DROP TABLE IF EXISTS guesstogame;
-DROP TABLE IF EXISTS mastermind;
-DROP TABLE IF EXISTS playerGuesses;
-
-TRUNCATE TABLE guesstogame;
-TRUNCATE TABLE mastermind;
-TRUNCATE TABLE playerGuesses;

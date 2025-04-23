@@ -4,26 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="33ce8ed2-a8a2-4bbd-9068-4647ea095a88" name="Changes" comment="--Database structure&#10;--Database queries &amp; inserts&#10;--Database tests &amp; acceptancetests">
-      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/rest/dto/GuessDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/GetGameState.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/ValidateGuess.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/test/java/domain/unittest/GuessValidationTest.java" afterDir="false" />
+    <list default="true" id="33ce8ed2-a8a2-4bbd-9068-4647ea095a88" name="Changes" comment="--Refactoring JPA&#10;--clean up">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/persistence/insert/GameInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/persistence/insert/GameInput.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/persistence/insert/GuessInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/persistence/insert/GuessInput.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/persistence/select/GameOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/persistence/select/GameOutput.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/persistence/select/GuessOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/persistence/select/GuessOutput.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/rest/MastermindApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/rest/MastermindApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/persistence/MastermindRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/persistence/MastermindRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/rest/MastermindResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/rest/MastermindResource.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/rest/dto/GameDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/rest/dto/GameDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/GenerateNewGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/GenerateNewGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/liberty/config/server.xml" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/liberty/config/server.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/test/java/database/acceptancetest/CreateGameAndInsertGuessesTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/test/java/database/acceptancetest/CreateGameAndInsertGuessesTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/test/java/database/acceptancetest/UpdateGameStatusTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/test/java/database/acceptancetest/UpdateGameStatusTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/test/java/database/unittest/InsertGuessTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/test/java/database/unittest/InsertGuessTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/test/java/database/unittest/createNewGameTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/test/java/database/unittest/createNewGameTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-database/setup.sql" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-database/setup.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,11 +21,17 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Record" />
+        <option value="JUnit5 Test Class" />
         <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -53,6 +46,9 @@
     &quot;accountId&quot;: &quot;d0632697-e869-4b45-8acf-09a872aa63d1&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
 }</component>
@@ -70,16 +66,20 @@
     "HTTP Request.rest-api | #2.executor": "Run",
     "HTTP Request.rest-api | #3.executor": "Run",
     "JUnit.DATABASE_acceptanceTest.executor": "Run",
+    "JUnit.GameDaoTest.executor": "Run",
     "JUnit.GuessValidationTest.executor": "Run",
     "JUnit.Unnamed.executor": "Run",
     "JUnit.UpdateGameStatusTest.executor": "Run",
     "JUnit.acceptanceTest.executor": "Run",
     "JUnit.createNewGame.executor": "Run",
     "JUnit.domainTests.executor": "Run",
+    "Remote JVM Debug.Debug.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "git-widget-placeholder": "test$",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Intellji/CSS - Projects/Open Liberty/logiclab-backend/src/test/java/domain",
@@ -89,6 +89,9 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs.jest.jest_package": "",
     "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -108,8 +111,28 @@
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Intellji\CSS - Projects\Open Liberty\logiclab-backend\src\main\resources" />
     </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="ch.janishuber.logiclab.adapter.persistence" />
+    </key>
   </component>
-  <component name="RunManager" selected="JUnit.domainTests">
+  <component name="RunManager" selected="Remote JVM Debug.Debug">
+    <configuration name="setup.sql" type="DatabaseScript" editBeforeRun="true" temporary="true" nameIsGenerated="true">
+      <script-file value="$PROJECT_DIR$/logiclab-database/setup.sql" />
+      <script-mode>FILE</script-mode>
+      <method v="2" />
+    </configuration>
+    <configuration name="rest-api | #1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/rest-api.http" executionIdentifier="#1" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="rest-api | #2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/rest-api.http" executionIdentifier="#2" index="2" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="rest-api | #3" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/rest-api.http" executionIdentifier="#3" index="3" runType="Run single request">
+      <method v="2" />
+    </configuration>
     <configuration name="databaseTests" type="JUnit" factoryName="JUnit">
       <module name="logiclab-backend" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -143,10 +166,36 @@
       <option name="filePath" />
       <method v="2" />
     </configuration>
+    <configuration name="Debug" type="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="7777" />
+      <option name="AUTO_RESTART" value="false" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="7777" />
+        <option name="LOCAL" value="false" />
+      </RunnerSettings>
+      <method v="2" />
+    </configuration>
     <list>
+      <item itemvalue="Database Script.setup.sql" />
+      <item itemvalue="HTTP Request.rest-api | #1" />
+      <item itemvalue="HTTP Request.rest-api | #2" />
+      <item itemvalue="HTTP Request.rest-api | #3" />
       <item itemvalue="JUnit.databaseTests" />
       <item itemvalue="JUnit.domainTests" />
+      <item itemvalue="Remote JVM Debug.Debug" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="HTTP Request.rest-api | #3" />
+        <item itemvalue="HTTP Request.rest-api | #2" />
+        <item itemvalue="HTTP Request.rest-api | #1" />
+        <item itemvalue="Database Script.setup.sql" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -167,7 +216,12 @@
       <workItem from="1742568410915" duration="709000" />
       <workItem from="1742976701702" duration="5482000" />
       <workItem from="1742982728836" duration="9642000" />
-      <workItem from="1742995615876" duration="16519000" />
+      <workItem from="1742995615876" duration="26710000" />
+      <workItem from="1743079816892" duration="24819000" />
+      <workItem from="1743683890175" duration="120000" />
+      <workItem from="1743684038414" duration="2428000" />
+      <workItem from="1744014956641" duration="21000" />
+      <workItem from="1745302290981" duration="15869000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Maven Project">
       <option name="closed" value="true" />
@@ -185,7 +239,39 @@
       <option name="project" value="LOCAL" />
       <updated>1742991106361</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="--Refactoring backend">
+      <option name="closed" value="true" />
+      <created>1743066235065</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1743066235065</updated>
+    </task>
+    <task id="LOCAL-00004" summary="--clean up">
+      <option name="closed" value="true" />
+      <created>1743066266226</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1743066266226</updated>
+    </task>
+    <task id="LOCAL-00005" summary="--clean up">
+      <option name="closed" value="true" />
+      <created>1743078113834</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1743078113834</updated>
+    </task>
+    <task id="LOCAL-00006" summary="--Refactoring JPA&#10;--clean up">
+      <option name="closed" value="true" />
+      <created>1743158985266</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1743158985266</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -194,6 +280,9 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial Maven Project" />
     <MESSAGE value="--Database structure&#10;--Database queries &amp; inserts&#10;--Database tests &amp; acceptancetests" />
-    <option name="LAST_COMMIT_MESSAGE" value="--Database structure&#10;--Database queries &amp; inserts&#10;--Database tests &amp; acceptancetests" />
+    <MESSAGE value="--Refactoring backend" />
+    <MESSAGE value="--clean up" />
+    <MESSAGE value="--Refactoring JPA&#10;--clean up" />
+    <option name="LAST_COMMIT_MESSAGE" value="--Refactoring JPA&#10;--clean up" />
   </component>
 </project>
