@@ -13,23 +13,27 @@ public class Game {
 
     private String gameStatus;
 
-    private final int attemptsAmount;
+    private final Guess[] guesses;
 
-    private Game(int id, String masterMindNumber, String gameStatus, int attemptsAmount) {
+    private Game(int id, String masterMindNumber, String gameStatus, Guess[] guesses) {
         this.id = id;
         this.masterMindNumber = masterMindNumber;
         this.gameStatus = gameStatus;
-        this.attemptsAmount = attemptsAmount;
+        this.guesses = guesses;
     }
 
     public static Game startNewGame() {
         Random rand = new Random();
-        String generatedMasterMindNumber = rand.nextInt(10000) + "";
-        return new Game(GAME_ID_NOT_SET, generatedMasterMindNumber, "started", 0);
+        String generatedMasterMindNumber = rand.nextInt(1000, 10000) + "";
+        if (generatedMasterMindNumber.contains("0")) {
+            generatedMasterMindNumber = generatedMasterMindNumber.replace("0", "1");
+        }
+        Guess[] guesses = new Guess[8];
+        return new Game(GAME_ID_NOT_SET, generatedMasterMindNumber, "started", guesses);
     }
 
-    public static Game ofExisting(int id, String masterMindNumber, String gameStatus, int attemptsAmount) {
-        return new Game(id, masterMindNumber, gameStatus, attemptsAmount);
+    public static Game ofExisting(int id, String masterMindNumber, String gameStatus, Guess[] guesses) {
+        return new Game(id, masterMindNumber, gameStatus, guesses);
     }
 
     public int getId() {
@@ -44,8 +48,8 @@ public class Game {
         return gameStatus;
     }
 
-    public int getAttemptsAmount() {
-        return attemptsAmount;
+    public Guess[] getAttemptsAmount() {
+        return guesses;
     }
 
 
@@ -53,12 +57,11 @@ public class Game {
         int correctPositions = checkCorrectPosition(guess);
         int correctNumbers = checkCorrectNumber(guess);
 
-        if (attemptsAmount >= 8) {
-            this.gameStatus = "lost";
-            return Optional.empty();
-        }
         if (correctPositions == 4) {
             this.gameStatus = "won";
+        }
+        if (guesses.length >= 7 && !gameStatus.equals("won")) {
+            this.gameStatus = "lost";
         }
 
         return Optional.of(new Guess(guess, correctPositions, correctNumbers));

@@ -2,6 +2,7 @@ package ch.janishuber.logiclab.adapter.persistence;
 
 import ch.janishuber.logiclab.adapter.persistence.entity.MastermindEntity;
 import ch.janishuber.logiclab.domain.Game;
+import ch.janishuber.logiclab.domain.Guess;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -23,12 +24,12 @@ public class MastermindRepository {
         return mastermindEntity.getGameId();
     }
 
-    public Optional<Game> getGame(int gameId, int attemptsAmount) {
+    public Optional<Game> getGame(int gameId, Guess[] guesses) {
         MastermindEntity entity = em.find(MastermindEntity.class, gameId);
         if (entity == null) {
             return Optional.empty();
         }
-        return Optional.of(Game.ofExisting(entity.getGameId(), entity.getMastermindNumber(), entity.getGameStatus(), attemptsAmount));
+        return Optional.of(Game.ofExisting(entity.getGameId(), entity.getMastermindNumber(), entity.getGameStatus(), guesses));
     }
 
     @Transactional

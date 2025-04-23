@@ -29,10 +29,6 @@ public class MastermindEntity {
         return mastermindNumber;
     }
 
-    public void setMastermindNumber(String mastermindNumber) {
-        this.mastermindNumber = mastermindNumber;
-    }
-
     public String getGameStatus() {
         return gameStatus;
     }

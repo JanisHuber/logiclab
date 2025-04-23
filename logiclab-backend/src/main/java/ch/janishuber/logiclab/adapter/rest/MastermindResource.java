@@ -36,7 +36,7 @@ public class MastermindResource {
 
         int newGameId = repository.save(startedGame);
 
-        GameDto gameDto = new GameDto(newGameId, startedGame.getGameStatus(), 0);
+        GameDto gameDto = new GameDto(newGameId, startedGame.getGameStatus(), new Guess[0]);
 
         return Response.ok(gameDto).build();
     }
@@ -45,7 +45,7 @@ public class MastermindResource {
     @Path("/{id}")
     public Response gameState(@PathParam("id") int gameId) {
         List<Guess> guesses = guessRepository.getGuesses(gameId);
-        Optional<Game> optionalGame = repository.getGame(gameId, guesses.size());
+        Optional<Game> optionalGame = repository.getGame(gameId, guesses.toArray(new Guess[guesses.size()]));
 
         if (optionalGame.isEmpty()) {
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -68,7 +68,7 @@ public class MastermindResource {
         }
 
         List<Guess> guesses = guessRepository.getGuesses(gameId);
-        Optional<Game> optionalGame = repository.getGame(gameId, guesses.size());
+        Optional<Game> optionalGame = repository.getGame(gameId, guesses.toArray(new Guess[guesses.size()]));
 
         if (optionalGame.isEmpty()) {
             return Response.status(Response.Status.NOT_FOUND).build();

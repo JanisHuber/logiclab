@@ -14,11 +14,3 @@ CREATE TABLE IF NOT EXISTS playerGuesses (
     correctNumber INT NOT NULL,
     FOREIGN KEY (gameId) REFERENCES mastermind(gameId) ON DELETE CASCADE
 );
-
-
-DROP TABLE IF EXISTS playerGuesses;
-DROP TABLE IF EXISTS mastermind;
-#
-#
-# TRUNCATE TABLE mastermind;
-# TRUNCATE TABLE playerGuesses;
