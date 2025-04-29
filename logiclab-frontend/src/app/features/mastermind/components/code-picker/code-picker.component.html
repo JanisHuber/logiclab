@@ -1,0 +1,15 @@
+<div id="input">
+    <div *ngFor="let i of [0, 1, 2, 3]" class="dropdown">
+        <div tabindex="0" role="button" class="btn m-1 w-20 h-20">
+            @if (selectedColors[i] !== undefined) {
+                <div [ngClass]="cssColorClassForIndex(i)" class="w-10 h-10 rounded-full"></div>
+            }
+        </div>
+                
+        <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-1 w-10 p-2 shadow-sm">
+            <li *ngFor="let color of colorOptions; let index = index">
+            <a (click)="selectColor(i, index)"><div [ngClass]="color" class="w-10 h-10 rounded-full"></div></a>
+            </li>
+        </ul>
+    </div>
+</div>

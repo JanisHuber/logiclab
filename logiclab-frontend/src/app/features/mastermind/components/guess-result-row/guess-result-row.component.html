@@ -1,0 +1,12 @@
+<div *ngFor="let guess of guessList" class="border-2 border-gray-500 rounded-lg p-2 mb-2">
+    <div id="guessResultList">
+        <div *ngFor="let color of guessToColors(guess)">
+            <div [ngClass]="color" class="w-10 h-10 rounded-full"></div>
+        </div> 
+    </div>
+    
+    <div id="guessResultList">
+        <p>Correct Positions: {{guess.correctPositions}}</p>
+        <p>Correct Color: {{guess.correctNumbers}}</p>
+    </div>
+</div>

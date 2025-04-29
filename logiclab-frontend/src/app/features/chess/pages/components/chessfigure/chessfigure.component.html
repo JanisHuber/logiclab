@@ -1,0 +1,5 @@
+<div class="select-none" (click)="onClick()">
+    @if (figure) {
+        <img [src]="getFigureImage()" [alt]="figure?.type || ''" class="w-10 h-10 sm:w-16 sm:h-16 md:w-25 md:h-25">
+    }
+</div>

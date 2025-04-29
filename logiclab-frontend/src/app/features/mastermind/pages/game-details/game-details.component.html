@@ -1,0 +1,19 @@
+<header class="mb-3">
+    <h1 class="text-3xl font-bold text-center text-gray-900 dark:text-white">Game {{game.gameState}}</h1>
+</header>
+
+<div *ngIf="RequestError === ''" class="result">
+    <app-guess-result-row [guessList]="game.guesses"/>
+</div>
+
+<p class="mb-3 mt-10">Attempts left: {{guessesLeft()}}</p>
+
+<div>
+    <p *ngIf="RequestError !== ''" class="text-red-500">Error: {{RequestError}}</p>
+</div>
+
+@if (game.gameState === 'started') {
+    <app-code-picker (colorsSelected)="colorsSelected($event)"></app-code-picker>
+
+    <button class="btn mt-2" (click)="submitGuess()" [disabled]="userGuessString === ''">Submit</button>
+}
