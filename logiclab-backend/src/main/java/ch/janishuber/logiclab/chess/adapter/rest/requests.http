@@ -1,0 +1,31 @@
+POST http://localhost:9090/logiclab/api/chess/new
+Content-Type: application/json
+
+###
+
+GET http://localhost:9090/logiclab/api/chess/65
+Content-Type: application/json
+
+###
+
+POST http://localhost:9090/logiclab/api/chess/29/player/move
+Content-Type: application/json
+
+{
+  "source": "E7",
+  "target": "E5"
+}
+
+###
+
+GET http://localhost:9090/logiclab/api/chess/29/bot/move
+
+###
+
+GET http://localhost:9090/logiclab/api/chess/29/player/fields?position=G8
+Content-Type: application/json
+
+###
+
+GET http://localhost:9090/logiclab/api/chess/65/gameState
+Content-Type: application/json

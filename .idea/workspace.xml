@@ -4,13 +4,115 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="33ce8ed2-a8a2-4bbd-9068-4647ea095a88" name="Changes" comment="--Refactoring JPA&#10;--clean up">
+    <list default="true" id="33ce8ed2-a8a2-4bbd-9068-4647ea095a88" name="Changes" comment="-- Update guesses for Frontend">
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/adapter/persistence/ChessRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/adapter/persistence/entity/GameEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/adapter/rest/ChessApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/adapter/rest/ChessResource.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/adapter/rest/dto/FieldsDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/adapter/rest/dto/GameDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/adapter/rest/dto/MoveDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/adapter/rest/main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/adapter/rest/requests.http" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/Game.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/board/ChessBoard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/board/Field.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/bot/ChessBot.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/controller/CheckMoveHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/controller/CheckmateHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/controller/ChessController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/enums/FigureColor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/evaluate/evaluateBoard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/figures/Bishop.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/figures/King.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/figures/Knight.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/figures/Pawn.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/figures/Queen.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/figures/Rook.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/util/BoardInitializerUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/util/ChessFigure.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/util/LegalMovesInCheckHelper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/util/LegalMovesOutOfCheckHelper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/util/LoggingToFile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/util/Move.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/util/SerializationUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/mastermind/adapter/rest/MastermindApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/resources/images/beige_tile.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/resources/images/brown_tile.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/resources/images/figure_black_bishop.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/resources/images/figure_black_king.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/resources/images/figure_black_knight.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/resources/images/figure_black_pawn.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/resources/images/figure_black_queen.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/resources/images/figure_black_rook.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/resources/images/figure_white_bishop.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/resources/images/figure_white_king.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/resources/images/figure_white_knight.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/resources/images/figure_white_pawn.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/resources/images/figure_white_queen.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/resources/images/figure_white_rook.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/resources/images/possibleMove.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/persistence/MastermindRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/persistence/MastermindRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/rest/MastermindResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/rest/MastermindResource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/rest/dto/GameDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/rest/dto/GameDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-database/setup.sql" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-database/setup.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation.md" beforeDir="false" afterPath="$PROJECT_DIR$/documentation.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/persistence/GuessRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/mastermind/adapter/persistence/GuessRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/persistence/MastermindRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/mastermind/adapter/persistence/MastermindRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/persistence/entity/GuessEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/mastermind/adapter/persistence/entity/GuessEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/persistence/entity/MastermindEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/mastermind/adapter/persistence/entity/MastermindEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/rest/CorsFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/mastermind/adapter/rest/CorsFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/rest/MastermindApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/rest/MastermindResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/mastermind/adapter/rest/MastermindResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/rest/dto/GameDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/mastermind/adapter/rest/dto/GameDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/rest/dto/GuessDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/mastermind/adapter/rest/dto/GuessDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/mastermind/domain/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/Guess.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/mastermind/domain/Guess.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/test/java/domain/unittest/GuessValidationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/test/java/domain/unittest/GuessValidationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-database/setup.sql" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-database/mastermind/setup.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/.editorconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/.postcssrc.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/angular.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/postcss.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/public/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/src/app/app.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-database/chess/setup.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/src/app/app.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/src/app/app.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/src/app/app.config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/src/app/app.routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/src/app/core/models/mastermind/game.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/src/app/core/models/mastermind/guess.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/src/app/core/models/mastermind/user-guess.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/src/app/core/models/mastermind/user-input.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/src/app/core/services/mastermind/game.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/src/app/features/chess/chess-routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/src/app/features/chess/pages/new-game/new-game.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/src/app/features/chess/pages/new-game/new-game.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/src/app/features/chess/pages/new-game/new-game.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/src/app/features/mastermind/components/guess-result-row/guess-result-row.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/src/app/features/mastermind/components/guess-result-row/guess-result-row.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/src/app/features/mastermind/components/guess-result-row/guess-result-row.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/src/app/features/mastermind/mastermind-routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/src/app/features/mastermind/pages/game-details/game-details.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/src/app/features/mastermind/pages/game-details/game-details.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/src/app/features/mastermind/pages/game-details/game-details.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/src/app/features/mastermind/pages/new-game/new-game.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/src/app/features/mastermind/pages/new-game/new-game.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/src/app/features/mastermind/pages/new-game/new-game.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/src/app/shared/shared/pretty-print-errors.helpers.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/src/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/src/main.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/src/output.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/src/styles.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/tailwind.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/tsconfig.app.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/logiclab-frontend/tsconfig.spec.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +163,11 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "Application.main.executor": "Run",
     "Application.test.executor": "Run",
+    "HTTP Request.requests | #1.executor": "Run",
+    "HTTP Request.requests | #2.executor": "Run",
+    "HTTP Request.requests | #3.executor": "Run",
     "HTTP Request.rest-api | #1.executor": "Run",
     "HTTP Request.rest-api | #2.executor": "Run",
     "HTTP Request.rest-api | #3.executor": "Run",
@@ -82,7 +188,7 @@
     "git-widget-placeholder": "test$",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Intellji/CSS - Projects/Open Liberty/logiclab-backend/src/test/java/domain",
+    "last_opened_file_path": "C:/Intellji/CSS - Projects/Open Liberty/logiclab-backend/src/main/resources",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -108,7 +214,13 @@
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Intellji\CSS - Projects\Open Liberty\logiclab-backend\src\main\resources" />
+      <recent name="C:\Intellji\CSS - Projects\Open Liberty\logiclab-backend\src\main\java\ch\janishuber\logiclab\chess\domain" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Intellji\CSS - Projects\Open Liberty\logiclab-database\mastermind" />
+      <recent name="C:\Intellji\CSS - Projects\Open Liberty" />
       <recent name="C:\Intellji\CSS - Projects\Open Liberty\logiclab-backend\src\main\resources" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
@@ -119,18 +231,19 @@
     </key>
   </component>
   <component name="RunManager" selected="Remote JVM Debug.Debug">
-    <configuration name="setup.sql" type="DatabaseScript" editBeforeRun="true" temporary="true" nameIsGenerated="true">
-      <script-file value="$PROJECT_DIR$/logiclab-database/setup.sql" />
-      <script-mode>FILE</script-mode>
+    <configuration name="requests | #1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/adapter/rest/requests.http" executionIdentifier="#1" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="requests | #2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/adapter/rest/requests.http" executionIdentifier="#2" index="2" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="requests | #3" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/adapter/rest/requests.http" executionIdentifier="#3" index="3" runType="Run single request">
       <method v="2" />
     </configuration>
     <configuration name="rest-api | #1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/rest-api.http" executionIdentifier="#1" runType="Run single request">
       <method v="2" />
     </configuration>
     <configuration name="rest-api | #2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/rest-api.http" executionIdentifier="#2" index="2" runType="Run single request">
-      <method v="2" />
-    </configuration>
-    <configuration name="rest-api | #3" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/rest-api.http" executionIdentifier="#3" index="3" runType="Run single request">
       <method v="2" />
     </configuration>
     <configuration name="databaseTests" type="JUnit" factoryName="JUnit">
@@ -180,20 +293,22 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Database Script.setup.sql" />
+      <item itemvalue="HTTP Request.requests | #3" />
+      <item itemvalue="HTTP Request.requests | #1" />
+      <item itemvalue="HTTP Request.requests | #2" />
       <item itemvalue="HTTP Request.rest-api | #1" />
       <item itemvalue="HTTP Request.rest-api | #2" />
-      <item itemvalue="HTTP Request.rest-api | #3" />
       <item itemvalue="JUnit.databaseTests" />
       <item itemvalue="JUnit.domainTests" />
       <item itemvalue="Remote JVM Debug.Debug" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="HTTP Request.rest-api | #3" />
-        <item itemvalue="HTTP Request.rest-api | #2" />
+        <item itemvalue="HTTP Request.requests | #3" />
+        <item itemvalue="HTTP Request.requests | #2" />
+        <item itemvalue="HTTP Request.requests | #1" />
         <item itemvalue="HTTP Request.rest-api | #1" />
-        <item itemvalue="Database Script.setup.sql" />
+        <item itemvalue="HTTP Request.rest-api | #2" />
       </list>
     </recent_temporary>
   </component>
@@ -221,7 +336,16 @@
       <workItem from="1743683890175" duration="120000" />
       <workItem from="1743684038414" duration="2428000" />
       <workItem from="1744014956641" duration="21000" />
-      <workItem from="1745302290981" duration="15869000" />
+      <workItem from="1745302290981" duration="16916000" />
+      <workItem from="1745403592087" duration="71000" />
+      <workItem from="1745403684185" duration="491000" />
+      <workItem from="1745404191505" duration="5000" />
+      <workItem from="1745477406477" duration="2084000" />
+      <workItem from="1745559823943" duration="22663000" />
+      <workItem from="1745818034991" duration="8396000" />
+      <workItem from="1745827104270" duration="758000" />
+      <workItem from="1745828046409" duration="1271000" />
+      <workItem from="1745829374698" duration="5203000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Maven Project">
       <option name="closed" value="true" />
@@ -271,7 +395,15 @@
       <option name="project" value="LOCAL" />
       <updated>1743158985266</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="-- Update guesses for Frontend">
+      <option name="closed" value="true" />
+      <created>1745400840943</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1745400840943</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -283,6 +415,14 @@
     <MESSAGE value="--Refactoring backend" />
     <MESSAGE value="--clean up" />
     <MESSAGE value="--Refactoring JPA&#10;--clean up" />
-    <option name="LAST_COMMIT_MESSAGE" value="--Refactoring JPA&#10;--clean up" />
+    <MESSAGE value="-- Update guesses for Frontend" />
+    <option name="LAST_COMMIT_MESSAGE" value="-- Update guesses for Frontend" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="Remote">
+        <watch expression="chessBoard.fields.get(0)" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
