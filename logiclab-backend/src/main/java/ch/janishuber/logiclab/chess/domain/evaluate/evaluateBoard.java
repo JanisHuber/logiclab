@@ -60,7 +60,7 @@ public class evaluateBoard {
                 default -> 0;
             };
 
-            value += (field.figure.figureColor == FigureColor.WHITE) ? figureValue : -figureValue;
+            value += (field.figure.figureColor == chessController.getBotColor()) ? figureValue : -figureValue;
         }
         return value;
     }
@@ -74,7 +74,7 @@ public class evaluateBoard {
                 int row = convertRowToInt(pawn.position.row);
                 int col = pawn.position.column;
 
-                value += (pawn.figureColor == FigureColor.WHITE ? row : (9 - row));
+                value += (pawn.figureColor == chessController.getBotColor() ? row : (9 - row));
 
                 if (isCentralField(row, col, centralFields)) {
                     value += 20;
@@ -118,8 +118,8 @@ public class evaluateBoard {
     }
 
     private static int checkmateValue(ChessController chessController) {
-        int counterWhite = 0;
-        int counterBlack = 0;
+        int botCounter = 0;
+        int opponentCounter = 0;
 
         for (Field field : chessController.chessBoard.getFields()) {
             if (field.figure != null) {
@@ -127,19 +127,19 @@ public class evaluateBoard {
                     break;
                 }
                 if (!chessController.getCheckMoveHandler().getCheckedMove(field.figure).isEmpty()) {
-                    if (field.figure.figureColor == FigureColor.WHITE) {
-                        counterWhite++;
+                    if (field.figure.figureColor == chessController.getBotColor()) {
+                        botCounter++;
                     } else {
-                        counterBlack++;
+                        opponentCounter++;
                     }
                 }
             }
         }
-        if (counterWhite == 0 && counterBlack == 0) {
+        if (botCounter == 0 && opponentCounter == 0) {
             return 0;
-        } else if (counterWhite == 0) {
+        } else if (botCounter == 0) {
             return -1000000;
-        } else if (counterBlack == 0) {
+        } else if (opponentCounter == 0) {
             return 1000000;
         }
         return 0;

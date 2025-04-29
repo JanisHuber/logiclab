@@ -19,33 +19,37 @@ public class ChessController implements Serializable {
     public ChessBoard chessBoard;
     public FigureColor currentTurn = FigureColor.WHITE;
 
-    private final boolean publicAgainstAI;
+    private boolean publicAgainstAI;
+    private int botDifficulty;
+    private FigureColor botColor;
     private transient ChessBot bot;
 
     public CheckMoveHandler checkMoveHandler;
 
-    public ChessController(boolean againstAI, boolean noInit)
+    public ChessController(boolean againstAI, boolean noInit, FigureColor botColor, int botDifficulty)
     {
         publicAgainstAI = againstAI;
+        this.botDifficulty = botDifficulty;
+        this.botColor = botColor;
         if (!noInit) {
-            init();
-            if (publicAgainstAI) {
+            init(botDifficulty);
+            if (publicAgainstAI && currentTurn == botColor) {
                 Move botMove = bot.getBestMove(this);
                 move(botMove.getSource(chessBoard), botMove.getTarget(chessBoard));
             }
         }
     }
 
-    public static ChessController ofExisting(ChessBoard chessBoard, FigureColor currentTurn) {
-        ChessController chessController = new ChessController(true, true);
+    public static ChessController ofExisting(ChessBoard chessBoard, FigureColor currentTurn, boolean againstAI, FigureColor botColor, int botDifficulty) {
+        ChessController chessController = new ChessController(againstAI, true, botColor, botDifficulty);
         chessController.chessBoard = chessBoard;
         chessController.currentTurn = currentTurn;
         return chessController;
     }
 
-    private void init() {
+    private void init(int botDifficulty) {
         if (publicAgainstAI) {
-            bot = new ChessBot(3, 0);
+            bot = new ChessBot(botDifficulty - 2, (botDifficulty > 5) ? botDifficulty - 4 : 0);
         }
         chessBoard = BoardInitializerUtil.Initialize(new ChessBoard());
     }
@@ -87,17 +91,13 @@ public class ChessController implements Serializable {
      * @return Optional<Boolean> - true if the bot made a move, false if it didn't.
      */
     public Optional<Boolean> makeBotMove() {
-        ChessBot bot = new ChessBot(3, 0);
+        ChessBot bot = new ChessBot(this.botDifficulty - 2, (this.botDifficulty > 5) ? this.botDifficulty - 4 : 0);
         Optional<Boolean> hasMoved = Optional.of(false);
-        if (publicAgainstAI && currentTurn == FigureColor.WHITE) {
+        if (publicAgainstAI && currentTurn == this.botColor) {
             Move botMove = bot.getBestMove(this);
             hasMoved = move(botMove.getSource(chessBoard), botMove.getTarget(chessBoard));
         }
         return hasMoved;
-    }
-
-    public Move getBotMove() {
-        return bot.getBestMove(this);
     }
 
     public Optional<Boolean> move(Field currentField, Field target)
@@ -135,5 +135,9 @@ public class ChessController implements Serializable {
         currentField.figure = null;
 
         currentTurn = currentTurn == FigureColor.WHITE ? FigureColor.BLACK : FigureColor.WHITE;
+    }
+
+    public FigureColor getBotColor() {
+        return botColor;
     }
 }

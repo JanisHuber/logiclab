@@ -1,9 +1,9 @@
-POST http://localhost:9090/logiclab/api/chess/new
+POST http://localhost:9090/logiclab/api/chess/new?againstAI=true&botColor=WHITE&botDifficulty=5
 Content-Type: application/json
 
 ###
 
-GET http://localhost:9090/logiclab/api/chess/65
+GET http://localhost:9090/logiclab/api/chess/1
 Content-Type: application/json
 
 ###

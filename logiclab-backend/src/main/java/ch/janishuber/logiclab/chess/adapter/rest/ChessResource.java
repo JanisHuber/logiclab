@@ -25,10 +25,10 @@ public class ChessResource {
 
     @POST
     @Path("/new")
-    public Response newGame() {
-        Game game = Game.startNewGame(true);
+    public Response newGame(@QueryParam("againstAI") boolean againstAi, @QueryParam("botColor") FigureColor botColor,  @QueryParam("botDifficulty") int botDifficulty) {
+        Game game = Game.startNewGame(againstAi, botColor, botDifficulty);
         int gameId = chessRepository.save(game);
-        GameDto gameDto = new GameDto(gameId, game.getGameState(), game.getBoardState(), game.getCurrentTurn());
+        GameDto gameDto = new GameDto(gameId, game.getGameState(), game.getBoardState(), game.getCurrentTurn(), game.isAgainstAI(), game.getBotColor().toString());
         return Response.ok(gameDto).build();
     }
 
@@ -40,7 +40,7 @@ public class ChessResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
         Game loadedGame = gameEntity.get();
-        GameDto gameDto = new GameDto(gameId, loadedGame.getGameState(), loadedGame.getBoardState(), loadedGame.getCurrentTurn());
+        GameDto gameDto = new GameDto(gameId, loadedGame.getGameState(), loadedGame.getBoardState(), loadedGame.getCurrentTurn(), loadedGame.isAgainstAI(), loadedGame.getBotColor().toString());
         return Response.ok(gameDto).build();
     }
 
@@ -52,7 +52,6 @@ public class ChessResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
         Game loadedGame = game.get();
-        System.out.println("Stalemate Status: " + loadedGame.chessController.getStalemateStatus());
         loadedGame.chessController.getStalemateStatus()
                 .ifPresent(stalemate -> {
                     if (stalemate) {
@@ -62,7 +61,7 @@ public class ChessResource {
                     }
                 });
         chessRepository.updateGame(loadedGame);
-        GameDto gameDto = new GameDto(gameId, loadedGame.getGameState(), loadedGame.getBoardState(), loadedGame.getCurrentTurn());
+        GameDto gameDto = new GameDto(gameId, loadedGame.getGameState(), loadedGame.getBoardState(), loadedGame.getCurrentTurn(), loadedGame.isAgainstAI(), loadedGame.getBotColor().toString());
         return Response.ok(gameDto).build();
     }
 
@@ -82,7 +81,7 @@ public class ChessResource {
         if (!hasMoved.get()) {
             return Response.status(Response.Status.BAD_REQUEST).build(); // Player couldn't move
         }
-        loadedGame.setCurrentTurn(FigureColor.WHITE);
+        loadedGame.setCurrentTurn((loadedGame.getCurrentTurn().equals(FigureColor.WHITE.toString())) ? FigureColor.BLACK : FigureColor.WHITE);
         chessRepository.updateGame(loadedGame);
 
         return Response.ok(loadedGame).build();

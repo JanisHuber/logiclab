@@ -2,6 +2,7 @@ package ch.janishuber.logiclab.chess.adapter.persistence;
 
 import ch.janishuber.logiclab.chess.adapter.persistence.entity.GameEntity;
 import ch.janishuber.logiclab.chess.domain.Game;
+import ch.janishuber.logiclab.chess.domain.enums.FigureColor;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -16,7 +17,7 @@ public class ChessRepository {
 
     @Transactional
     public int save(Game game) {
-        GameEntity gameEntity = new GameEntity(game.getGameState(), game.getBoardState(), game.getCurrentTurn());
+        GameEntity gameEntity = new GameEntity(game.getGameState(), game.getBoardState(), game.getCurrentTurn(), game.isAgainstAI(), game.getBotColor().toString(), game.getBotDifficulty());
         em.persist(gameEntity);
         em.flush();
         return gameEntity.getGameId();
@@ -27,7 +28,7 @@ public class ChessRepository {
         if (entity == null) {
             return Optional.empty();
         }
-        Game game = Game.ofExisting(entity.getGameId(), entity.getGameState(), entity.getBoardState(), entity.getCurrentTurn());
+        Game game = Game.ofExisting(entity.getGameId(), entity.getGameState(), entity.getBoardState(), entity.getCurrentTurn(), entity.isAgainstAI(), FigureColor.valueOf(entity.getBotColor()), entity.getBotDifficulty());
         return Optional.of(game);
     }
 

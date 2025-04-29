@@ -51,7 +51,7 @@ public class ChessBot {
         ChessController clonedController = SerializationUtil.deepClone(controller);
 
         clonedController.chessBoard.MoveFigure(move.getSource(clonedController.chessBoard), move.getTarget(clonedController.chessBoard));
-        clonedController.currentTurn = FigureColor.BLACK;
+        clonedController.currentTurn = (clonedController.currentTurn == FigureColor.WHITE) ? FigureColor.BLACK : FigureColor.WHITE;
         return clonedController;
     }
 
@@ -172,7 +172,7 @@ public class ChessBot {
         for (Move move : noisyMoves) {
             ChessController cloned = SerializationUtil.deepClone(controller);
             cloned.chessBoard.MoveFigure(move.getSource(cloned.chessBoard), move.getTarget(cloned.chessBoard));
-            cloned.currentTurn = isMaximizingPlayer ? FigureColor.BLACK : FigureColor.WHITE;
+            cloned.currentTurn = (cloned.currentTurn == FigureColor.WHITE) ? FigureColor.BLACK : FigureColor.WHITE;
 
             int score = quiescenceSearch(cloned, alpha, beta, !isMaximizingPlayer, depth - 1);
 

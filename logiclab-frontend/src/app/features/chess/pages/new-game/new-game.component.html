@@ -1,1 +1,47 @@
-<button class="btn btn-primary" (click)="startNewGame()">Neues Spiel</button>
+<div class="flex justify-center items-center min-h-screen">
+  <div class="bg-base-300 p-8 rounded-lg shadow-lg max-w-md w-full">
+    <h2 class="text-2xl font-bold mb-6 text-center">New Chess Game</h2>
+    
+    <form class="space-y-6" (ngSubmit)="startNewGame()">
+      <!-- Game Mode Selection -->
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">Game Mode</span>
+        </label>
+        <select class="select select-bordered w-full" [(ngModel)]="gameMode" name="gameMode">
+          <option value="player">Player vs Player</option>
+          <option value="bot">Player vs Bot</option>
+        </select>
+      </div>
+
+      <!-- Bot Settings (shown only when bot mode is selected) -->
+      <div class="space-y-4" *ngIf="gameMode === 'bot'">
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">Bot Difficulty</span>
+          </label>
+          <select class="select select-bordered w-full" [(ngModel)]="botDifficulty" name="botDifficulty">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">Your Color</span>
+          </label>
+          <select class="select select-bordered w-full" [(ngModel)]="playerColor" name="playerColor">
+            <option value="white">White (First Move)</option>
+            <option value="black">Black</option>
+            <option value="random">Random</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-control mt-6">
+        <button type="submit" class="btn btn-primary">Start Game</button>
+      </div>
+    </form>
+  </div>
+</div>

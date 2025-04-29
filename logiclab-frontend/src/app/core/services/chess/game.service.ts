@@ -14,9 +14,10 @@ export class GameService {
 
   constructor(private http: HttpClient) {}
 
-  startNewGame(): Observable<Game> {
-    return this.http.post<Game>(this.apiUrl + 'new', {});
+  startNewGame(againstAI: boolean, botColor: string, botDifficulty: number): Observable<Game> {
+    return this.http.post<Game>(this.apiUrl + 'new?againstAI=' + againstAI + '&botColor=' + botColor + '&botDifficulty=' + botDifficulty, {});
   }
+
 
   getGameDetails(gameId: number): Observable<Game> {
     return this.http.get<Game>(this.apiUrl + gameId);

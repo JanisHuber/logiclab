@@ -1,5 +1,6 @@
 package ch.janishuber.logiclab.chess.adapter.persistence.entity;
 
+import ch.janishuber.logiclab.chess.domain.enums.FigureColor;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,12 +17,21 @@ public class GameEntity {
 
     private String currentTurn;
 
+    private boolean againstAI;
+
+    private String botColor;
+
+    private int botDifficulty;
+
     public GameEntity() {}
 
-    public GameEntity(String gameState, String boardState, String currentTurn) {
+    public GameEntity(String gameState, String boardState, String currentTurn, boolean againstAI, String botColor, int botDifficulty) {
         this.gameState = gameState;
         this.boardState = boardState;
         this.currentTurn = currentTurn;
+        this.againstAI = againstAI;
+        this.botColor = botColor;
+        this.botDifficulty = botDifficulty;
     }
 
     public int getGameId() {
@@ -36,7 +46,13 @@ public class GameEntity {
     public String getCurrentTurn() {
         return currentTurn;
     }
-
+    public boolean isAgainstAI() {
+        return againstAI;
+    }
+    public String getBotColor() {
+        return botColor;
+    }
+    public int getBotDifficulty() { return botDifficulty; }
 
     public void setGameState(String gameState) {
         this.gameState = gameState;
@@ -50,4 +66,11 @@ public class GameEntity {
     public void setGameId(int gameId) {
         this.gameId = gameId;
     }
+    public void setAgainstAI(boolean againstAI) {
+        this.againstAI = againstAI;
+    }
+    public void setBotColor(String botColor) {
+        this.botColor = botColor;
+    }
+    public void setBotDifficulty(int botDifficulty) {}
 }
