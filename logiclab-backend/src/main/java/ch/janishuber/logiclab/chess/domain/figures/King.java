@@ -1,11 +1,16 @@
-package org.example.chess.backend.figures;
-import org.example.chess.backend.util.ChessFigure;
-import org.example.chess.backend.board.Field;
+package ch.janishuber.logiclab.chess.domain.figures;
+
+
+import ch.janishuber.logiclab.chess.domain.board.ChessBoard;
+import ch.janishuber.logiclab.chess.domain.board.Field;
+import ch.janishuber.logiclab.chess.domain.util.ChessFigure;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class King extends ChessFigure implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -13,7 +18,7 @@ public class King extends ChessFigure implements Serializable {
     private boolean hasMoved = false;
     public int value = 1000;
 
-    public List<Field> getPossibleMoves() {
+    public List<Field> getPossibleMoves(ChessBoard chessBoard) {
         possibleMoves.clear();
         int[][] directions = {
                 {0, 1}, {1, 1}, {1, 0}, {1, -1},

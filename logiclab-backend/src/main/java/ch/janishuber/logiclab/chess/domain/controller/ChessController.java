@@ -1,11 +1,13 @@
-package org.example.chess.backend.controller;
-import org.example.chess.backend.board.ChessBoard;
-import org.example.chess.backend.board.Field;
-import org.example.chess.backend.bot.ChessBot;
-import org.example.chess.backend.enums.FigureColor;
-import org.example.chess.backend.util.BoardInitializerUtil;
-import org.example.chess.backend.util.ChessFigure;
-import org.example.chess.backend.util.Move;
+package ch.janishuber.logiclab.chess.domain.controller;
+
+
+import ch.janishuber.logiclab.chess.domain.board.ChessBoard;
+import ch.janishuber.logiclab.chess.domain.board.Field;
+import ch.janishuber.logiclab.chess.domain.bot.ChessBot;
+import ch.janishuber.logiclab.chess.domain.enums.FigureColor;
+import ch.janishuber.logiclab.chess.domain.util.BoardInitializerUtil;
+import ch.janishuber.logiclab.chess.domain.util.ChessFigure;
+import ch.janishuber.logiclab.chess.domain.util.Move;
 
 import java.io.Serializable;
 import java.util.List;
@@ -22,14 +24,23 @@ public class ChessController implements Serializable {
 
     public CheckMoveHandler checkMoveHandler;
 
-    public ChessController(boolean againstAI)
+    public ChessController(boolean againstAI, boolean noInit)
     {
         publicAgainstAI = againstAI;
-        init();
-        if (publicAgainstAI) {
-            Move botMove = bot.getBestMove(this);
-            Move(botMove.getSource(chessBoard), botMove.getTarget(chessBoard));
+        if (!noInit) {
+            init();
+            if (publicAgainstAI) {
+                Move botMove = bot.getBestMove(this);
+                move(botMove.getSource(chessBoard), botMove.getTarget(chessBoard));
+            }
         }
+    }
+
+    public static ChessController ofExisting(ChessBoard chessBoard, FigureColor currentTurn) {
+        ChessController chessController = new ChessController(true, true);
+        chessController.chessBoard = chessBoard;
+        chessController.currentTurn = currentTurn;
+        return chessController;
     }
 
     private void init() {
@@ -71,17 +82,25 @@ public class ChessController implements Serializable {
         return Optional.of(true);
     }
 
-
-    public boolean getBotMove() {
+    /**
+     * Makes the bot move if the game is against AI and it's the bot's turn.
+     * @return Optional<Boolean> - true if the bot made a move, false if it didn't.
+     */
+    public Optional<Boolean> makeBotMove() {
+        ChessBot bot = new ChessBot(3, 0);
+        Optional<Boolean> hasMoved = Optional.of(false);
         if (publicAgainstAI && currentTurn == FigureColor.WHITE) {
             Move botMove = bot.getBestMove(this);
-            Move(botMove.getSource(chessBoard), botMove.getTarget(chessBoard));
-            return true;
+            hasMoved = move(botMove.getSource(chessBoard), botMove.getTarget(chessBoard));
         }
-        return false;
+        return hasMoved;
     }
 
-    public Optional<Boolean> Move(Field currentField, Field target)
+    public Move getBotMove() {
+        return bot.getBestMove(this);
+    }
+
+    public Optional<Boolean> move(Field currentField, Field target)
     {
         List<Field> fields = getCheckedMove(currentField.figure);
         if (fields == null) {

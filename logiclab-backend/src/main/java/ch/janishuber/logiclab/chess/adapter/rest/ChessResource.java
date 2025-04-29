@@ -1,12 +1,18 @@
 package ch.janishuber.logiclab.chess.adapter.rest;
 
+import ch.janishuber.logiclab.chess.adapter.persistence.ChessRepository;
 import ch.janishuber.logiclab.chess.adapter.rest.dto.GameDto;
-import ch.janishuber.logiclab.mastermind.adapter.persistence.GuessRepository;
-import ch.janishuber.logiclab.mastermind.adapter.persistence.MastermindRepository;
+import ch.janishuber.logiclab.chess.adapter.rest.dto.MoveDto;
+import ch.janishuber.logiclab.chess.domain.Game;
+import ch.janishuber.logiclab.chess.domain.board.Field;
+import ch.janishuber.logiclab.chess.domain.enums.FigureColor;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+
+import java.util.List;
+import java.util.Optional;
 
 
 @Path("/chess")
@@ -15,16 +21,104 @@ import jakarta.ws.rs.core.Response;
 public class ChessResource {
 
     @Inject
-    private MastermindRepository repository;
-    @Inject
-    private MastermindRepository mastermindRepository;
-    @Inject
-    private GuessRepository guessRepository;
+    private ChessRepository chessRepository;
 
     @POST
     @Path("/new")
     public Response newGame() {
-        GameDto gameDto = new GameDto();
+        Game game = Game.startNewGame(true);
+        int gameId = chessRepository.save(game);
+        GameDto gameDto = new GameDto(gameId, game.getGameState(), game.getBoardState(), game.getCurrentTurn());
         return Response.ok(gameDto).build();
+    }
+
+    @GET
+    @Path("/{id}")
+    public Response gameState(@PathParam("id") int gameId) {
+        Optional<Game> gameEntity = chessRepository.getGame(gameId);
+        if (gameEntity.isEmpty()) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        Game loadedGame = gameEntity.get();
+        GameDto gameDto = new GameDto(gameId, loadedGame.getGameState(), loadedGame.getBoardState(), loadedGame.getCurrentTurn());
+        return Response.ok(gameDto).build();
+    }
+
+    @GET
+    @Path("/{id}/gameState")
+    public Response getGameState(@PathParam("id") int gameId) {
+        Optional<Game> game = chessRepository.getGame(gameId);
+        if (game.isEmpty()) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        Game loadedGame = game.get();
+        System.out.println("Stalemate Status: " + loadedGame.chessController.getStalemateStatus());
+        loadedGame.chessController.getStalemateStatus()
+                .ifPresent(stalemate -> {
+                    if (stalemate) {
+                        loadedGame.setGameState("STALEMATE");
+                    } else {
+                        loadedGame.setGameState("CHECKMATE");
+                    }
+                });
+        chessRepository.updateGame(loadedGame);
+        GameDto gameDto = new GameDto(gameId, loadedGame.getGameState(), loadedGame.getBoardState(), loadedGame.getCurrentTurn());
+        return Response.ok(gameDto).build();
+    }
+
+    @POST
+    @Path("{id}/player/move")
+    public Response move(@PathParam("id") int gameId, MoveDto move) {
+        Optional<Game> game = chessRepository.getGame(gameId);
+        if (game.isEmpty()) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        Game loadedGame = game.get();
+
+        Optional<Boolean> hasMoved = loadedGame.makeMove(move);
+        if (hasMoved.isEmpty()) {
+            return Response.status(Response.Status.GONE).build(); // Player lost
+        }
+        if (!hasMoved.get()) {
+            return Response.status(Response.Status.BAD_REQUEST).build(); // Player couldn't move
+        }
+        loadedGame.setCurrentTurn(FigureColor.WHITE);
+        chessRepository.updateGame(loadedGame);
+
+        return Response.ok(loadedGame).build();
+    }
+
+    @GET
+    @Path("/{id}/bot/move")
+    public Response moveBot(@PathParam("id") int gameId) {
+        Optional<Game> game = chessRepository.getGame(gameId);
+        if (game.isEmpty()) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        Game loadedGame = game.get();
+
+        Optional<Boolean> hasMoved = loadedGame.makeBotMove();
+        if (hasMoved.isEmpty()) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        if (!hasMoved.get()) {
+            return Response.status(Response.Status.GONE).build();
+        }
+        loadedGame.setCurrentTurn((loadedGame.getCurrentTurn().equals(FigureColor.WHITE.toString())) ? FigureColor.BLACK : FigureColor.WHITE);
+        chessRepository.updateGame(loadedGame);
+        return Response.ok(loadedGame).build();
+    }
+
+    @GET
+    @Path("/{id}/player/fields")
+    public Response fields(@PathParam("id") int gameId, @QueryParam("position") String position) {
+        Optional<Game> game = chessRepository.getGame(gameId);
+        if (game.isEmpty()) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        Game loadedGame = game.get();
+
+        List<Field> possibleMoves = loadedGame.getPossibleMoves(position);
+        return Response.ok(possibleMoves).build();
     }
 }

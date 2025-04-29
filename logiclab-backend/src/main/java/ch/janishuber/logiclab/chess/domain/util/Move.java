@@ -1,7 +1,8 @@
-package org.example.chess.backend.util;
+package ch.janishuber.logiclab.chess.domain.util;
 
-import org.example.chess.backend.board.ChessBoard;
-import org.example.chess.backend.board.Field;
+
+import ch.janishuber.logiclab.chess.domain.board.ChessBoard;
+import ch.janishuber.logiclab.chess.domain.board.Field;
 
 public class Move {
     private final Field source;

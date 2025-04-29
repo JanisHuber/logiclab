@@ -1,14 +1,16 @@
-package org.example.chess.backend.controller;
+package ch.janishuber.logiclab.chess.domain.controller;
 
-import org.example.chess.backend.board.ChessBoard;
-import org.example.chess.backend.util.ChessFigure;
-import org.example.chess.backend.board.Field;
-import org.example.chess.backend.enums.FigureColor;
+
+import ch.janishuber.logiclab.chess.domain.board.ChessBoard;
+import ch.janishuber.logiclab.chess.domain.board.Field;
+import ch.janishuber.logiclab.chess.domain.enums.FigureColor;
+import ch.janishuber.logiclab.chess.domain.util.ChessFigure;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("t")
 public class CheckmateHandler implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -54,7 +56,7 @@ public class CheckmateHandler implements Serializable {
             }
         }
         for (Field field : currentCheckingFields) {
-            for (Field figureField : field.figure.getPossibleMoves()) {
+            for (Field figureField : field.figure.getPossibleMoves(chessBoard)) {
                 if (figureField == kingField) {
                     possibleMates.add(field);
                 }
@@ -99,7 +101,7 @@ public class CheckmateHandler implements Serializable {
             }
             if (field.figure.figureColor == currentTurn) {
                 for (Field mate : possibleMates) {
-                    for (Field figureField : field.figure.getPossibleMoves()) {
+                    for (Field figureField : field.figure.getPossibleMoves(chessBoard)) {
                         if (figureField == mate) {
                             ChessFigure originalFigure = figureField.figure;
                             Field originalPosition = field.figure.position;
@@ -142,7 +144,7 @@ public class CheckmateHandler implements Serializable {
             if (field.figure.figureColor != currentTurn) {
                 continue;
             }
-            for (Field possibleMove : field.figure.getPossibleMoves()) {
+            for (Field possibleMove : field.figure.getPossibleMoves(chessBoard)) {
                 isOutOfCheck = false;
                 if (possibleMove.figure != null) {
                     originalFigure = possibleMove.figure;
@@ -184,7 +186,7 @@ public class CheckmateHandler implements Serializable {
                 kingField = field;
             }
         }
-        possibleEscapes = kingField.figure.getPossibleMoves();
+        possibleEscapes = kingField.figure.getPossibleMoves(chessBoard);
         for (Field escapingField : possibleEscapes) {
             isOutOfCheck = false;
             ChessFigure king = kingField.figure;

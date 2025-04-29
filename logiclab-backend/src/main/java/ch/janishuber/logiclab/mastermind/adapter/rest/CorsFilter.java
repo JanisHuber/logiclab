@@ -1,4 +1,4 @@
-package ch.janishuber.logiclab.adapter.rest;
+package ch.janishuber.logiclab.mastermind.adapter.rest;
 
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerResponseContext;

@@ -1,4 +1,3 @@
 package ch.janishuber.logiclab.chess.adapter.rest.dto;
 
-public class MoveDto {
-}
+public record MoveDto(String source, String target) {}

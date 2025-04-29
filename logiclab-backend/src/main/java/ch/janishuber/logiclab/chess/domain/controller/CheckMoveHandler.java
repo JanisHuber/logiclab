@@ -1,11 +1,12 @@
-package org.example.chess.backend.controller;
+package ch.janishuber.logiclab.chess.domain.controller;
 
-import org.example.chess.backend.board.ChessBoard;
-import org.example.chess.backend.util.ChessFigure;
-import org.example.chess.backend.board.Field;
-import org.example.chess.backend.enums.FigureColor;
-import org.example.chess.backend.util.LegalMovesInCheckHelper;
-import org.example.chess.backend.util.LegalMovesOutOfCheckHelper;
+
+import ch.janishuber.logiclab.chess.domain.board.ChessBoard;
+import ch.janishuber.logiclab.chess.domain.board.Field;
+import ch.janishuber.logiclab.chess.domain.enums.FigureColor;
+import ch.janishuber.logiclab.chess.domain.util.ChessFigure;
+import ch.janishuber.logiclab.chess.domain.util.LegalMovesInCheckHelper;
+import ch.janishuber.logiclab.chess.domain.util.LegalMovesOutOfCheckHelper;
 
 import java.io.Serializable;
 import java.util.List;
@@ -29,7 +30,7 @@ public class CheckMoveHandler implements Serializable {
         if (figure.figureColor != currentTurn) {
             return null;
         }
-        List<Field> figureFields = figure.getPossibleMoves();
+        List<Field> figureFields = figure.getPossibleMoves(chessBoard);
 
         if (checkmateHandler.isMate(null) > 0) {
             List<Field> escapes = checkmateHandler.canEscape();

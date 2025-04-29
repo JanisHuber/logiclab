@@ -1,4 +1,4 @@
-package org.example.chess.backend.enums;
+package ch.janishuber.logiclab.chess.domain.enums;
 
 public enum FigureColor {
     WHITE,

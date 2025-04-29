@@ -1,4 +1,4 @@
-package org.example.chess.backend.util;
+package ch.janishuber.logiclab.chess.domain.util;
 
 import java.io.*;
 

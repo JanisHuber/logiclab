@@ -1,6 +1,7 @@
-package org.example.chess.backend.util;
+package ch.janishuber.logiclab.chess.domain.util;
 
-import org.example.chess.backend.board.Field;
+
+import ch.janishuber.logiclab.chess.domain.board.Field;
 
 import java.util.ArrayList;
 import java.util.List;

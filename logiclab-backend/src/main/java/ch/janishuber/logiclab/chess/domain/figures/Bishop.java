@@ -1,19 +1,24 @@
-package org.example.chess.backend.figures;
+package ch.janishuber.logiclab.chess.domain.figures;
 
-import org.example.chess.backend.util.ChessFigure;
-import org.example.chess.backend.board.Field;
+
+
+import ch.janishuber.logiclab.chess.domain.board.ChessBoard;
+import ch.janishuber.logiclab.chess.domain.board.Field;
+import ch.janishuber.logiclab.chess.domain.util.ChessFigure;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Bishop extends ChessFigure implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private List<Field> possibleMoves = new ArrayList<>();
     public int value = 3;
 
-    public List<Field> getPossibleMoves() {
+    public List<Field> getPossibleMoves(ChessBoard chessBoard) {
         possibleMoves.clear();
         int[][] directions = {{1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
 

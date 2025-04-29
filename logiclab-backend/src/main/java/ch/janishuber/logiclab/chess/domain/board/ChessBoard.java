@@ -1,8 +1,7 @@
-package org.example.chess.backend.board;
+package ch.janishuber.logiclab.chess.domain.board;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.function.Consumer;
 
 public class ChessBoard implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -15,6 +14,10 @@ public class ChessBoard implements Serializable {
 
     public void setFields(List<Field> fields) {
         this.fields = fields;
+    }
+
+    public static ChessBoard ofExisting(String fieldsJson) {
+        return BoardMapperHelper.mapChessBoard(fieldsJson);
     }
 
     public Field getField(String row, int column) {
@@ -41,10 +44,5 @@ public class ChessBoard implements Serializable {
         source.figure.position = target;
         target.figure = source.figure;
         source.figure = null;
-    }
-    public void forEachField(Consumer<Field> action) {
-        for (Field field : fields) {
-            action.accept(field);
-        }
     }
 }

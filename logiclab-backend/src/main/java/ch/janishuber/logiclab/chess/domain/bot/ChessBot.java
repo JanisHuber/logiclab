@@ -1,18 +1,19 @@
-package org.example.chess.backend.bot;
+package ch.janishuber.logiclab.chess.domain.bot;
 
-import org.example.chess.backend.board.ChessBoard;
-import org.example.chess.backend.board.Field;
-import org.example.chess.backend.util.LoggingToFile;
-import org.example.chess.backend.util.Move;
-import org.example.chess.backend.controller.ChessController;
-import org.example.chess.backend.enums.FigureColor;
-import org.example.chess.backend.evaluate.evaluateBoard;
-import org.example.chess.backend.util.SerializationUtil;
+import ch.janishuber.logiclab.chess.domain.board.ChessBoard;
+import ch.janishuber.logiclab.chess.domain.board.Field;
+import ch.janishuber.logiclab.chess.domain.controller.ChessController;
+import ch.janishuber.logiclab.chess.domain.enums.FigureColor;
+import ch.janishuber.logiclab.chess.domain.evaluate.evaluateBoard;
+import ch.janishuber.logiclab.chess.domain.util.LoggingToFile;
+import ch.janishuber.logiclab.chess.domain.util.Move;
+import ch.janishuber.logiclab.chess.domain.util.SerializationUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+@SuppressWarnings("ALL")
 public class ChessBot {
     private final int depth;
     private final int maxQuiescenceSearchDepth;
@@ -119,7 +120,7 @@ public class ChessBot {
         List<Move> moves = new ArrayList<>();
         for (Field field : controller.chessBoard.getFields()) {
             if (field.figure != null && field.figure.figureColor == controller.currentTurn) {
-                for (Field target : field.figure.getPossibleMoves()) {
+                for (Field target : field.figure.getPossibleMoves(controller.chessBoard)) {
                     moves.add(new Move(field, target));
                 }
             }

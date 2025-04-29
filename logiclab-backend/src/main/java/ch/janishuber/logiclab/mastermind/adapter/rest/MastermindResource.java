@@ -1,11 +1,11 @@
-package ch.janishuber.logiclab.adapter.rest;
+package ch.janishuber.logiclab.mastermind.adapter.rest;
 
-import ch.janishuber.logiclab.adapter.persistence.GuessRepository;
-import ch.janishuber.logiclab.adapter.persistence.MastermindRepository;
-import ch.janishuber.logiclab.adapter.rest.dto.GameDto;
-import ch.janishuber.logiclab.adapter.rest.dto.GuessDto;
-import ch.janishuber.logiclab.domain.Game;
-import ch.janishuber.logiclab.domain.Guess;
+import ch.janishuber.logiclab.mastermind.adapter.persistence.GuessRepository;
+import ch.janishuber.logiclab.mastermind.adapter.persistence.MastermindRepository;
+import ch.janishuber.logiclab.mastermind.adapter.rest.dto.GameDto;
+import ch.janishuber.logiclab.mastermind.adapter.rest.dto.GuessDto;
+import ch.janishuber.logiclab.mastermind.domain.Game;
+import ch.janishuber.logiclab.mastermind.domain.Guess;
 import jakarta.inject.Inject;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;

@@ -1,4 +1,7 @@
-package ch.janishuber.logiclab.chess.adapter.rest.dto;
+package ch.janishuber.logiclab.chess.adapter.rest;
 
-public class ChessApplication {
-}
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
+
+@ApplicationPath("/api")
+public class ChessApplication extends Application {}

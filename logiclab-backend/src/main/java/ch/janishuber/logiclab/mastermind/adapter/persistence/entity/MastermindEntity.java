@@ -1,4 +1,4 @@
-package ch.janishuber.logiclab.adapter.persistence.entity;
+package ch.janishuber.logiclab.mastermind.adapter.persistence.entity;
 
 import jakarta.persistence.*;
 

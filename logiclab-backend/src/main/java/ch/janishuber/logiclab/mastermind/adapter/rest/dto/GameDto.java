@@ -1,6 +1,6 @@
-package ch.janishuber.logiclab.adapter.rest.dto;
+package ch.janishuber.logiclab.mastermind.adapter.rest.dto;
 
-import ch.janishuber.logiclab.domain.Guess;
+import ch.janishuber.logiclab.mastermind.domain.Guess;
 
 public record GameDto(int gameId, String gameState, Guess[] guesses) {}
 

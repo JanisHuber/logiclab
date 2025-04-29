@@ -1,4 +1,4 @@
-package ch.janishuber.logiclab.adapter.rest;
+package ch.janishuber.logiclab.mastermind.adapter.rest;
 
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;

@@ -1,8 +1,8 @@
-package ch.janishuber.logiclab.adapter.persistence;
+package ch.janishuber.logiclab.mastermind.adapter.persistence;
 
-import ch.janishuber.logiclab.adapter.persistence.entity.MastermindEntity;
-import ch.janishuber.logiclab.domain.Game;
-import ch.janishuber.logiclab.domain.Guess;
+import ch.janishuber.logiclab.mastermind.adapter.persistence.entity.MastermindEntity;
+import ch.janishuber.logiclab.mastermind.domain.Game;
+import ch.janishuber.logiclab.mastermind.domain.Guess;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

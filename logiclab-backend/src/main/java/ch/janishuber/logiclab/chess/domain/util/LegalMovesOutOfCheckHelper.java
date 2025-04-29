@@ -1,8 +1,9 @@
-package org.example.chess.backend.util;
+package ch.janishuber.logiclab.chess.domain.util;
 
-import org.example.chess.backend.board.ChessBoard;
-import org.example.chess.backend.board.Field;
-import org.example.chess.backend.controller.CheckmateHandler;
+
+import ch.janishuber.logiclab.chess.domain.board.ChessBoard;
+import ch.janishuber.logiclab.chess.domain.board.Field;
+import ch.janishuber.logiclab.chess.domain.controller.CheckmateHandler;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,14 +1,19 @@
-package org.example.chess.backend.board;
+package ch.janishuber.logiclab.chess.domain.board;
+
+
+import ch.janishuber.logiclab.chess.domain.util.ChessFigure;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
-
-import org.example.chess.backend.util.ChessFigure;
-
 
 public class Field implements Serializable {
     private static final long serialVersionUID = 1L;
-
+    @JsonProperty
     public int column;
+    @JsonProperty
     public String row;
+    @JsonProperty
     public ChessFigure figure;
 
 
@@ -21,6 +26,7 @@ public class Field implements Serializable {
     public String getRow() {
         return row;
     }
+    @JsonIgnore
     public int getRowInt() {
         return (char)(row.charAt(0) - 64);
     }

@@ -1,9 +1,11 @@
-package org.example.chess.backend.evaluate;
+package ch.janishuber.logiclab.chess.domain.evaluate;
 
-import org.example.chess.backend.board.Field;
-import org.example.chess.backend.controller.ChessController;
-import org.example.chess.backend.enums.FigureColor;
-import org.example.chess.backend.figures.Pawn;
+
+
+import ch.janishuber.logiclab.chess.domain.board.Field;
+import ch.janishuber.logiclab.chess.domain.controller.ChessController;
+import ch.janishuber.logiclab.chess.domain.enums.FigureColor;
+import ch.janishuber.logiclab.chess.domain.figures.Pawn;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +39,7 @@ public class evaluateBoard {
         int value = 0;
         for (Field field : chessController.chessBoard.getFields()) {
             if (field.figure != null) {
-                List<Field> possibleMoves = field.figure.getPossibleMoves();
+                List<Field> possibleMoves = field.figure.getPossibleMoves(chessController.chessBoard);
                 value += possibleMoves.size();
             }
         }
@@ -105,7 +107,7 @@ public class evaluateBoard {
             }
             if (currentField.figure != null) {
                 if (currentField.figure.figureColor == field.figure.figureColor) {
-                    List<Field> possibleMoves = currentField.figure.getPossibleMoves();
+                    List<Field> possibleMoves = currentField.figure.getPossibleMoves(chessController.chessBoard);
                     if (possibleMoves.contains(field)) {
                         return true;
                     }

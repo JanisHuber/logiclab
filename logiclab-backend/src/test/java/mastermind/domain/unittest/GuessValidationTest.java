@@ -1,8 +1,6 @@
-package domain.unittest;
+package mastermind.domain.unittest;
 
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class GuessValidationTest {
 

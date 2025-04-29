@@ -1,4 +1,4 @@
-package ch.janishuber.logiclab.domain;
+package ch.janishuber.logiclab.mastermind.domain;
 
 import java.util.Optional;
 import java.util.Random;

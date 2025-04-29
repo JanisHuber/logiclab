@@ -1,4 +1,4 @@
-package database.acceptancetest;
+package mastermind.acceptancetest;
 
 import org.junit.jupiter.api.Test;
 

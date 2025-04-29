@@ -1,4 +1,4 @@
-package ch.janishuber.logiclab.adapter.rest.dto;
+package ch.janishuber.logiclab.mastermind.adapter.rest.dto;
 
 import jakarta.validation.constraints.Pattern;
 
