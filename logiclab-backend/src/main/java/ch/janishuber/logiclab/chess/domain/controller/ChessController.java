@@ -8,6 +8,7 @@ import ch.janishuber.logiclab.chess.domain.enums.FigureColor;
 import ch.janishuber.logiclab.chess.domain.util.BoardInitializerUtil;
 import ch.janishuber.logiclab.chess.domain.util.ChessFigure;
 import ch.janishuber.logiclab.chess.domain.util.Move;
+import jdk.swing.interop.SwingInterOpUtils;
 
 import java.io.Serializable;
 import java.util.List;
@@ -34,7 +35,7 @@ public class ChessController implements Serializable {
         if (!noInit) {
             init(botDifficulty);
             if (publicAgainstAI && currentTurn == botColor) {
-                Move botMove = bot.getBestMove(this);
+                Move botMove = bot.getBestMove(chessBoard, currentTurn, botColor);
                 move(botMove.getSource(chessBoard), botMove.getTarget(chessBoard));
             }
         }
@@ -54,47 +55,15 @@ public class ChessController implements Serializable {
         chessBoard = BoardInitializerUtil.Initialize(new ChessBoard());
     }
 
-    private boolean hasNoLegalMoves() {
-        checkMoveHandler = new CheckMoveHandler(chessBoard, currentTurn);
-        for (Field field : chessBoard.getFields()) {
-            if (field.figure != null && field.figure.figureColor == currentTurn) {
-                List<Field> checkedMove = checkMoveHandler.getCheckedMove(field.figure);
-                if (checkedMove != null && !checkedMove.isEmpty()) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Check if the game is in stalemate or checkmate.
-     * @return Optional<Boolean> - true if stalemate, false if checkmate, empty if game is still ongoing.
-     */
-    public Optional<Boolean> getStalemateStatus() {
-        checkMoveHandler = new CheckMoveHandler(chessBoard, currentTurn);
-        boolean hasNoLegalMoves = hasNoLegalMoves();
-
-        if (!hasNoLegalMoves) {
-            return Optional.empty();
-        }
-
-        if (checkMoveHandler.checkmateHandler.isMate(null) > 0) {
-            return Optional.of(false);
-        }
-
-        return Optional.of(true);
-    }
-
     /**
      * Makes the bot move if the game is against AI and it's the bot's turn.
      * @return Optional<Boolean> - true if the bot made a move, false if it didn't.
      */
     public Optional<Boolean> makeBotMove() {
-        ChessBot bot = new ChessBot(this.botDifficulty - 2, (this.botDifficulty > 5) ? this.botDifficulty - 4 : 0);
+        ChessBot bot = new ChessBot(this.botDifficulty - 2, (this.botDifficulty > 6) ? this.botDifficulty - 4 : 0);
         Optional<Boolean> hasMoved = Optional.of(false);
         if (publicAgainstAI && currentTurn == this.botColor) {
-            Move botMove = bot.getBestMove(this);
+            Move botMove = bot.getBestMove(chessBoard, currentTurn, botColor);
             hasMoved = move(botMove.getSource(chessBoard), botMove.getTarget(chessBoard));
         }
         return hasMoved;

@@ -8,6 +8,7 @@ import ch.janishuber.logiclab.chess.domain.Game;
 import ch.janishuber.logiclab.chess.domain.board.BoardMapperHelper;
 import ch.janishuber.logiclab.chess.domain.board.Field;
 import ch.janishuber.logiclab.chess.domain.enums.FigureColor;
+import ch.janishuber.logiclab.chess.domain.evaluate.GameStateHelper;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -55,7 +56,8 @@ public class ChessResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
         Game loadedGame = game.get();
-        loadedGame.chessController.getStalemateStatus()
+
+        GameStateHelper.getStalemateStatus(loadedGame.chessController.chessBoard, loadedGame.chessController.currentTurn)
                 .ifPresent(stalemate -> {
                     if (stalemate) {
                         loadedGame.setGameState("STALEMATE");

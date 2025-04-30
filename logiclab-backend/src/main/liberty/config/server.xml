@@ -26,6 +26,10 @@
                   httpPort="9090"
                   httpsPort="9443" />
 
+    <httpDispatcher>
+        <cors enabled="true"/>
+    </httpDispatcher>
+
     <!-- Automatically expand WAR files and EAR files -->
     <applicationManager autoExpand="true"/>
 

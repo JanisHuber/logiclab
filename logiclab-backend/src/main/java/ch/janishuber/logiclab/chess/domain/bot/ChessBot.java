@@ -2,9 +2,11 @@ package ch.janishuber.logiclab.chess.domain.bot;
 
 import ch.janishuber.logiclab.chess.domain.board.ChessBoard;
 import ch.janishuber.logiclab.chess.domain.board.Field;
+import ch.janishuber.logiclab.chess.domain.controller.CheckMoveHandler;
 import ch.janishuber.logiclab.chess.domain.controller.ChessController;
 import ch.janishuber.logiclab.chess.domain.enums.FigureColor;
 import ch.janishuber.logiclab.chess.domain.evaluate.evaluateBoard;
+import ch.janishuber.logiclab.chess.domain.util.ChessFigure;
 import ch.janishuber.logiclab.chess.domain.util.Move;
 import ch.janishuber.logiclab.chess.domain.util.SerializationUtil;
 
@@ -17,19 +19,23 @@ public class ChessBot {
     private final int depth;
     private final int maxQuiescenceSearchDepth;
 
+    private final List<SimulatedMove> moveHistory = new ArrayList<>();
+    private FigureColor currentTurn;
+
     public ChessBot(int depth, int maxQuiescenceSearchDepth) {
         this.depth = depth;
         this.maxQuiescenceSearchDepth = maxQuiescenceSearchDepth;
     }
 
-    public Move getBestMove(ChessController controller) {
+    public Move getBestMove(ChessBoard chessBoard, FigureColor currentTurn, FigureColor botColor) {
         Move bestMove = null;
         int maxEval = Integer.MIN_VALUE;
+        this.currentTurn = currentTurn;
 
-        List<Move> possibleMoves = sortMoves(getPossibleMoves(controller), controller.chessBoard);
+        List<Move> possibleMoves = sortMoves(getPossibleMoves(chessBoard), chessBoard);
 
         for (Move move : possibleMoves) {
-            int eval = evaluateMove(controller, move);
+            int eval = evaluateMove(chessBoard, botColor, move);
             if (eval > maxEval) {
                 maxEval = eval;
                 bestMove = move;
@@ -38,50 +44,43 @@ public class ChessBot {
         return bestMove;
     }
 
-    private int evaluateMove(ChessController controller, Move move) {
-        ChessController clonedController = cloneAndApplyMove(controller, move);
+    private int evaluateMove(ChessBoard chessBoard, FigureColor botColor, Move move) {
+        applyMove(chessBoard, move);
 
-        return alphaBeta(clonedController, depth - 1, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
+        return alphaBeta(chessBoard, botColor,depth - 1, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
     }
 
-    private ChessController cloneAndApplyMove(ChessController controller, Move move) {
-        ChessController clonedController = SerializationUtil.deepClone(controller);
-
-        clonedController.chessBoard.MoveFigure(move.getSource(clonedController.chessBoard), move.getTarget(clonedController.chessBoard));
-        clonedController.currentTurn = (clonedController.currentTurn == FigureColor.WHITE) ? FigureColor.BLACK : FigureColor.WHITE;
-        return clonedController;
-    }
-
-    private int alphaBeta(ChessController controller, int depth, int alpha, int beta, boolean isMaximizingPlayer) {
+    private int alphaBeta(ChessBoard chessBoard, FigureColor botColor, int depth, int alpha, int beta, boolean isMaximizingPlayer) {
         if (depth == 0) {
             if (maxQuiescenceSearchDepth > 0) {
-                return quiescenceSearch(controller, alpha, beta, isMaximizingPlayer, maxQuiescenceSearchDepth);
+                int result = quiescenceSearch(chessBoard, botColor, alpha, beta, isMaximizingPlayer, maxQuiescenceSearchDepth);
+                undoMoves(chessBoard, moveHistory.size());
+                return result;
             } else {
-                return evaluateBoard.evaluateBoard(controller);
+                undoMoves(chessBoard, moveHistory.size());
+                return evaluateBoard.evaluateBoard(chessBoard, this.currentTurn, botColor);
             }
         }
 
-        List<Move> possibleMoves = sortMoves(getPossibleMoves(controller), controller.chessBoard);
+        List<Move> possibleMoves = sortMoves(getPossibleMoves(chessBoard), chessBoard);
         if (possibleMoves.isEmpty()) {
-            return evaluateBoard.evaluateBoard(controller);
+            return evaluateBoard.evaluateBoard(chessBoard, this.currentTurn, botColor);
         }
 
         if (isMaximizingPlayer) {
-            return getMaximizingEval(controller, depth, alpha, beta, possibleMoves);
+            return getMaximizingEval(chessBoard, botColor, depth, alpha, beta, possibleMoves);
         } else {
-            return getMinimizingEval(controller, depth, alpha, beta, possibleMoves);
+            return getMinimizingEval(chessBoard, botColor, depth, alpha, beta, possibleMoves);
         }
     }
 
-    private int getMinimizingEval(ChessController controller, int depth, int alpha, int beta, List<Move> possibleMoves) {
+    private int getMinimizingEval(ChessBoard chessBoard, FigureColor botColor, int depth, int alpha, int beta, List<Move> possibleMoves) {
         int minEval = Integer.MAX_VALUE;
 
         for (Move move : possibleMoves) {
-            ChessController clonedController = SerializationUtil.deepClone(controller);
-            clonedController.chessBoard.MoveFigure(move.getSource(clonedController.chessBoard), move.getTarget(clonedController.chessBoard));
-            clonedController.currentTurn = FigureColor.WHITE;
+            applyMove(chessBoard, move);
 
-            int eval = alphaBeta(clonedController, depth - 1, alpha, beta, true);
+            int eval = alphaBeta(chessBoard, botColor, depth - 1, alpha, beta, true);
             minEval = Math.min(minEval, eval);
             beta = Math.min(beta, eval);
 
@@ -92,15 +91,13 @@ public class ChessBot {
         return minEval;
     }
 
-    private int getMaximizingEval(ChessController controller, int depth, int alpha, int beta, List<Move> possibleMoves) {
+    private int getMaximizingEval(ChessBoard chessBoard, FigureColor botColor, int depth, int alpha, int beta, List<Move> possibleMoves) {
         int maxEval = Integer.MIN_VALUE;
 
         for (Move move : possibleMoves) {
-            ChessController clonedController = SerializationUtil.deepClone(controller);
-            clonedController.chessBoard.MoveFigure(move.getSource(clonedController.chessBoard), move.getTarget(clonedController.chessBoard));
-            clonedController.currentTurn = FigureColor.BLACK;
+            applyMove(chessBoard, move);
 
-            int eval = alphaBeta(clonedController, depth - 1, alpha, beta, false);
+            int eval = alphaBeta(chessBoard, botColor, depth - 1, alpha, beta, false);
             maxEval = Math.max(maxEval, eval);
             alpha = Math.max(alpha, eval);
 
@@ -111,11 +108,11 @@ public class ChessBot {
         return maxEval;
     }
 
-    private List<Move> getPossibleMoves(ChessController controller) {
+    private List<Move> getPossibleMoves(ChessBoard chessBoard) {
         List<Move> moves = new ArrayList<>();
-        for (Field field : controller.chessBoard.getFields()) {
-            if (field.figure != null && field.figure.figureColor == controller.currentTurn) {
-                for (Field target : field.figure.getPossibleMoves(controller.chessBoard)) {
+        for (Field field : chessBoard.getFields()) {
+            if (field.figure != null && field.figure.figureColor == this.currentTurn) {
+                for (Field target : field.figure.getPossibleMoves(chessBoard)) {
                     moves.add(new Move(field, target));
                 }
             }
@@ -148,11 +145,11 @@ public class ChessBot {
      * @param isMaximizingPlayer
      * @return score of the best evaluation
      */
-    private int quiescenceSearch(ChessController controller, int alpha, int beta, boolean isMaximizingPlayer, int depth) {
+    private int quiescenceSearch(ChessBoard chessBoard, FigureColor botColor, int alpha, int beta, boolean isMaximizingPlayer, int depth) {
         if (depth == 0) {
-            return evaluateBoard.evaluateBoard(controller);
+            return evaluateBoard.evaluateBoard(chessBoard, this.currentTurn, botColor);
         }
-        int standPat = evaluateBoard.evaluateBoard(controller);
+        int standPat = evaluateBoard.evaluateBoard(chessBoard, this.currentTurn, botColor);
 
         if (isMaximizingPlayer) {
             if (standPat >= beta) return beta;
@@ -162,14 +159,12 @@ public class ChessBot {
             beta = Math.min(beta, standPat);
         }
 
-        List<Move> noisyMoves = getNoisyMoves(controller);
+        List<Move> noisyMoves = getNoisyMoves(chessBoard);
 
         for (Move move : noisyMoves) {
-            ChessController cloned = SerializationUtil.deepClone(controller);
-            cloned.chessBoard.MoveFigure(move.getSource(cloned.chessBoard), move.getTarget(cloned.chessBoard));
-            cloned.currentTurn = (cloned.currentTurn == FigureColor.WHITE) ? FigureColor.BLACK : FigureColor.WHITE;
+            applyMove(chessBoard, move);
 
-            int score = quiescenceSearch(cloned, alpha, beta, !isMaximizingPlayer, depth - 1);
+            int score = quiescenceSearch(chessBoard, botColor, alpha, beta, !isMaximizingPlayer, depth - 1);
 
             if (isMaximizingPlayer) {
                 if (score >= beta) return beta;
@@ -183,28 +178,71 @@ public class ChessBot {
     }
 
 
-    private List<Move> getNoisyMoves(ChessController controller) {
-        List<Move> allMoves = getPossibleMoves(controller);
+    private List<Move> getNoisyMoves(ChessBoard chessBoard) {
+        List<Move> allMoves = getPossibleMoves(chessBoard);
         List<Move> noisyMoves = new ArrayList<>();
 
         for (Move move : allMoves) {
-            Field target = move.getTarget(controller.chessBoard);
-            if (target.figure != null && target.figure.figureColor != controller.currentTurn && target.figure.value > 1) {
+            Field target = move.getTarget(chessBoard);
+            if (target.figure != null && target.figure.figureColor != this.currentTurn && target.figure.value > 1) {
                 noisyMoves.add(move);
-            } else if (moveResultsInCheck(controller, move)) {
+            } else if (moveResultsInCheck(chessBoard, move)) {
                 noisyMoves.add(move);
             }
         }
         return noisyMoves;
     }
 
-    private boolean moveResultsInCheck(ChessController controller, Move move) {
-        ChessController clonedController = SerializationUtil.deepClone(controller);
-        clonedController.chessBoard.MoveFigure(move.getSource(clonedController.chessBoard), move.getTarget(clonedController.chessBoard));
-        clonedController.currentTurn = (controller.currentTurn == FigureColor.WHITE)
-                ? FigureColor.BLACK
-                : FigureColor.WHITE;
+    private boolean moveResultsInCheck(ChessBoard chessBoard, Move move) {
+        applyMove(chessBoard, move);
+        CheckMoveHandler checkMoveHandler = new CheckMoveHandler(chessBoard, this.currentTurn);
+        boolean resultsInCheck = checkMoveHandler.checkmateHandler.isMate(null) > 0;
+        undoMoves(chessBoard, 1);
+        return resultsInCheck;
+    }
 
-        return clonedController.getCheckMoveHandler().checkmateHandler.isMate(null) > 0;
+    private void applyMove(ChessBoard chessBoard, Move move) {
+        Field source = move.getSource(chessBoard);
+        Field target = move.getTarget(chessBoard);
+
+        ChessFigure capturedFigure = target.figure;
+
+        if (source.figure != null) {
+            source.figure.position = target;
+        }
+        if (target.figure != null) {
+            target.figure.position = null;
+        }
+
+        target.figure = source.figure;
+        source.figure = null;
+        this.currentTurn = (this.currentTurn == FigureColor.WHITE) ? FigureColor.BLACK : FigureColor.WHITE;
+
+        SimulatedMove simMove = new SimulatedMove(source, target, capturedFigure);
+        moveHistory.add(simMove);
+    }
+
+    private void undoMoves(ChessBoard chessBoard, int depth) {
+        int movesToUndo = Math.min(depth, moveHistory.size());
+
+        for (int i = 0; i < movesToUndo; i++) {
+            SimulatedMove simMove = (SimulatedMove) moveHistory.remove(moveHistory.size() - 1);
+            Field source = simMove.source();
+            Field target = simMove.target();
+            ChessFigure capturedFigure = simMove.figure();
+
+            ChessFigure movedFigure = target.figure;
+            source.figure = movedFigure;
+            if (movedFigure != null) {
+                movedFigure.position = source;
+            }
+
+            target.figure = capturedFigure;
+            if (capturedFigure != null) {
+                capturedFigure.position = target;
+            }
+
+            this.currentTurn = (this.currentTurn == FigureColor.WHITE) ? FigureColor.BLACK : FigureColor.WHITE;
+        }
     }
 }
