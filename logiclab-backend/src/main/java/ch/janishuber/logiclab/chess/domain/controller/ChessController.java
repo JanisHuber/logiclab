@@ -23,6 +23,7 @@ public class ChessController implements Serializable {
     private boolean publicAgainstAI;
     private int botDifficulty;
     private FigureColor botColor;
+    private String moveHistoryGame;
     private transient ChessBot bot;
 
     public CheckMoveHandler checkMoveHandler;
@@ -41,8 +42,10 @@ public class ChessController implements Serializable {
         }
     }
 
-    public static ChessController ofExisting(ChessBoard chessBoard, FigureColor currentTurn, boolean againstAI, FigureColor botColor, int botDifficulty) {
-        ChessController chessController = new ChessController(againstAI, true, botColor, botDifficulty);
+    public static ChessController ofExisting(ChessBoard chessBoard, FigureColor currentTurn, boolean againstAI,
+            FigureColor botColor, int botDifficulty, String moveHistoryGame) {
+        ChessController chessController = new ChessController(againstAI, true, botColor, botDifficulty,
+                moveHistoryGame);
         chessController.chessBoard = chessBoard;
         chessController.currentTurn = currentTurn;
         return chessController;
@@ -57,16 +60,38 @@ public class ChessController implements Serializable {
 
     /**
      * Makes the bot move if the game is against AI and it's the bot's turn.
-     * @return Optional<Boolean> - true if the bot made a move, false if it didn't.
+     * 
+     * @return Optional<Move> botMove empty if Bot couldn't make a move.
      */
-    public Optional<Boolean> makeBotMove() {
-        ChessBot bot = new ChessBot(this.botDifficulty - 2, (this.botDifficulty > 6) ? this.botDifficulty - 4 : 0);
-        Optional<Boolean> hasMoved = Optional.of(false);
-        if (publicAgainstAI && currentTurn == this.botColor) {
-            Move botMove = bot.getBestMove(chessBoard, currentTurn, botColor);
-            hasMoved = move(botMove.getSource(chessBoard), botMove.getTarget(chessBoard));
+    public Optional<Move> makeBotMove() {
+        if (!publicAgainstAI || currentTurn != this.botColor || bot == null || chessBoard == null) {
+            return Optional.empty();
         }
-        return hasMoved;
+
+        Move bestMove = bot.getBestMove(chessBoard, currentTurn, botColor, moveHistoryGame);
+        if (bestMove == null) {
+            return Optional.empty();
+        }
+
+        Field source = bestMove.getSource(chessBoard);
+        Field target = bestMove.getTarget(chessBoard);
+
+        if (source == null || target == null) {
+            System.out.println("Ungültiger Zug: Quell- oder Zielfeld ist null");
+            return Optional.empty();
+        }
+
+        if (source.figure == null) {
+            System.out.println("Ungültiger Zug: Keine Figur auf dem Quellfeld");
+            return Optional.empty();
+        }
+
+        Optional<Boolean> hasMoved = move(source, target);
+        if (hasMoved.isPresent() && hasMoved.get()) {
+            return Optional.of(bestMove);
+        }
+
+        return Optional.empty();
     }
 
     public Optional<Boolean> move(Field currentField, Field target)

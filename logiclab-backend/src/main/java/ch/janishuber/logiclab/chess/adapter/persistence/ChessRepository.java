@@ -17,7 +17,7 @@ public class ChessRepository {
 
     @Transactional
     public int save(Game game) {
-        GameEntity gameEntity = new GameEntity(game.getGameState(), game.getBoardState(), game.getCurrentTurn(), game.isAgainstAI(), game.getBotColor().toString(), game.getBotDifficulty());
+        GameEntity gameEntity = new GameEntity(game.getGameState(), game.getBoardState(), game.getCurrentTurn(), game.isAgainstAI(), game.getBotColor().toString(), game.getBotDifficulty(), game.getMoveHistory());
         em.persist(gameEntity);
         em.flush();
         return gameEntity.getGameId();
@@ -28,7 +28,7 @@ public class ChessRepository {
         if (entity == null) {
             return Optional.empty();
         }
-        Game game = Game.ofExisting(entity.getGameId(), entity.getGameState(), entity.getBoardState(), entity.getCurrentTurn(), entity.isAgainstAI(), FigureColor.valueOf(entity.getBotColor()), entity.getBotDifficulty());
+        Game game = Game.ofExisting(entity.getGameId(), entity.getGameState(), entity.getBoardState(), entity.getCurrentTurn(), entity.isAgainstAI(), FigureColor.valueOf(entity.getBotColor()), entity.getBotDifficulty(), entity.getMoveHistory());
         return Optional.of(game);
     }
 
@@ -38,5 +38,6 @@ public class ChessRepository {
         entity.setBoardState(game.getBoardState());
         entity.setGameState(game.getGameState());
         entity.setCurrentTurn(game.getCurrentTurn());
+        entity.setMoveHistory(game.getMoveHistory());
     }
 }

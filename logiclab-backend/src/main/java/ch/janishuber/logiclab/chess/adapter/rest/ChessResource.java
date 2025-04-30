@@ -31,6 +31,19 @@ public class ChessResource {
     @Path("/new")
     public Response newGame(@QueryParam("againstAI") boolean againstAi, @QueryParam("botColor") FigureColor botColor,  @QueryParam("botDifficulty") int botDifficulty) {
         Game game = Game.startNewGame(againstAi, botColor, botDifficulty);
+        if (game.chessController.currentTurn == botColor) {
+            Optional<Move> botMove = game.makeBotMove();
+            if (botMove.isEmpty()) {
+                return Response.status(Response.Status.BAD_REQUEST).build();
+            }
+
+            StringBuilder strB = new StringBuilder();
+            String source = botMove.get().getSource(game.chessController.chessBoard).row + botMove.get().getSource(game.chessController.chessBoard).column;
+            String target = botMove.get().getTarget(game.chessController.chessBoard).row + botMove.get().getTarget(game.chessController.chessBoard).column;
+            strB.append(source).append("-").append(target);
+            game.addMoveToMoveHistory(strB.toString());
+            game.setCurrentTurn((game.getCurrentTurn().equals(FigureColor.WHITE.toString())) ? FigureColor.BLACK : FigureColor.WHITE);
+        }
         int gameId = chessRepository.save(game);
         GameDto gameDto = new GameDto(gameId, game.getGameState(), game.getBoardState(), game.getCurrentTurn(), game.isAgainstAI(), game.getBotColor().toString());
         return Response.ok(gameDto).build();
@@ -86,6 +99,11 @@ public class ChessResource {
         if (!hasMoved.get()) {
             return Response.status(Response.Status.BAD_REQUEST).build(); // Player couldn't move
         }
+
+        StringBuilder strB = new StringBuilder();
+        strB.append(move.source()).append("-").append(move.target());
+        loadedGame.addMoveToMoveHistory(strB.toString());
+
         loadedGame.setCurrentTurn((loadedGame.getCurrentTurn().equals(FigureColor.WHITE.toString())) ? FigureColor.BLACK : FigureColor.WHITE);
         chessRepository.updateGame(loadedGame);
 
@@ -101,13 +119,17 @@ public class ChessResource {
         }
         Game loadedGame = game.get();
 
-        Optional<Boolean> hasMoved = loadedGame.makeBotMove();
-        if (hasMoved.isEmpty()) {
+        Optional<Move> botMove = loadedGame.makeBotMove();
+        if (botMove.isEmpty()) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        if (!hasMoved.get()) {
-            return Response.status(Response.Status.GONE).build();
-        }
+
+        StringBuilder strB = new StringBuilder();
+        String source = botMove.get().getSource(loadedGame.chessController.chessBoard).row + botMove.get().getSource(loadedGame.chessController.chessBoard).column;
+        String target = botMove.get().getTarget(loadedGame.chessController.chessBoard).row + botMove.get().getTarget(loadedGame.chessController.chessBoard).column;
+        strB.append(source).append("-").append(target);
+        loadedGame.addMoveToMoveHistory(strB.toString());
+
         loadedGame.setCurrentTurn((loadedGame.getCurrentTurn().equals(FigureColor.WHITE.toString())) ? FigureColor.BLACK : FigureColor.WHITE);
         chessRepository.updateGame(loadedGame);
         return Response.ok(loadedGame).build();

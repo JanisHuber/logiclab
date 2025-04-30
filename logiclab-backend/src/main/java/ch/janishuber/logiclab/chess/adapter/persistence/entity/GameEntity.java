@@ -23,15 +23,18 @@ public class GameEntity {
 
     private int botDifficulty;
 
+    private String moveHistory;
+
     public GameEntity() {}
 
-    public GameEntity(String gameState, String boardState, String currentTurn, boolean againstAI, String botColor, int botDifficulty) {
+    public GameEntity(String gameState, String boardState, String currentTurn, boolean againstAI, String botColor, int botDifficulty, String moveHistory) {
         this.gameState = gameState;
         this.boardState = boardState;
         this.currentTurn = currentTurn;
         this.againstAI = againstAI;
         this.botColor = botColor;
         this.botDifficulty = botDifficulty;
+        this.moveHistory = moveHistory;
     }
 
     public int getGameId() {
@@ -53,6 +56,9 @@ public class GameEntity {
         return botColor;
     }
     public int getBotDifficulty() { return botDifficulty; }
+    public String getMoveHistory() {
+        return moveHistory;
+    }
 
     public void setGameState(String gameState) {
         this.gameState = gameState;
@@ -73,4 +79,7 @@ public class GameEntity {
         this.botColor = botColor;
     }
     public void setBotDifficulty(int botDifficulty) {}
+    public void setMoveHistory(String moveHistory) {
+        this.moveHistory = moveHistory;
+    }
 }

@@ -19,12 +19,14 @@ public class Game {
     private boolean againstAI;
     private FigureColor botColor;
     private int botDifficulty;
+    private String moveHistory;
     public final transient ChessController chessController;
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     private static final int GAME_ID_NOT_SET = -1;
 
-    private Game(int gameId, String gameState, ChessController chessController, boolean againstAI, FigureColor botColor, int botDifficulty) {
+    private Game(int gameId, String gameState, ChessController chessController, boolean againstAI, FigureColor botColor,
+            int botDifficulty, String moveHistory) {
         this.gameId = gameId;
         this.gameState = gameState;
         this.chessController = chessController;
@@ -32,18 +34,21 @@ public class Game {
         this.againstAI = againstAI;
         this.botColor = botColor;
         this.botDifficulty = botDifficulty;
+        this.moveHistory = moveHistory;
     }
 
-    public static Game ofExisting(int gameId, String gameState, String boardState, String currentTurn, boolean againstAI, FigureColor botColor, int botDifficulty) {
+    public static Game ofExisting(int gameId, String gameState, String boardState, String currentTurn,
+            boolean againstAI, FigureColor botColor, int botDifficulty, String moveHistory) {
         FigureColor figureColor = FigureColor.valueOf(currentTurn);
         ChessBoard chessBoard = ChessBoard.ofExisting(boardState);
-        ChessController chessController = ChessController.ofExisting(chessBoard, figureColor, againstAI, botColor, botDifficulty);
-        return new Game(gameId, gameState, chessController, againstAI, botColor, botDifficulty);
+        ChessController chessController = ChessController.ofExisting(chessBoard, figureColor, againstAI, botColor,
+                botDifficulty, moveHistory);
+        return new Game(gameId, gameState, chessController, againstAI, botColor, botDifficulty, moveHistory);
     }
 
     public static Game startNewGame(boolean againstAI, FigureColor botColor, int botDifficulty) {
-        ChessController chessController = new ChessController(againstAI, false, botColor, botDifficulty);
-        return new Game(GAME_ID_NOT_SET, "NEW", chessController, againstAI, botColor, botDifficulty);
+        ChessController chessController = new ChessController(againstAI, false, botColor, botDifficulty, "");
+        return new Game(GAME_ID_NOT_SET, "NEW", chessController, againstAI, botColor, botDifficulty, "");
     }
 
     public Optional<Boolean> makeMove(MoveDto moveDto) {
@@ -59,12 +64,24 @@ public class Game {
         return chessController.getCheckedMove(field.figure);
     }
 
-    public Optional<Boolean> makeBotMove() {
+    public Optional<Move> makeBotMove() {
         return chessController.makeBotMove();
     }
 
     public int getGameId() {
         return gameId;
+    }
+
+    public String getMoveHistory() {
+        return this.moveHistory;
+    }
+
+    public void addMoveToMoveHistory(String move) {
+        if (this.moveHistory.isEmpty()) {
+            this.moveHistory = move;
+        } else {
+            this.moveHistory += "," + move;
+        }
     }
 
     public String getGameState() {

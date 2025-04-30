@@ -7,5 +7,6 @@ CREATE TABLE IF NOT EXISTS chess (
     currentTurn VARCHAR(10) NOT NULL,
     againstAI BIT NOT NULL,
     botColor VARCHAR(255) NOT NULL,
-    botDifficulty INT NOT NULL
+    botDifficulty INT NOT NULL,
+    moveHistory TEXT NOT NULL
 );
