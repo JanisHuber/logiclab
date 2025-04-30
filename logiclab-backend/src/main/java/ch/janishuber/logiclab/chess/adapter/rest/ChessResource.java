@@ -1,9 +1,11 @@
 package ch.janishuber.logiclab.chess.adapter.rest;
 
 import ch.janishuber.logiclab.chess.adapter.persistence.ChessRepository;
+import ch.janishuber.logiclab.chess.adapter.rest.dto.FieldDto;
 import ch.janishuber.logiclab.chess.adapter.rest.dto.GameDto;
 import ch.janishuber.logiclab.chess.adapter.rest.dto.MoveDto;
 import ch.janishuber.logiclab.chess.domain.Game;
+import ch.janishuber.logiclab.chess.domain.board.BoardMapperHelper;
 import ch.janishuber.logiclab.chess.domain.board.Field;
 import ch.janishuber.logiclab.chess.domain.enums.FigureColor;
 import jakarta.inject.Inject;
@@ -11,6 +13,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -118,6 +121,11 @@ public class ChessResource {
         Game loadedGame = game.get();
 
         List<Field> possibleMoves = loadedGame.getPossibleMoves(position);
-        return Response.ok(possibleMoves).build();
+        if (possibleMoves == null || possibleMoves.isEmpty()) {
+            List<FieldDto> response = new ArrayList<>();
+            return Response.ok(response).build();
+        }
+        List<FieldDto> possibleMovesDto = BoardMapperHelper.convertToDTO(possibleMoves);
+        return Response.ok(possibleMovesDto).build();
     }
 }

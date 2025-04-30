@@ -1,5 +1,7 @@
 package ch.janishuber.logiclab.chess.domain.board;
 
+import ch.janishuber.logiclab.chess.adapter.rest.dto.FieldDto;
+import ch.janishuber.logiclab.chess.adapter.rest.dto.FigureDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
@@ -42,5 +44,19 @@ public class BoardMapperHelper {
             }
         }
         return fields;
+    }
+
+    public static List<FieldDto> convertToDTO(List<Field> fields) {
+        List<FieldDto> fieldDTOs = new ArrayList<>();
+        for (Field field : fields) {
+            FieldDto dto = null;
+            if (field.getFigure() != null) {
+                dto = new FieldDto(field.getColumn(), field.getRow(), new FigureDto(field.figure.getClassName(), field.figure.figureColor.toString(), field.figure.value));
+            } else {
+                dto = new FieldDto(field.getColumn(), field.getRow(), null);
+            }
+            fieldDTOs.add(dto);
+        }
+        return fieldDTOs;
     }
 }

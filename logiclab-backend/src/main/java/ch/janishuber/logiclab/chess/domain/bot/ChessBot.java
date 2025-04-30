@@ -5,7 +5,6 @@ import ch.janishuber.logiclab.chess.domain.board.Field;
 import ch.janishuber.logiclab.chess.domain.controller.ChessController;
 import ch.janishuber.logiclab.chess.domain.enums.FigureColor;
 import ch.janishuber.logiclab.chess.domain.evaluate.evaluateBoard;
-import ch.janishuber.logiclab.chess.domain.util.LoggingToFile;
 import ch.janishuber.logiclab.chess.domain.util.Move;
 import ch.janishuber.logiclab.chess.domain.util.SerializationUtil;
 
@@ -17,7 +16,6 @@ import java.util.logging.Logger;
 public class ChessBot {
     private final int depth;
     private final int maxQuiescenceSearchDepth;
-    private final Logger logger = LoggingToFile.getLogger(ChessBot.class.getName());
 
     public ChessBot(int depth, int maxQuiescenceSearchDepth) {
         this.depth = depth;
@@ -31,7 +29,6 @@ public class ChessBot {
         List<Move> possibleMoves = sortMoves(getPossibleMoves(controller), controller.chessBoard);
 
         for (Move move : possibleMoves) {
-            logger.info("Evaluating move: " + move.getSource(controller.chessBoard).row + "," + move.getSource(controller.chessBoard).column + " to " + move.getTarget(controller.chessBoard).row + "," + move.getTarget(controller.chessBoard).column);
             int eval = evaluateMove(controller, move);
             if (eval > maxEval) {
                 maxEval = eval;
@@ -60,13 +57,13 @@ public class ChessBot {
             if (maxQuiescenceSearchDepth > 0) {
                 return quiescenceSearch(controller, alpha, beta, isMaximizingPlayer, maxQuiescenceSearchDepth);
             } else {
-                return evaluateBoard.evaluateBoard(controller, logger);
+                return evaluateBoard.evaluateBoard(controller);
             }
         }
 
         List<Move> possibleMoves = sortMoves(getPossibleMoves(controller), controller.chessBoard);
         if (possibleMoves.isEmpty()) {
-            return evaluateBoard.evaluateBoard(controller, logger);
+            return evaluateBoard.evaluateBoard(controller);
         }
 
         if (isMaximizingPlayer) {
@@ -80,7 +77,6 @@ public class ChessBot {
         int minEval = Integer.MAX_VALUE;
 
         for (Move move : possibleMoves) {
-            logger.info("Evaluating subMove: " + move.getSource(controller.chessBoard).row + "," + move.getSource(controller.chessBoard).column + " to " + move.getTarget(controller.chessBoard).row + "," + move.getTarget(controller.chessBoard).column);
             ChessController clonedController = SerializationUtil.deepClone(controller);
             clonedController.chessBoard.MoveFigure(move.getSource(clonedController.chessBoard), move.getTarget(clonedController.chessBoard));
             clonedController.currentTurn = FigureColor.WHITE;
@@ -100,7 +96,6 @@ public class ChessBot {
         int maxEval = Integer.MIN_VALUE;
 
         for (Move move : possibleMoves) {
-            logger.info("Evaluating subMove: " + move.getSource(controller.chessBoard).row + "," + move.getSource(controller.chessBoard).column + " to " + move.getTarget(controller.chessBoard).row + "," + move.getTarget(controller.chessBoard).column);
             ChessController clonedController = SerializationUtil.deepClone(controller);
             clonedController.chessBoard.MoveFigure(move.getSource(clonedController.chessBoard), move.getTarget(clonedController.chessBoard));
             clonedController.currentTurn = FigureColor.BLACK;
@@ -155,9 +150,9 @@ public class ChessBot {
      */
     private int quiescenceSearch(ChessController controller, int alpha, int beta, boolean isMaximizingPlayer, int depth) {
         if (depth == 0) {
-            return evaluateBoard.evaluateBoard(controller, logger);
+            return evaluateBoard.evaluateBoard(controller);
         }
-        int standPat = evaluateBoard.evaluateBoard(controller, logger);
+        int standPat = evaluateBoard.evaluateBoard(controller);
 
         if (isMaximizingPlayer) {
             if (standPat >= beta) return beta;

@@ -4,15 +4,13 @@ package ch.janishuber.logiclab.chess.domain.evaluate;
 
 import ch.janishuber.logiclab.chess.domain.board.Field;
 import ch.janishuber.logiclab.chess.domain.controller.ChessController;
-import ch.janishuber.logiclab.chess.domain.enums.FigureColor;
 import ch.janishuber.logiclab.chess.domain.figures.Pawn;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 public class evaluateBoard {
-    public static int evaluateBoard(ChessController controller, Logger logger) {
+    public static int evaluateBoard(ChessController controller) {
         int pieceValue = getPieceValue(controller);
         int positionValue = getPawnPositionValue(controller);
         int mobilityValue = getMobilityValue(controller);
@@ -21,10 +19,8 @@ public class evaluateBoard {
 
         if (isStalemate.isPresent()) {
             if (isStalemate.get()) {
-                logger.info("Stalemate detected");
                 return 0;
             } else {
-                logger.info("Checkmate detected");
                 return checkmateValue;
             }
         }

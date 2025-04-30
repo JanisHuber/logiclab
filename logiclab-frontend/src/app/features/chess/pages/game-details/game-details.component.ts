@@ -34,10 +34,17 @@ export class GameDetailsComponent {
   onFigureClicked(figure: ChessFigure) {
     if (!this.gameId) return;
     //todo Client side validation
-
+    if (figure.figureColor !== this.currentTurn && this.selectedFigure) {
+      this.possibleMoves = [];
+      this.selectedFigure = null;
+      return;
+    }
     if (this.selectedFigure === figure) {
       this.selectedFigure = null;
       this.possibleMoves = [];
+      return;
+    }
+    if (figure.figureColor !== this.currentTurn) {
       return;
     }
     this.selectedFigure = figure;
@@ -79,11 +86,13 @@ export class GameDetailsComponent {
     let target = boardToApiPosition(move.column, move.row);
     if (!source || (target.convertedRow + target.convertedColumn) === source) {
       return;
-    } 
+    }
+    if (!this.possibleMoves.some(move => move.row === target.convertedRow && move.column === target.convertedColumn)) {
+      return;
+    }
     this.possibleMoves = [];
     this.selectedFigure = null;
     this.gameService.makePlayerMove(gameId, {source: source, target: target.convertedRow + target.convertedColumn}).subscribe((response) => {
-      console.log(response);
       this.updateBoard();
       this.getBotMove();
     });
