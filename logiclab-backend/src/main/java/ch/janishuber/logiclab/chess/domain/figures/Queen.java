@@ -21,13 +21,17 @@ public class Queen extends ChessFigure implements Serializable {
     public List<Field> getPossibleMoves(ChessBoard chessBoard) {
         possibleMoves.clear();
         int[][] directions = {
-                {0, 1}, {0, -1}, {1, 0}, {-1, 0}, // Straight
-                {1, 1}, {1, -1}, {-1, 1}, {-1, -1} // Diagonal
+                {0, 1}, {0, -1}, {1, 0}, {-1, 0},
+                {1, 1}, {1, -1}, {-1, 1}, {-1, -1}
         };
 
+        int startRow = this.position.getRow(); // 1–8
+        char startColChar = this.position.getColumn().charAt(0); // 'A'–'H'
+        int startCol = startColChar - 'A' + 1;
+
         for (int[] direction : directions) {
-            int row = this.position.getRowInt();
-            int col = this.position.column;
+            int row = startRow;
+            int col = startCol;
 
             while (true) {
                 row += direction[0];
@@ -35,17 +39,22 @@ public class Queen extends ChessFigure implements Serializable {
 
                 if (row < 1 || row > 8 || col < 1 || col > 8) break;
 
-                Field field = chessBoard.getField(Character.toString((char) (row + 64)), col);
-                if (field.figure == null) {
+                String colStr = String.valueOf((char) ('A' + col - 1));
+                Field field = chessBoard.getField(colStr, row);
+                ChessFigure target = field.getFigure();
+
+                if (target == null) {
                     possibleMoves.add(field);
                 } else {
-                    if (field.figure.figureColor != this.figureColor) {
+                    if (!target.figureColor.equals(this.figureColor)) {
                         possibleMoves.add(field);
                     }
                     break;
                 }
             }
         }
+
         return possibleMoves;
     }
+
 }

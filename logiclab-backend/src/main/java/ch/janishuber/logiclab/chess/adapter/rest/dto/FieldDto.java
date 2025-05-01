@@ -1,3 +1,3 @@
 package ch.janishuber.logiclab.chess.adapter.rest.dto;
 
-public record FieldDto(int column, String row, FigureDto figureDto) {}
+public record FieldDto(String column, int row, FigureDto figureDto) {}

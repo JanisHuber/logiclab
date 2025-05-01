@@ -20,9 +20,9 @@ public class ChessBoard implements Serializable {
         return BoardMapperHelper.mapChessBoard(fieldsJson);
     }
 
-    public Field getField(String row, int column) {
+    public Field getField(String column, int row) {
         for (Field field : fields) {
-            if (field.row.equals(row) && field.column == column) {
+            if (field.getColumn().equals(column) && field.getRow() == row) {
                 return field;
             }
         }
@@ -30,19 +30,19 @@ public class ChessBoard implements Serializable {
     }
 
     public void MoveFigure(Field source, Field target) {
-        if (source.figure == null) {
+        if (source.getFigure() == null) {
             return;
         }
 
-        if (target.figure != null && target.figure.figureColor != source.figure.figureColor) {
-            target.figure.position = null;
-            target.figure = null;
-        } else if (target.figure != null && target.figure.figureColor == source.figure.figureColor) {
+        if (target.getFigure() != null && target.getFigure().figureColor != source.getFigure().figureColor) {
+            target.getFigure().position = null;
+            target.setFigure(null);
+        } else if (target.getFigure() != null && target.getFigure().figureColor == source.getFigure().figureColor) {
             return;
         }
 
-        source.figure.position = target;
-        target.figure = source.figure;
-        source.figure = null;
+        source.getFigure().position = target;
+        target.setFigure(source.getFigure());
+        source.setFigure(null);
     }
 }

@@ -20,10 +20,10 @@ export class ChessboardComponent {
   @Input() board: (ChessFigure | null)[][] = [];
   @Input() currentTurn: string | undefined;
   @Input() selectedFigure: ChessFigure | null = null;
-  @Input() possibleMoves: { row: string, column: number }[] = [];
+  @Input() possibleMoves: { col: string, row: number }[] = [];
 
   @Output() figureClicked = new EventEmitter<ChessFigure>();
-  @Output() moveMade = new EventEmitter<{row: number, column: number}>();
+  @Output() moveMade = new EventEmitter<{col: number, row: number}>();
   @Output() startedNewGame = new EventEmitter<void>();
 
   onFigureClicked(figure: ChessFigure) {
@@ -31,13 +31,13 @@ export class ChessboardComponent {
   }
 
   makeMove(row: number, column: number) {
-    this.moveMade.emit({row: row, column: column});
+    this.moveMade.emit({col: column, row: row});
   }
 
   isValidMove(row: number, column: number): boolean {
     const apiPosition = boardToApiPosition(row, column);
     return this.possibleMoves.some(move => 
-      move.row === apiPosition.convertedRow && move.column === apiPosition.convertedColumn
+      move.row === apiPosition.convertedRow && move.col === apiPosition.convertedColumn
     );
   }
 

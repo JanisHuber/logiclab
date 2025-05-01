@@ -23,7 +23,7 @@ export class GameDetailsComponent {
   currentTurn: string = 'white';
 
   selectedFigure: ChessFigure | null = null;
-  possibleMoves: { row: string, column: number }[] = [];
+  possibleMoves: { col: string, row: number }[] = [];
   gameOver: boolean = false;
   winner: string | undefined;
 
@@ -47,12 +47,13 @@ export class GameDetailsComponent {
     if (figure.figureColor !== this.currentTurn) {
       return;
     }
+    console.log(figure.position);
     this.selectedFigure = figure;
     this.possibleMoves = [];
     this.gameService.getPlayerPossibleMoves(this.gameId, figure.position).subscribe((moves) => {
       if (moves.length > 0) {
         moves.forEach((move) => {
-          this.possibleMoves.push({ row: move.row, column: move.column });
+          this.possibleMoves.push({ col: move.column, row: move.row });
         });
       } else {
         this.possibleMoves = [];
@@ -78,16 +79,16 @@ export class GameDetailsComponent {
     });
   }
 
-  onMoveMade(move: { row: number, column: number }) {
+  onMoveMade(move: { col: number, row: number }) {
     const gameId = this.gameId;
     if (!gameId) return;
     
     let source = this.selectedFigure?.position;
-    let target = boardToApiPosition(move.column, move.row);
+    let target = boardToApiPosition(move.col, move.row);
     if (!source || (target.convertedRow + target.convertedColumn) === source) {
       return;
     }
-    if (!this.possibleMoves.some(move => move.row === target.convertedRow && move.column === target.convertedColumn)) {
+    if (!this.possibleMoves.some(move => move.col === target.convertedColumn && move.row === target.convertedRow)) {
       return;
     }
     this.possibleMoves = [];

@@ -14,10 +14,10 @@ public class Move {
     }
 
     public Field getSource(ChessBoard board) {
-        return board.getField(source.row, source.column);
+        return board.getField(source.getColumn(), source.getRow());
     }
 
     public Field getTarget(ChessBoard board) {
-        return board.getField(target.row, target.column);
+        return board.getField(target.getColumn(), target.getRow());
     }
 }

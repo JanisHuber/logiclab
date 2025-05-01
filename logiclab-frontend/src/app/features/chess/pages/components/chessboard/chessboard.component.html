@@ -2,7 +2,7 @@
   <div class="w-[80vw] max-h-[80vh]">
     <div class="bg-base-300 p-2 rounded-lg w-full">
       <div class="grid grid-cols-8 aspect-square w-full overflow-hidden rounded-lg">
-        <ng-container *ngFor="let row of [7,6,5,4,3,2,1,0]">
+        <ng-container *ngFor="let row of [0,1,2,3,4,5,6,7]">
           <ng-container *ngFor="let col of [0,1,2,3,4,5,6,7]">
             <div (click)="makeMove(row, col)" [ngStyle]="{
               'background-image': (row + col) % 2 === 0 ? 'url(assets/chess/beige_tile.png)' : 'url(assets/chess/brown_tile.png)',
@@ -15,18 +15,18 @@
               </div>
               }
               
-              <span *ngIf="row === 0" 
+              <span *ngIf="row === 7" 
                     class="absolute bottom-1 right-1 text-[0.6rem] sm:text-xs md:text-xs text-gray-800 font-medium">
                 {{['a','b','c','d','e','f','g','h'][col]}}
               </span>
               
               <span *ngIf="col === 0" 
                     class="absolute top-1 left-1 text-[0.6rem] sm:text-xs md:text-sm text-gray-700 font-medium">
-                {{row + 1}}
+                {{8 - row}}
               </span>
 
-              @if (board && board[row] && board[col][row] !== undefined) {
-                <app-chessfigure [figure]="board[col][row]" (figureClicked)="onFigureClicked($event)"></app-chessfigure>
+              @if (board && board[row] && board[row][col] !== undefined) {
+                <app-chessfigure [figure]="board[row][col]" (figureClicked)="onFigureClicked($event)"></app-chessfigure>
               }
             </div>
           </ng-container>

@@ -61,7 +61,7 @@ public class Game {
         int figureSourceColumn = Integer.parseInt(position.substring(1));
         Field field = chessController.chessBoard.getField(figureSourceRow, figureSourceColumn);
 
-        return chessController.getCheckedMove(field.figure);
+        return chessController.getCheckedMove(field.getFigure());
     }
 
     public Optional<Move> makeBotMove() {

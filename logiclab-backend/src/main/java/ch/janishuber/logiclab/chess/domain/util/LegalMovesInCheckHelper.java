@@ -123,10 +123,10 @@ public class LegalMovesInCheckHelper {
     private static List<String> turnFieldsToFigureNames(List<Field> fields) {
         List<String> figureNames = new ArrayList<>();
         for (Field field : fields) {
-            if (field.figure == null) {
+            if (field.getFigure() == null) {
                 continue;
             }
-            figureNames.add(field.figure.getClassName());
+            figureNames.add(field.getFigure().getClassName());
         }
         return figureNames;
     }

@@ -24,12 +24,12 @@ public class evaluateBoard {
         int overallValue = 0;
 
         for (Field field : chessBoard.getFields()) {
-            if (field.figure != null) {
-                int value = switch (field.figure.getClassName()) {
+            if (field.getFigure() != null) {
+                int value = switch (field.getFigure().getClassName()) {
                     case "Pawn" -> PieceTables.getPawnTableValue(field);
                     default -> 0;
                 };
-                overallValue += (field.figure.figureColor == currentTurn) ? value : -value;
+                overallValue += (field.getFigure().figureColor == currentTurn) ? value : -value;
             }
         }
 

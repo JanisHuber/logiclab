@@ -38,8 +38,8 @@ public class ChessResource {
                 return Response.status(Response.Status.BAD_REQUEST).build();
             }
             StringBuilder strB = new StringBuilder();
-            String source = botMove.get().getSource(game.chessController.chessBoard).row + botMove.get().getSource(game.chessController.chessBoard).column;
-            String target = botMove.get().getTarget(game.chessController.chessBoard).row + botMove.get().getTarget(game.chessController.chessBoard).column;
+            String source = botMove.get().getSource(game.chessController.chessBoard).getColumn() + botMove.get().getSource(game.chessController.chessBoard).getRow();
+            String target = botMove.get().getTarget(game.chessController.chessBoard).getColumn() + botMove.get().getTarget(game.chessController.chessBoard).getRow();
             strB.append(source).append("-").append(target);
             game.addMoveToMoveHistory(strB.toString());
             game.setCurrentTurn((game.getCurrentTurn().equals(FigureColor.WHITE.toString())) ? FigureColor.BLACK : FigureColor.WHITE);
@@ -125,8 +125,8 @@ public class ChessResource {
         }
 
         StringBuilder strB = new StringBuilder();
-        String source = botMove.get().getSource(loadedGame.chessController.chessBoard).row + botMove.get().getSource(loadedGame.chessController.chessBoard).column;
-        String target = botMove.get().getTarget(loadedGame.chessController.chessBoard).row + botMove.get().getTarget(loadedGame.chessController.chessBoard).column;
+        String source = botMove.get().getSource(loadedGame.chessController.chessBoard).getColumn() + botMove.get().getSource(loadedGame.chessController.chessBoard).getRow();
+        String target = botMove.get().getTarget(loadedGame.chessController.chessBoard).getColumn() + botMove.get().getTarget(loadedGame.chessController.chessBoard).getRow();
         strB.append(source).append("-").append(target);
         loadedGame.addMoveToMoveHistory(strB.toString());
 
@@ -143,7 +143,8 @@ public class ChessResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
         Game loadedGame = game.get();
-
+        System.out.println(loadedGame.chessController.chessBoard.getField(position.split("")[0], Integer.parseInt(position.split("")[1])).getColumn() + loadedGame.chessController.chessBoard.getField(position.split("")[0], Integer.parseInt(position.split("")[1])).getRow());
+        System.out.println(loadedGame.chessController.chessBoard.getField(position.split("")[0], Integer.parseInt(position.split("")[1])).getFigure().getClassName());
         List<Field> possibleMoves = loadedGame.getPossibleMoves(position);
         if (possibleMoves == null || possibleMoves.isEmpty()) {
             List<FieldDto> response = new ArrayList<>();

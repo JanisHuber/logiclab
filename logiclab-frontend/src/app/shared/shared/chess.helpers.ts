@@ -10,16 +10,14 @@ export function jsonToChessBoard(jsonBoard: string): (ChessFigure | null)[][] {
     
     const parsedBoard = JSON.parse(jsonBoard);
     parsedBoard.forEach((cell: any) => {
-        // Konvertiere die Buchstaben-Koordinate in eine Zahl (A=0, B=1, etc.)
-        const rowIndex = cell.row.toUpperCase().charCodeAt(0) - 'A'.charCodeAt(0);
-        const row = 7 - rowIndex; // Invertiere die Reihe für die korrekte Darstellung
-        const col = cell.column - 1;
-        
+        const col = cell.column.toUpperCase().charCodeAt(0) - 'A'.charCodeAt(0); // A=0...H=7
+        const row = 8 - cell.row; // Row 1 (unten) → Index 7
+
         if (cell.figure) {
             board[row][col] = new ChessFigure(
                 cell.figure.type,
                 cell.figure.figureColor,
-                `${cell.row}${cell.column}`,
+                `${cell.column}${cell.row}`,
                 cell.figure.value
             );
         } else {
@@ -30,15 +28,15 @@ export function jsonToChessBoard(jsonBoard: string): (ChessFigure | null)[][] {
     return board;
 }
 
-export function boardToApiPosition(row: number, col: number): { convertedRow: string, convertedColumn: number } {
-    const convertedRow = String.fromCharCode('A'.charCodeAt(0) + (7 - row));
-    const convertedColumn = col + 1;
+export function boardToApiPosition(col: number, row: number): { convertedColumn: string, convertedRow: number } {
+    const convertedColumn = String.fromCharCode('A'.charCodeAt(0) + col);
+    const convertedRow = 8 - row;
 
-    return { convertedRow: convertedRow, convertedColumn: convertedColumn };
+    return { convertedColumn, convertedRow };
 }
 
-export function apiPositionToBoard(position: { convertedRow: string, convertedColumn: number }): { row: number, column: number } {
-    const row = 7 - (position.convertedRow.charCodeAt(0) - 'A'.charCodeAt(0));
-    const column = position.convertedColumn - 1;
-    return { row: row, column: column };
+export function apiPositionToBoard(position: { convertedColumn: string, convertedRow: number }): { col: number, row: number } {
+    const col = position.convertedColumn.toUpperCase().charCodeAt(0) - 'A'.charCodeAt(0);
+    const row = 8 - position.convertedRow;
+    return { col, row };
 }

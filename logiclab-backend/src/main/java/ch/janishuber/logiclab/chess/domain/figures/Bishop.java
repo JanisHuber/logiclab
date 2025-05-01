@@ -22,23 +22,26 @@ public class Bishop extends ChessFigure implements Serializable {
         possibleMoves.clear();
         int[][] directions = {{1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
 
+        int currentRow = this.position.getRow();
+        char currentColChar = this.position.getColumn().charAt(0);
+        int currentCol = currentColChar - 'A' + 1;
+
         for (int[] direction : directions) {
             int rowOffset = direction[0];
             int colOffset = direction[1];
 
-            for (int i = 1;
-                 this.position.column + i * colOffset >= 1 && this.position.column + i * colOffset <= 8 &&
-                 this.position.getRowInt() + i * rowOffset >= 1 && this.position.getRowInt() + i * rowOffset <= 8;
-                 i++) {
-                Field field = chessBoard.getField(
-                    Character.toString((char) (this.position.getRowInt() + i * rowOffset + 64)),
-                    this.position.column + i * colOffset
-                );
+            for (int i = 1; currentRow + i * rowOffset >= 1 && currentRow + i * rowOffset <= 8 && currentCol + i * colOffset >= 1 && currentCol + i * colOffset <= 8; i++) {
+                int targetRow = currentRow + i * rowOffset;
+                int targetCol = currentCol + i * colOffset;
+                String targetColStr = String.valueOf((char) ('A' + targetCol - 1));
 
-                if (field.figure == null) {
+                Field field = chessBoard.getField(targetColStr, targetRow);
+                ChessFigure targetFigure = field.getFigure();
+
+                if (targetFigure == null) {
                     possibleMoves.add(field);
                 } else {
-                    if (field.figure.figureColor != this.figureColor) {
+                    if (!targetFigure.figureColor.equals(this.figureColor)) {
                         possibleMoves.add(field);
                     }
                     break;
@@ -47,4 +50,5 @@ public class Bishop extends ChessFigure implements Serializable {
         }
         return possibleMoves;
     }
+
 }

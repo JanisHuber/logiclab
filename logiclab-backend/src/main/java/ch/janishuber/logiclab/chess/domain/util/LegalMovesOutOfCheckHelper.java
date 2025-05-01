@@ -24,28 +24,28 @@ public class LegalMovesOutOfCheckHelper {
         List<Field> invalidMoves = new ArrayList<>();
 
         for (Field targetField : sourceList) {
-            ChessFigure originalTargetFigure = targetField.figure;
+            ChessFigure originalTargetFigure = targetField.getFigure();
             boolean isInCheck;
 
-            Field figureSourceField = chessBoard.getField(figure.position.row, figure.position.column);
+            Field figureSourceField = chessBoard.getField(figure.position.getColumn(), figure.position.getRow());
 
-            if (figureSourceField.figure != null) {
-                figureSourceField.figure.position = null;
+            if (figureSourceField.getFigure() != null) {
+                figureSourceField.getFigure().position = null;
             }
-            figureSourceField.figure = null;
+            figureSourceField.getFigure().position = null;
 
 
-            targetField.figure = figure;
+            targetField.setFigure(figure);
             figure.position = targetField;
 
             isInCheck = checkmateHandler.isMate(null) > 0;
 
-            targetField.figure = originalTargetFigure;
+            targetField.setFigure(originalTargetFigure);
             if (originalTargetFigure != null) {
                 originalTargetFigure.position = targetField;
             }
 
-            figureSourceField.figure = figure;
+            figureSourceField.setFigure(figure);
             figure.position = figureSourceField;
 
             if (isInCheck) {

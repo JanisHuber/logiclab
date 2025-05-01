@@ -51,7 +51,7 @@ public class BoardMapperHelper {
         for (Field field : fields) {
             FieldDto dto = null;
             if (field.getFigure() != null) {
-                dto = new FieldDto(field.getColumn(), field.getRow(), new FigureDto(field.figure.getClassName(), field.figure.figureColor.toString(), field.figure.value));
+                dto = new FieldDto(field.getColumn(), field.getRow(), new FigureDto(field.getFigure().getClassName(), field.getFigure().figureColor.toString(), field.getFigure().value));
             } else {
                 dto = new FieldDto(field.getColumn(), field.getRow(), null);
             }

@@ -2,7 +2,6 @@ package ch.janishuber.logiclab.chess.domain.board;
 
 
 import ch.janishuber.logiclab.chess.domain.util.ChessFigure;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
@@ -10,27 +9,29 @@ import java.io.Serializable;
 public class Field implements Serializable {
     private static final long serialVersionUID = 1L;
     @JsonProperty
-    public int column;
+    private String column;
     @JsonProperty
-    public String row;
+    private int row;
     @JsonProperty
-    public ChessFigure figure;
+    private ChessFigure figure;
 
+    public Field() {}
 
-    public int getColumn() { //Spalte
+    public Field(String column, int row) {
+        this.column = column;
+        this.row = row;
+    }
+
+    public String getColumn() {
         return column;
     }
-    public void setColumn(int column) { //Zeile
+    public void setColumn(String column) {
         this.column = column;
     }
-    public String getRow() {
+    public int getRow() {
         return row;
     }
-    @JsonIgnore
-    public int getRowInt() {
-        return (char)(row.charAt(0) - 64);
-    }
-    public void setRow(String row) {
+    public void setRow(int row) {
         this.row = row;
     }
     public ChessFigure getFigure() {

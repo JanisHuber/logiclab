@@ -58,14 +58,6 @@ public class ChessBot {
                 return result;
             } else {
                 int result = evaluateBoard.evaluateBoard(chessBoard, this.currentTurn, botColor);
-                debugString = "";
-                debugString += "Evaluating board at depth " + depth + ": " + result + "For Moves: ";
-                for (SimulatedMove simMove : moveHistory) {
-                    Field source = simMove.source();
-                    Field target = simMove.target();
-
-                    debugString += "Move: " + source.row + source.column + " to " + target.row + target.column;
-                }
                 undoMoves(chessBoard, moveHistory.size());
                 return result;
             }
@@ -120,8 +112,8 @@ public class ChessBot {
     private List<Move> getPossibleMoves(ChessBoard chessBoard) {
         List<Move> moves = new ArrayList<>();
         for (Field field : chessBoard.getFields()) {
-            if (field.figure != null && field.figure.figureColor == this.currentTurn) {
-                for (Field target : field.figure.getPossibleMoves(chessBoard)) {
+            if (field.getFigure() != null && field.getFigure().figureColor == this.currentTurn) {
+                for (Field target : field.getFigure().getPossibleMoves(chessBoard)) {
                     moves.add(new Move(field, target));
                 }
             }
@@ -134,7 +126,7 @@ public class ChessBot {
         List<Move> remainingMoves = new ArrayList<>();
 
         for (Move move : moves) {
-            if (move.getTarget(chessBoard).figure != null) {
+            if (move.getTarget(chessBoard).getFigure() != null) {
                 sortedMoves.add(move);
             } else {
                 remainingMoves.add(move);
@@ -193,7 +185,7 @@ public class ChessBot {
 
         for (Move move : allMoves) {
             Field target = move.getTarget(chessBoard);
-            if (target.figure != null && target.figure.figureColor != this.currentTurn && target.figure.value > 1) {
+            if (target.getFigure() != null && target.getFigure().figureColor != this.currentTurn && target.getFigure().value > 1) {
                 noisyMoves.add(move);
             } else if (moveResultsInCheck(chessBoard, move)) {
                 noisyMoves.add(move);
@@ -214,17 +206,17 @@ public class ChessBot {
         Field source = move.getSource(chessBoard);
         Field target = move.getTarget(chessBoard);
 
-        ChessFigure capturedFigure = target.figure;
+        ChessFigure capturedFigure = target.getFigure();
 
-        if (source.figure != null) {
-            source.figure.position = target;
+        if (source.getFigure() != null) {
+            source.getFigure().position = target;
         }
-        if (target.figure != null) {
-            target.figure.position = null;
+        if (target.getFigure() != null) {
+            target.getFigure().position = null;
         }
 
-        target.figure = source.figure;
-        source.figure = null;
+        target.setFigure(source.getFigure());
+        source.setFigure(null);
         this.currentTurn = (this.currentTurn == FigureColor.WHITE) ? FigureColor.BLACK : FigureColor.WHITE;
 
         SimulatedMove simMove = new SimulatedMove(source, target, capturedFigure);
@@ -240,13 +232,13 @@ public class ChessBot {
             Field target = simMove.target();
             ChessFigure capturedFigure = simMove.figure();
 
-            ChessFigure movedFigure = target.figure;
-            source.figure = movedFigure;
+            ChessFigure movedFigure = target.getFigure();
+            source.setFigure(movedFigure);
             if (movedFigure != null) {
                 movedFigure.position = source;
             }
 
-            target.figure = capturedFigure;
+            target.setFigure(capturedFigure);
             if (capturedFigure != null) {
                 capturedFigure.position = target;
             }

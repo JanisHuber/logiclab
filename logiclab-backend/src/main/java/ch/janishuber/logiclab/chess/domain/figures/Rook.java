@@ -17,32 +17,40 @@ public class Rook extends ChessFigure implements Serializable {
     public int value = 5;
 
     public List<Field> getPossibleMoves(ChessBoard chessBoard) {
-            possibleMoves.clear();
-            int[][] directions = {
+        possibleMoves.clear();
+
+        int[][] directions = {
                 {0, 1}, {0, -1}, {1, 0}, {-1, 0}
-            };
+        };
 
-            for (int[] direction : directions) {
-                int row = this.position.getRowInt();
-                int col = this.position.column;
+        int startRow = this.position.getRow();
+        char startColChar = this.position.getColumn().charAt(0);
+        int startCol = startColChar - 'A';
 
-                while (true) {
-                    row += direction[0];
-                    col += direction[1];
+        for (int[] direction : directions) {
+            int row = startRow;
+            int col = startCol;
 
-                    if (row < 1 || row > 8 || col < 1 || col > 8) break;
+            while (true) {
+                row += direction[0];
+                col += direction[1];
 
-                    Field field = chessBoard.getField(Character.toString((char) (row + 64)), col);
-                    if (field.figure == null) {
+                if (row < 1 || row > 8 || col < 1 || col > 8) break;
+
+                String colStr = String.valueOf((char) ('A' + col - 1));
+                Field field = chessBoard.getField(colStr, row);
+                ChessFigure figure = field.getFigure();
+
+                if (figure == null) {
+                    possibleMoves.add(field);
+                } else {
+                    if (!figure.figureColor.equals(this.figureColor)) {
                         possibleMoves.add(field);
-                    } else {
-                        if (field.figure.figureColor != this.figureColor) {
-                            possibleMoves.add(field);
-                        }
-                        break;
                     }
+                    break;
                 }
             }
-            return possibleMoves;
         }
+        return possibleMoves;
+    }
 }

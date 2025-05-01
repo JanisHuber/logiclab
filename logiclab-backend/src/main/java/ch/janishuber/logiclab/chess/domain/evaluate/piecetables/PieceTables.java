@@ -10,7 +10,7 @@ public class PieceTables {
             { 10, 10, 20, 30, 30, 20, 10, 10 },
             { 5, 5, 10, 25, 25, 10, 5, 5 },
             { 0, 0, 0, 20, 20, 0, 0, 0 },
-            { -1000, -5, -10, 0, 0, -10, -5, 5 },
+            { 5, -5, -10, 0, 0, -10, -5, 5 },
             { 5, 10, 10, -20, -20, 10, 10, 5 },
             { 0, 0, 0, 0, 0, 0, 0, 0 }
     };
@@ -49,8 +49,7 @@ public class PieceTables {
     };
 
     public static int getPawnTableValue(Field field) {
-        System.out.println("For Field: " + field.row + field.column);
-        int row = getTableRow(field, field.figure.figureColor);
+        int row = getTableRow(field);
         int col = getTableCol(field);
         return pawnTable[row][col];
     }
@@ -75,15 +74,13 @@ public class PieceTables {
      * }
      */
 
-    public static int getTableRow(Field field, FigureColor color) {
-        int rowIndex = 8 - field.column;
-        System.out.println((color == FigureColor.WHITE) ? rowIndex : 7 - rowIndex);
-        return (color == FigureColor.WHITE) ? rowIndex : 7 - rowIndex;
+    private static int getTableRow(Field field) {
+        int rowIndex = field.getRow() - 1;
+        return (field.getFigure().figureColor == FigureColor.BLACK) ? rowIndex : 7 - rowIndex;
     }
 
-    public static int getTableCol(Field field) {
-        System.out.println(field.row.charAt(0) - 'A');
-        return field.row.charAt(0) - 'A';
+    private static int getTableCol(Field field) {
+        return field.getColumn().charAt(0) - 'A';
     }
 
 }

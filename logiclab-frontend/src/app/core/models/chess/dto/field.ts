@@ -1,5 +1,4 @@
 export interface Field {
-    column: number;
-    row: string;
-    rowInt: number;
+    column: string;
+    row: number;
 }

@@ -42,21 +42,21 @@ public class CheckmateHandler implements Serializable {
         List<Field> possibleMates = new ArrayList<>();
         List<Field> currentCheckingFields = new ArrayList<>();
         for (Field field : chessBoard.getFields()) {
-            if (field.figure == null) {
+            if (field.getFigure() == null) {
                 continue;
             }
-            String figureType = field.figure.getClassName();
-            if (figureType.equals("King") && field.figure.figureColor == currentTurn) {
+            String figureType = field.getFigure().getClassName();
+            if (figureType.equals("King") && field.getFigure().figureColor == currentTurn) {
                 if (kingField == null) {
                     kingField = field;
                 }
             }
-            else if (field.figure.figureColor != currentTurn) {
+            else if (field.getFigure().figureColor != currentTurn) {
                 currentCheckingFields.add(field);
             }
         }
         for (Field field : currentCheckingFields) {
-            for (Field figureField : field.figure.getPossibleMoves(chessBoard)) {
+            for (Field figureField : field.getFigure().getPossibleMoves(chessBoard)) {
                 if (figureField == kingField) {
                     possibleMates.add(field);
                 }
@@ -73,11 +73,11 @@ public class CheckmateHandler implements Serializable {
     public int isMate(Field kingField) {
         if (kingField == null) {
             for (Field field : chessBoard.getFields()) {
-                if (field.figure == null) {
+                if (field.getFigure() == null) {
                     continue;
                 }
-                String figureType = field.figure.getClassName();
-                if (figureType.equals("King") && field.figure.figureColor == currentTurn) {
+                String figureType = field.getFigure().getClassName();
+                if (figureType.equals("King") && field.getFigure().figureColor == currentTurn) {
                     kingField = field;
                 }
             }
@@ -96,20 +96,20 @@ public class CheckmateHandler implements Serializable {
         List<Field> possibleCaptures = new ArrayList<>();
         List<Field> possibleMates = getPossiblesMates(null);
         for (Field field : chessBoard.getFields()) {
-            if (field.figure == null) {
+            if (field.getFigure() == null) {
                 continue;
             }
-            if (field.figure.figureColor == currentTurn) {
+            if (field.getFigure().figureColor == currentTurn) {
                 for (Field mate : possibleMates) {
-                    for (Field figureField : field.figure.getPossibleMoves(chessBoard)) {
+                    for (Field figureField : field.getFigure().getPossibleMoves(chessBoard)) {
                         if (figureField == mate) {
-                            ChessFigure originalFigure = figureField.figure;
-                            Field originalPosition = field.figure.position;
+                            ChessFigure originalFigure = figureField.getFigure();
+                            Field originalPosition = field.getFigure().position;
 
                             boolean isOutOfCheck = isMate(null) == 0;
 
-                            figureField.figure = originalFigure;
-                            field.figure.position = originalPosition;
+                            figureField.setFigure(originalFigure);
+                            field.getFigure().position = originalPosition;
                             if (isOutOfCheck) {
                                 possibleCaptures.add(figureField);
                                 possibleCaptureSources.add(field);
@@ -134,30 +134,30 @@ public class CheckmateHandler implements Serializable {
         boolean isOutOfCheck;
 
         for (Field field : chessBoard.getFields()) {
-            if (field.figure == null) {
+            if (field.getFigure() == null) {
                 continue;
             }
-            String figureType = field.figure.getClassName();
-            if (figureType.equals("King") && field.figure.figureColor == currentTurn) {
+            String figureType = field.getFigure().getClassName();
+            if (figureType.equals("King") && field.getFigure().figureColor == currentTurn) {
                 continue;
             }
-            if (field.figure.figureColor != currentTurn) {
+            if (field.getFigure().figureColor != currentTurn) {
                 continue;
             }
-            for (Field possibleMove : field.figure.getPossibleMoves(chessBoard)) {
+            for (Field possibleMove : field.getFigure().getPossibleMoves(chessBoard)) {
                 isOutOfCheck = false;
-                if (possibleMove.figure != null) {
-                    originalFigure = possibleMove.figure;
+                if (possibleMove.getFigure() != null) {
+                    originalFigure = possibleMove.getFigure();
                 } else {
                     originalFigure = null;
                 }
-                possibleMove.figure = field.figure;
-                possibleMove.figure.position = possibleMove;
+                possibleMove.setFigure(field.getFigure());
+                possibleMove.getFigure().position = possibleMove;
 
                 isOutOfCheck = isMate(null) == 0;
 
-                field.figure.position = field;
-                possibleMove.figure = originalFigure;
+                field.getFigure().position = field;
+                possibleMove.setFigure(originalFigure);
                 if (isOutOfCheck) {
                     blocks.add(possibleMove);
                     possibleBlockSources.add(field);
@@ -178,29 +178,29 @@ public class CheckmateHandler implements Serializable {
         boolean isOutOfCheck;
 
         for (Field field : chessBoard.getFields()) {
-            if (field.figure == null) {
+            if (field.getFigure() == null) {
                 continue;
             }
-            String figureType = field.figure.getClassName();
-            if (figureType.equals("King") && field.figure.figureColor == currentTurn) {
+            String figureType = field.getFigure().getClassName();
+            if (figureType.equals("King") && field.getFigure().figureColor == currentTurn) {
                 kingField = field;
             }
         }
-        possibleEscapes = kingField.figure.getPossibleMoves(chessBoard);
+        possibleEscapes = kingField.getFigure().getPossibleMoves(chessBoard);
         for (Field escapingField : possibleEscapes) {
             isOutOfCheck = false;
-            ChessFigure king = kingField.figure;
-            ChessFigure captured = escapingField.figure;
+            ChessFigure king = kingField.getFigure();
+            ChessFigure captured = escapingField.getFigure();
 
-            escapingField.figure = king;
-            kingField.figure = null;
+            escapingField.setFigure(king);
+            kingField.setFigure(null);
             king.position = escapingField;
 
             isOutOfCheck = isMate(escapingField) == 0;
 
             king.position = kingField;
-            kingField.figure = king;
-            escapingField.figure = captured;
+            kingField.setFigure(king);
+            escapingField.setFigure(captured);
 
             if (isOutOfCheck) {
                 escapes.add(escapingField);

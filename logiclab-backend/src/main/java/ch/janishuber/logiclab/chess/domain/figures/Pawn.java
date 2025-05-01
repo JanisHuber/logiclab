@@ -20,29 +20,40 @@ public class Pawn extends ChessFigure implements Serializable {
         int direction = (this.figureColor == FigureColor.WHITE) ? 1 : -1;
         int startRow = (this.figureColor == FigureColor.WHITE) ? 2 : 7;
 
-        for (Field field : chessBoard.getFields()) {
-            if (field.row.equals(this.position.row) && field.column == (this.position.column + direction)) {
-                if (field.figure == null) {
-                    possibleMoves.add(field);
-                }
-            }
-            if (field.row.equals(this.position.row) && field.column == (this.position.column + 2 * direction)) {
-                if (field.figure == null && this.position.column == startRow) {
-                    Field intermediateField = chessBoard.getField(this.position.row, this.position.column + direction);
-                    if (intermediateField.figure == null) {
-                        possibleMoves.add(field);
-                    }
-                }
-            }
-            if (field.column == (this.position.column + direction)) {
-                if (field.row.equals(String.valueOf((char) (this.position.row.charAt(0) + 1))) ||
-                    field.row.equals(String.valueOf((char) (this.position.row.charAt(0) - 1)))) {
-                    if (field.figure != null && field.figure.figureColor != this.figureColor) {
-                        possibleMoves.add(field);
+        int currentRow = this.position.getRow();
+        String currentCol = this.position.getColumn();
+        char currentColChar = currentCol.charAt(0);
+
+        int oneStepForward = currentRow + direction;
+
+        if (oneStepForward >= 1 && oneStepForward <= 8) {
+            Field forwardField = chessBoard.getField(currentCol, oneStepForward);
+            if (forwardField.getFigure() == null) {
+                possibleMoves.add(forwardField);
+
+                int twoStepsForward = currentRow + 2 * direction;
+                if (currentRow == startRow && twoStepsForward >= 1 && twoStepsForward <= 8) {
+                    Field twoStepField = chessBoard.getField(currentCol, twoStepsForward);
+                    if (twoStepField.getFigure() == null) {
+                        possibleMoves.add(twoStepField);
                     }
                 }
             }
         }
+
+        for (int colOffset : new int[]{-1, 1}) {
+            char diagColChar = (char) (currentColChar + colOffset);
+            if (diagColChar >= 'A' && diagColChar <= 'H') {
+                String diagCol = String.valueOf(diagColChar);
+                Field diagField = chessBoard.getField(diagCol, oneStepForward);
+                if (diagField != null && diagField.getFigure() != null &&
+                        !diagField.getFigure().figureColor.equals(this.figureColor)) {
+                    possibleMoves.add(diagField);
+                }
+            }
+        }
+
         return possibleMoves;
     }
+
 }

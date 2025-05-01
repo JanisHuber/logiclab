@@ -80,13 +80,12 @@ public class ChessController implements Serializable {
 
     public Optional<Boolean> move(Field currentField, Field target)
     {
-        List<Field> fields = getCheckedMove(currentField.figure);
+        List<Field> fields = getCheckedMove(currentField.getFigure());
         if (fields == null) {
             System.out.println("Null");
             for (Field field : chessBoard.getFields()) {
-                if (field.figure != null && field.figure.figureColor == currentTurn) {
-                    System.out.println(field.figure);
-                    if (!getCheckedMove(field.figure).isEmpty()) {
+                if (field.getFigure() != null && field.getFigure().figureColor == currentTurn) {
+                    if (!getCheckedMove(field.getFigure()).isEmpty()) {
                         System.out.println("Wrong Checkmate");
                     };
                 }
@@ -113,13 +112,13 @@ public class ChessController implements Serializable {
     }
 
     private void applyMove(Field currentField, Field target) {
-        if (target.figure != null)
+        if (target.getFigure() != null)
         {
-            target.figure.position = null;
+            target.getFigure().position = null;
         }
-        currentField.figure.position = target;
-        target.figure = currentField.figure;
-        currentField.figure = null;
+        currentField.getFigure().position = target;
+        target.setFigure(currentField.getFigure());
+        currentField.setFigure(null);
 
         currentTurn = currentTurn == FigureColor.WHITE ? FigureColor.BLACK : FigureColor.WHITE;
     }

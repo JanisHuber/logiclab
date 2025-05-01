@@ -25,17 +25,25 @@ public class King extends ChessFigure implements Serializable {
                 {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}
         };
 
+        int currentRow = this.position.getRow();
+        char currentColChar = this.position.getColumn().charAt(0);
+        int currentCol = currentColChar - 'A' + 1;
+
         for (int[] direction : directions) {
-            int newRow = this.position.getRowInt() + direction[0];
-            int newCol = this.position.column + direction[1];
+            int newRow = currentRow + direction[0];
+            int newCol = currentCol + direction[1];
 
             if (newRow >= 1 && newRow <= 8 && newCol >= 1 && newCol <= 8) {
-                Field field = chessBoard.getField(Character.toString((char) (newRow + 64)), newCol);
-                if (field.figure == null || field.figure.figureColor != this.figureColor) {
+                String newColStr = String.valueOf((char) ('A' + newCol - 1));
+                Field field = chessBoard.getField(newColStr, newRow);
+                ChessFigure targetFigure = field.getFigure();
+
+                if (targetFigure == null || !targetFigure.figureColor.equals(this.figureColor)) {
                     possibleMoves.add(field);
                 }
             }
         }
         return possibleMoves;
     }
+
 }

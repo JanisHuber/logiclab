@@ -13,8 +13,8 @@ public class GameStateHelper {
     private static boolean hasNoLegalMoves(ChessBoard chessBoard, FigureColor currentTurn) {
         CheckMoveHandler checkMoveHandler = new CheckMoveHandler(chessBoard, currentTurn);
         for (Field field : chessBoard.getFields()) {
-            if (field.figure != null && field.figure.figureColor == currentTurn) {
-                List<Field> checkedMove = checkMoveHandler.getCheckedMove(field.figure);
+            if (field.getFigure() != null && field.getFigure().figureColor == currentTurn) {
+                List<Field> checkedMove = checkMoveHandler.getCheckedMove(field.getFigure());
                 if (checkedMove != null && !checkedMove.isEmpty()) {
                     return false;
                 }
