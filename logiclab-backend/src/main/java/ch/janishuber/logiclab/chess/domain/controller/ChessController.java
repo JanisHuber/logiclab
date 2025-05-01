@@ -8,7 +8,6 @@ import ch.janishuber.logiclab.chess.domain.enums.FigureColor;
 import ch.janishuber.logiclab.chess.domain.util.BoardInitializerUtil;
 import ch.janishuber.logiclab.chess.domain.util.ChessFigure;
 import ch.janishuber.logiclab.chess.domain.util.Move;
-import jdk.swing.interop.SwingInterOpUtils;
 
 import java.io.Serializable;
 import java.util.List;
@@ -28,33 +27,28 @@ public class ChessController implements Serializable {
 
     public CheckMoveHandler checkMoveHandler;
 
-    public ChessController(boolean againstAI, boolean noInit, FigureColor botColor, int botDifficulty)
+    public ChessController(boolean againstAI, boolean noInit, FigureColor botColor, int botDifficulty, String moveHistoryGame)
     {
-        publicAgainstAI = againstAI;
+        this.publicAgainstAI = againstAI;
         this.botDifficulty = botDifficulty;
         this.botColor = botColor;
+        this.moveHistoryGame = moveHistoryGame;
         if (!noInit) {
             init(botDifficulty);
-            if (publicAgainstAI && currentTurn == botColor) {
-                Move botMove = bot.getBestMove(chessBoard, currentTurn, botColor);
-                move(botMove.getSource(chessBoard), botMove.getTarget(chessBoard));
-            }
+        }
+        if (publicAgainstAI) {
+            bot = new ChessBot(botDifficulty - 2, (botDifficulty > 5) ? botDifficulty - 4 : 0);
         }
     }
 
-    public static ChessController ofExisting(ChessBoard chessBoard, FigureColor currentTurn, boolean againstAI,
-            FigureColor botColor, int botDifficulty, String moveHistoryGame) {
-        ChessController chessController = new ChessController(againstAI, true, botColor, botDifficulty,
-                moveHistoryGame);
+    public static ChessController ofExisting(ChessBoard chessBoard, FigureColor currentTurn, boolean againstAI, FigureColor botColor, int botDifficulty, String moveHistoryGame) {
+        ChessController chessController = new ChessController(againstAI, true, botColor, botDifficulty, moveHistoryGame);
         chessController.chessBoard = chessBoard;
         chessController.currentTurn = currentTurn;
         return chessController;
     }
 
     private void init(int botDifficulty) {
-        if (publicAgainstAI) {
-            bot = new ChessBot(botDifficulty - 2, (botDifficulty > 5) ? botDifficulty - 4 : 0);
-        }
         chessBoard = BoardInitializerUtil.Initialize(new ChessBoard());
     }
 
@@ -64,7 +58,7 @@ public class ChessController implements Serializable {
      * @return Optional<Move> botMove empty if Bot couldn't make a move.
      */
     public Optional<Move> makeBotMove() {
-        if (!publicAgainstAI || currentTurn != this.botColor || bot == null || chessBoard == null) {
+        if (!publicAgainstAI || currentTurn != this.botColor) {
             return Optional.empty();
         }
 
@@ -76,21 +70,11 @@ public class ChessController implements Serializable {
         Field source = bestMove.getSource(chessBoard);
         Field target = bestMove.getTarget(chessBoard);
 
-        if (source == null || target == null) {
-            System.out.println("Ungültiger Zug: Quell- oder Zielfeld ist null");
-            return Optional.empty();
-        }
-
-        if (source.figure == null) {
-            System.out.println("Ungültiger Zug: Keine Figur auf dem Quellfeld");
-            return Optional.empty();
-        }
 
         Optional<Boolean> hasMoved = move(source, target);
         if (hasMoved.isPresent() && hasMoved.get()) {
             return Optional.of(bestMove);
         }
-
         return Optional.empty();
     }
 
@@ -98,6 +82,15 @@ public class ChessController implements Serializable {
     {
         List<Field> fields = getCheckedMove(currentField.figure);
         if (fields == null) {
+            System.out.println("Null");
+            for (Field field : chessBoard.getFields()) {
+                if (field.figure != null && field.figure.figureColor == currentTurn) {
+                    System.out.println(field.figure);
+                    if (!getCheckedMove(field.figure).isEmpty()) {
+                        System.out.println("Wrong Checkmate");
+                    };
+                }
+            }
             System.out.println("Checkmate");
             return Optional.empty();
         }

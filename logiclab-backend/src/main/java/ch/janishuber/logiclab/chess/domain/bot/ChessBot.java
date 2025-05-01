@@ -3,16 +3,13 @@ package ch.janishuber.logiclab.chess.domain.bot;
 import ch.janishuber.logiclab.chess.domain.board.ChessBoard;
 import ch.janishuber.logiclab.chess.domain.board.Field;
 import ch.janishuber.logiclab.chess.domain.controller.CheckMoveHandler;
-import ch.janishuber.logiclab.chess.domain.controller.ChessController;
 import ch.janishuber.logiclab.chess.domain.enums.FigureColor;
 import ch.janishuber.logiclab.chess.domain.evaluate.evaluateBoard;
 import ch.janishuber.logiclab.chess.domain.util.ChessFigure;
 import ch.janishuber.logiclab.chess.domain.util.Move;
-import ch.janishuber.logiclab.chess.domain.util.SerializationUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 @SuppressWarnings("ALL")
 public class ChessBot {
@@ -27,7 +24,7 @@ public class ChessBot {
         this.maxQuiescenceSearchDepth = maxQuiescenceSearchDepth;
     }
 
-    public Move getBestMove(ChessBoard chessBoard, FigureColor currentTurn, FigureColor botColor) {
+    public Move getBestMove(ChessBoard chessBoard, FigureColor currentTurn, FigureColor botColor, String MoveHistoryGame) {
         Move bestMove = null;
         int maxEval = Integer.MIN_VALUE;
         this.currentTurn = currentTurn;

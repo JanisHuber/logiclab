@@ -48,7 +48,6 @@ public class evaluateBoard {
                 default -> 0;
             };
             value += (field.figure.figureColor == botColor) ? figureValue : -figureValue;
-            System.out.println("Value for " + field.figure.getClassName() + " on " + field.row + field.column + ": " + figureValue);
         }
         return value;
     }

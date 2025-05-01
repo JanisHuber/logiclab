@@ -18,7 +18,7 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:9090/logiclab/api/chess/29/bot/move
+GET http://localhost:9090/logiclab/api/chess/48/bot/move
 
 ###
 

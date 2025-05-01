@@ -9,6 +9,7 @@ import ch.janishuber.logiclab.chess.domain.board.BoardMapperHelper;
 import ch.janishuber.logiclab.chess.domain.board.Field;
 import ch.janishuber.logiclab.chess.domain.enums.FigureColor;
 import ch.janishuber.logiclab.chess.domain.evaluate.GameStateHelper;
+import ch.janishuber.logiclab.chess.domain.util.Move;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -36,7 +37,6 @@ public class ChessResource {
             if (botMove.isEmpty()) {
                 return Response.status(Response.Status.BAD_REQUEST).build();
             }
-
             StringBuilder strB = new StringBuilder();
             String source = botMove.get().getSource(game.chessController.chessBoard).row + botMove.get().getSource(game.chessController.chessBoard).column;
             String target = botMove.get().getTarget(game.chessController.chessBoard).row + botMove.get().getTarget(game.chessController.chessBoard).column;
@@ -151,5 +151,17 @@ public class ChessResource {
         }
         List<FieldDto> possibleMovesDto = BoardMapperHelper.convertToDTO(possibleMoves);
         return Response.ok(possibleMovesDto).build();
+    }
+
+    @GET
+    @Path("/{id}/history")
+    public Response getMoveHistory(@PathParam("id") int gameId) {
+        Optional<Game> game = chessRepository.getGame(gameId);
+        if (game.isEmpty()) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        Game loadedGame = game.get();
+        String moveHistory = loadedGame.getMoveHistory();
+        return Response.ok(moveHistory).build();
     }
 }

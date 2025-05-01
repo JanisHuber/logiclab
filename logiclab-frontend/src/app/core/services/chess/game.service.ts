@@ -38,4 +38,8 @@ export class GameService {
   getPlayerPossibleMoves(gameId: number, position: string): Observable<Field[]> {
     return this.http.get<Field[]>(`${this.apiUrl}${gameId}/player/fields?position=${position}`);
   }
+
+  getMoveHistory(gameId: number): Observable<string> {
+    return this.http.get<string>(this.apiUrl + gameId + '/history');
+  }
 }

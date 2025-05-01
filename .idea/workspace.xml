@@ -5,19 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="33ce8ed2-a8a2-4bbd-9068-4647ea095a88" name="Changes" comment="-- Removed Cloning 10* faster alphaBeta()&#10;-- unusable Piece Tables">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/adapter/persistence/ChessRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/adapter/persistence/ChessRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/adapter/persistence/entity/GameEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/adapter/persistence/entity/GameEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/adapter/rest/ChessResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/adapter/rest/ChessResource.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/adapter/rest/requests.http" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/adapter/rest/requests.http" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/bot/ChessBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/bot/ChessBot.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/controller/ChessController.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/controller/ChessController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/evaluate/evaluateBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/evaluate/evaluateBoard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/evaluate/piecetables/PieceTables.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/evaluate/piecetables/PieceTables.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/util/SerializationUtil.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-database/chess/setup.sql" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-database/chess/setup.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/src/app/core/services/chess/game.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-frontend/src/app/core/services/chess/game.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/components/chessfigure/chessfigure.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/components/chessfigure/chessfigure.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/game-overview/game-overview.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/game-overview/game-overview.component.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,6 +92,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs.jest.jest_package": "",
     "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "C:\\Intellji\\CSS - Projects\\Open Liberty\\logiclab-frontend\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -214,6 +211,7 @@
       <workItem from="1742982728836" duration="9642000" />
       <workItem from="1742995615876" duration="16519000" />
       <workItem from="1746016115125" duration="6379000" />
+      <workItem from="1746077129348" duration="2788000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Maven Project">
       <option name="closed" value="true" />
