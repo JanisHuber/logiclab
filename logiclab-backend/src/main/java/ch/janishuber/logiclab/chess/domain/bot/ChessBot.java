@@ -15,6 +15,7 @@ import java.util.List;
 public class ChessBot {
     private final int depth;
     private final int maxQuiescenceSearchDepth;
+    private String debugString = "";
 
     private final List<SimulatedMove> moveHistory = new ArrayList<>();
     private FigureColor currentTurn;
@@ -36,6 +37,8 @@ public class ChessBot {
             if (eval > maxEval) {
                 maxEval = eval;
                 bestMove = move;
+                debugString = "Best move: " + debugString;
+                System.out.println(debugString);
             }
         }
         return bestMove;
@@ -54,8 +57,17 @@ public class ChessBot {
                 undoMoves(chessBoard, moveHistory.size());
                 return result;
             } else {
+                int result = evaluateBoard.evaluateBoard(chessBoard, this.currentTurn, botColor);
+                debugString = "";
+                debugString += "Evaluating board at depth " + depth + ": " + result + "For Moves: ";
+                for (SimulatedMove simMove : moveHistory) {
+                    Field source = simMove.source();
+                    Field target = simMove.target();
+
+                    debugString += "Move: " + source.row + source.column + " to " + target.row + target.column;
+                }
                 undoMoves(chessBoard, moveHistory.size());
-                return evaluateBoard.evaluateBoard(chessBoard, this.currentTurn, botColor);
+                return result;
             }
         }
 
