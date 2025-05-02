@@ -37,7 +37,8 @@ public class ChessController implements Serializable {
             init(botDifficulty);
         }
         if (publicAgainstAI) {
-            bot = new ChessBot(botDifficulty - 2, (botDifficulty > 5) ? botDifficulty - 4 : 0);
+            //bot = new ChessBot(botDifficulty - 2, (botDifficulty > 5) ? botDifficulty - 4 : 0);
+            bot = new ChessBot(3, 3);
         }
     }
 
@@ -69,8 +70,7 @@ public class ChessController implements Serializable {
 
         Field source = bestMove.getSource(chessBoard);
         Field target = bestMove.getTarget(chessBoard);
-
-
+        System.out.println("Bot move: " + source.getColumn() + source.getRow() + "-" + target.getColumn() + target.getRow());
         Optional<Boolean> hasMoved = move(source, target);
         if (hasMoved.isPresent() && hasMoved.get()) {
             return Optional.of(bestMove);
@@ -82,14 +82,6 @@ public class ChessController implements Serializable {
     {
         List<Field> fields = getCheckedMove(currentField.getFigure());
         if (fields == null) {
-            System.out.println("Null");
-            for (Field field : chessBoard.getFields()) {
-                if (field.getFigure() != null && field.getFigure().figureColor == currentTurn) {
-                    if (!getCheckedMove(field.getFigure()).isEmpty()) {
-                        System.out.println("Wrong Checkmate");
-                    };
-                }
-            }
             System.out.println("Checkmate");
             return Optional.empty();
         }

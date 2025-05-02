@@ -143,8 +143,7 @@ public class ChessResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
         Game loadedGame = game.get();
-        System.out.println(loadedGame.chessController.chessBoard.getField(position.split("")[0], Integer.parseInt(position.split("")[1])).getColumn() + loadedGame.chessController.chessBoard.getField(position.split("")[0], Integer.parseInt(position.split("")[1])).getRow());
-        System.out.println(loadedGame.chessController.chessBoard.getField(position.split("")[0], Integer.parseInt(position.split("")[1])).getFigure().getClassName());
+
         List<Field> possibleMoves = loadedGame.getPossibleMoves(position);
         if (possibleMoves == null || possibleMoves.isEmpty()) {
             List<FieldDto> response = new ArrayList<>();

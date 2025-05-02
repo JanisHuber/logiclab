@@ -93,7 +93,8 @@ export class GameDetailsComponent {
     }
     this.possibleMoves = [];
     this.selectedFigure = null;
-    this.gameService.makePlayerMove(gameId, {source: source, target: target.convertedRow + target.convertedColumn}).subscribe((response) => {
+    console.log("Source: ", source, "Target: ", target.convertedRow + target.convertedColumn);
+    this.gameService.makePlayerMove(gameId, {source: source, target: target.convertedColumn + target.convertedRow}).subscribe((response) => {
       this.updateBoard();
       this.getBotMove();
     });

@@ -15,7 +15,6 @@ import java.util.List;
 public class ChessBot {
     private final int depth;
     private final int maxQuiescenceSearchDepth;
-    private String debugString = "";
 
     private final List<SimulatedMove> moveHistory = new ArrayList<>();
     private FigureColor currentTurn;
@@ -27,18 +26,16 @@ public class ChessBot {
 
     public Move getBestMove(ChessBoard chessBoard, FigureColor currentTurn, FigureColor botColor, String MoveHistoryGame) {
         Move bestMove = null;
-        int maxEval = Integer.MIN_VALUE;
+        int bestEval = (botColor == FigureColor.WHITE) ? Integer.MIN_VALUE : Integer.MAX_VALUE;
         this.currentTurn = currentTurn;
 
-        List<Move> possibleMoves = sortMoves(getPossibleMoves(chessBoard), chessBoard);
+        List<Move> possibleMoves = sortMoves(getAllPossibleCheckedMoves(chessBoard), chessBoard);
 
         for (Move move : possibleMoves) {
             int eval = evaluateMove(chessBoard, botColor, move);
-            if (eval > maxEval) {
-                maxEval = eval;
+            if ((botColor == FigureColor.WHITE && eval > bestEval) || (botColor == FigureColor.BLACK && eval < bestEval)) {
+                bestEval = eval;
                 bestMove = move;
-                debugString = "Best move: " + debugString;
-                System.out.println(debugString);
             }
         }
         return bestMove;
@@ -47,13 +44,15 @@ public class ChessBot {
     private int evaluateMove(ChessBoard chessBoard, FigureColor botColor, Move move) {
         applyMove(chessBoard, move);
 
-        return alphaBeta(chessBoard, botColor,depth - 1, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
+        return alphaBeta(chessBoard, botColor, depth - 1, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
     }
 
-    private int alphaBeta(ChessBoard chessBoard, FigureColor botColor, int depth, int alpha, int beta, boolean isMaximizingPlayer) {
+    private int alphaBeta(ChessBoard chessBoard, FigureColor botColor, int depth, int alpha, int beta,
+            boolean isMaximizingPlayer) {
         if (depth == 0) {
             if (maxQuiescenceSearchDepth > 0) {
-                int result = quiescenceSearch(chessBoard, botColor, alpha, beta, isMaximizingPlayer, maxQuiescenceSearchDepth);
+                int result = quiescenceSearch(chessBoard, botColor, alpha, beta, isMaximizingPlayer,
+                        maxQuiescenceSearchDepth);
                 undoMoves(chessBoard, moveHistory.size());
                 return result;
             } else {
@@ -63,7 +62,7 @@ public class ChessBot {
             }
         }
 
-        List<Move> possibleMoves = sortMoves(getPossibleMoves(chessBoard), chessBoard);
+        List<Move> possibleMoves = sortMoves(getAllPossibleCheckedMoves(chessBoard), chessBoard);
         if (possibleMoves.isEmpty()) {
             return evaluateBoard.evaluateBoard(chessBoard, this.currentTurn, botColor);
         }
@@ -75,7 +74,8 @@ public class ChessBot {
         }
     }
 
-    private int getMinimizingEval(ChessBoard chessBoard, FigureColor botColor, int depth, int alpha, int beta, List<Move> possibleMoves) {
+    private int getMinimizingEval(ChessBoard chessBoard, FigureColor botColor, int depth, int alpha, int beta,
+            List<Move> possibleMoves) {
         int minEval = Integer.MAX_VALUE;
 
         for (Move move : possibleMoves) {
@@ -92,7 +92,8 @@ public class ChessBot {
         return minEval;
     }
 
-    private int getMaximizingEval(ChessBoard chessBoard, FigureColor botColor, int depth, int alpha, int beta, List<Move> possibleMoves) {
+    private int getMaximizingEval(ChessBoard chessBoard, FigureColor botColor, int depth, int alpha, int beta,
+            List<Move> possibleMoves) {
         int maxEval = Integer.MIN_VALUE;
 
         for (Move move : possibleMoves) {
@@ -109,11 +110,15 @@ public class ChessBot {
         return maxEval;
     }
 
-    private List<Move> getPossibleMoves(ChessBoard chessBoard) {
+    private List<Move> getAllPossibleCheckedMoves(ChessBoard chessBoard) {
         List<Move> moves = new ArrayList<>();
+        CheckMoveHandler checkMoveHandler = new CheckMoveHandler(chessBoard, this.currentTurn);
         for (Field field : chessBoard.getFields()) {
             if (field.getFigure() != null && field.getFigure().figureColor == this.currentTurn) {
-                for (Field target : field.getFigure().getPossibleMoves(chessBoard)) {
+                if (checkMoveHandler.getCheckedMove(field.getFigure()) == null) {
+                    continue;
+                }
+                for (Field target : checkMoveHandler.getCheckedMove(field.getFigure())) {
                     moves.add(new Move(field, target));
                 }
             }
@@ -139,28 +144,38 @@ public class ChessBot {
 
     /**
      * Quiescence search to avoid the horizon effect
-     * <p>Expands depth until a move is quite</p>
+     * <p>
+     * Expands depth until a move is quite
+     * </p>
+     * 
      * @param controller
      * @param alpha
      * @param beta
      * @param isMaximizingPlayer
      * @return score of the best evaluation
      */
-    private int quiescenceSearch(ChessBoard chessBoard, FigureColor botColor, int alpha, int beta, boolean isMaximizingPlayer, int depth) {
+    private int quiescenceSearch(ChessBoard chessBoard, FigureColor botColor, int alpha, int beta,
+            boolean isMaximizingPlayer, int depth) {
         if (depth == 0) {
+            System.out.println("Quiescence search depth reached");
             return evaluateBoard.evaluateBoard(chessBoard, this.currentTurn, botColor);
         }
         int standPat = evaluateBoard.evaluateBoard(chessBoard, this.currentTurn, botColor);
 
         if (isMaximizingPlayer) {
-            if (standPat >= beta) return beta;
+            if (standPat >= beta)
+                return beta;
             alpha = Math.max(alpha, standPat);
         } else {
-            if (standPat <= alpha) return alpha;
+            if (standPat <= alpha)
+                return alpha;
             beta = Math.min(beta, standPat);
         }
 
         List<Move> noisyMoves = getNoisyMoves(chessBoard);
+        if (noisyMoves.isEmpty()) {
+            return standPat;
+        }
 
         for (Move move : noisyMoves) {
             applyMove(chessBoard, move);
@@ -168,24 +183,29 @@ public class ChessBot {
             int score = quiescenceSearch(chessBoard, botColor, alpha, beta, !isMaximizingPlayer, depth - 1);
 
             if (isMaximizingPlayer) {
-                if (score >= beta) return beta;
+                if (score >= beta)
+                    return beta;
                 alpha = Math.max(alpha, score);
             } else {
-                if (score <= alpha) return alpha;
+                if (score <= alpha)
+                    return alpha;
                 beta = Math.min(beta, score);
             }
         }
         return isMaximizingPlayer ? alpha : beta;
     }
 
-
     private List<Move> getNoisyMoves(ChessBoard chessBoard) {
-        List<Move> allMoves = getPossibleMoves(chessBoard);
+        List<Move> allMoves = getAllPossibleCheckedMoves(chessBoard);
         List<Move> noisyMoves = new ArrayList<>();
+        if (allMoves.isEmpty()) {
+            return noisyMoves;
+        }
 
         for (Move move : allMoves) {
             Field target = move.getTarget(chessBoard);
-            if (target.getFigure() != null && target.getFigure().figureColor != this.currentTurn && target.getFigure().value > 1) {
+            if (target.getFigure() != null && target.getFigure().figureColor != this.currentTurn
+                    && target.getFigure().value > 1) {
                 noisyMoves.add(move);
             } else if (moveResultsInCheck(chessBoard, move)) {
                 noisyMoves.add(move);

@@ -20,7 +20,7 @@ public class Rook extends ChessFigure implements Serializable {
         possibleMoves.clear();
 
         int[][] directions = {
-                {0, 1}, {0, -1}, {1, 0}, {-1, 0}
+                { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 }
         };
 
         int startRow = this.position.getRow();
@@ -35,9 +35,10 @@ public class Rook extends ChessFigure implements Serializable {
                 row += direction[0];
                 col += direction[1];
 
-                if (row < 1 || row > 8 || col < 1 || col > 8) break;
+                if (row < 1 || row > 8 || col < 0 || col > 7)
+                    break;
 
-                String colStr = String.valueOf((char) ('A' + col - 1));
+                String colStr = String.valueOf((char) ('A' + col));
                 Field field = chessBoard.getField(colStr, row);
                 ChessFigure figure = field.getFigure();
 

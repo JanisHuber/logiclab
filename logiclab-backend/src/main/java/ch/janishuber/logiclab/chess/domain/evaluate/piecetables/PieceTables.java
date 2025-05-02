@@ -6,8 +6,8 @@ import ch.janishuber.logiclab.chess.domain.enums.FigureColor;
 public class PieceTables {
     public static int[][] pawnTable = {
             { 0, 0, 0, 0, 0, 0, 0, 0 },
-            { 50, 50, 50, 50, 50, 50, 50, 50 },
-            { 10, 10, 20, 30, 30, 20, 10, 10 },
+            { 0, 0, 0, 0, 0, 0, 0, 0 },
+            { 0, 0, 0, 0, 0, 0, 0, 0 },
             { 5, 5, 10, 25, 25, 10, 5, 5 },
             { 0, 0, 0, 20, 20, 0, 0, 0 },
             { 5, -5, -10, 0, 0, -10, -5, 5 },
@@ -54,25 +54,23 @@ public class PieceTables {
         return pawnTable[row][col];
     }
 
-    /*
-     * public static int getKnightTableValue(String row, int col, FigureColor
-     * figureColor) {
-     * rowInt = (figureColor == FigureColor.WHITE) ? rowInt : 7 - rowInt;
-     * return knightTable[rowInt][col - 1];
-     * }
-     * 
-     * public static int getBishopTableValue(String row, int col, FigureColor
-     * figureColor) {
-     * rowInt = (figureColor == FigureColor.WHITE) ? rowInt : 7 - rowInt;
-     * return bishopTable[rowInt][col - 1];
-     * }
-     * 
-     * public static int getRookTableValue(String row, int col, FigureColor
-     * figureColor) {
-     * rowInt = (figureColor == FigureColor.WHITE) ? rowInt : 7 - rowInt;
-     * return rookTable[rowInt][col - 1];
-     * }
-     */
+    public static int getKnightTableValue(Field field) {
+        int row = getTableRow(field);
+        int col = getTableCol(field);
+        return knightTable[row][col];
+    }
+
+    public static int getBishopTableValue(Field field) {
+        int row = getTableRow(field);
+        int col = getTableCol(field);
+        return bishopTable[row][col];
+    }
+
+    public static int getRookTableValue(Field field) {
+        int row = getTableRow(field);
+        int col = getTableCol(field);
+        return rookTable[row][col];
+    }
 
     private static int getTableRow(Field field) {
         int rowIndex = field.getRow() - 1;

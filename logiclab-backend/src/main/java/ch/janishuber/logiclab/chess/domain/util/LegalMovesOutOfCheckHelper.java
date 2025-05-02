@@ -17,42 +17,32 @@ public class LegalMovesOutOfCheckHelper {
      * @param figure The chess figure making the move.
      * @return The filtered list of moves that do not leave the king in checkmate.
      */
-    public static List<Field> filterMovesPreventingCheckmate(ChessBoard chessBoard, CheckmateHandler checkmateHandler, List<Field> sourceList, ChessFigure figure) {
-        if (sourceList == null || sourceList.isEmpty()) {
-            return sourceList;
-        }
-        List<Field> invalidMoves = new ArrayList<>();
+    public static List<Field> filterMovesPreventingCheck(ChessBoard board, CheckmateHandler checkmateHandler, List<Field> moveList, ChessFigure figure) {
+        if (moveList == null || moveList.isEmpty()) return moveList;
 
-        for (Field targetField : sourceList) {
-            ChessFigure originalTargetFigure = targetField.getFigure();
-            boolean isInCheck;
+        List<Field> validMoves = new ArrayList<>();
+        Field sourceField = board.getField(figure.position.getColumn(), figure.position.getRow());
+        Field originalPosition = figure.position;
 
-            Field figureSourceField = chessBoard.getField(figure.position.getColumn(), figure.position.getRow());
+        for (Field target : moveList) {
+            ChessFigure capturedFigure = target.getFigure();
 
-            if (figureSourceField.getFigure() != null) {
-                figureSourceField.getFigure().position = null;
-            }
-            figureSourceField.getFigure().position = null;
+            sourceField.setFigure(null);
+            target.setFigure(figure);
+            figure.position = target;
 
+            boolean kingInCheck = (checkmateHandler.isMate(null) > 0);
 
-            targetField.setFigure(figure);
-            figure.position = targetField;
+            target.setFigure(capturedFigure);
+            sourceField.setFigure(figure);
+            figure.position = originalPosition;
+            if (capturedFigure != null) capturedFigure.position = target;
 
-            isInCheck = checkmateHandler.isMate(null) > 0;
-
-            targetField.setFigure(originalTargetFigure);
-            if (originalTargetFigure != null) {
-                originalTargetFigure.position = targetField;
-            }
-
-            figureSourceField.setFigure(figure);
-            figure.position = figureSourceField;
-
-            if (isInCheck) {
-                invalidMoves.add(targetField);
+            if (!kingInCheck) {
+                validMoves.add(target);
             }
         }
-        sourceList.removeAll(invalidMoves);
-        return sourceList;
+        return validMoves;
     }
+
 }

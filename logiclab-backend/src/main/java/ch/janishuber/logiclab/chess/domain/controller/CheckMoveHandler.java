@@ -31,7 +31,6 @@ public class CheckMoveHandler implements Serializable {
             return null;
         }
         List<Field> figureFields = figure.getPossibleMoves(chessBoard);
-        System.out.println(figureFields);
 
         if (checkmateHandler.isMate(null) > 0) {
             List<Field> escapes = checkmateHandler.canEscape();
@@ -41,7 +40,7 @@ public class CheckMoveHandler implements Serializable {
             figureFields = LegalMovesInCheckHelper.resolveLegalMoves(figureFields, captures, blocks, escapes, figure, checkmateHandler.getPossibleCaptureSources(), checkmateHandler.getPossibleBlockSources());
         }
 
-        figureFields = LegalMovesOutOfCheckHelper.filterMovesPreventingCheckmate(chessBoard, checkmateHandler, figureFields, figure);
+        figureFields = LegalMovesOutOfCheckHelper.filterMovesPreventingCheck(chessBoard, checkmateHandler, figureFields, figure);
 
         return figureFields;
     }
