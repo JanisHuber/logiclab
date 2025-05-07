@@ -18,7 +18,7 @@ public class LegalMovesInCheckHelper {
      * Only moves that contribute to resolving the check are retained.
      * </p>
      *
-     * @param figureFields The list of possible fields the figure can move to.
+     * @param figureFields The list of possible fields the figure can moveOnChessboard to.
      * @param captures The list of fields where an attacking piece can be captured.
      * @param blocks The list of fields that could block the check.
      * @param escapes The list of safe fields the king can escape to.
@@ -44,7 +44,7 @@ public class LegalMovesInCheckHelper {
      * Only moves that contribute to resolving the check are retained.
      * </p>
      *
-     * @param figureFields The list of possible fields the figure can move to.
+     * @param figureFields The list of possible fields the figure can moveOnChessboard to.
      * @param captures The list of fields where an attacking piece can be captured.
      * @param blocks The list of fields that could block the check.
      * @param figure The figure for which to filter legal moves.
@@ -93,7 +93,7 @@ public class LegalMovesInCheckHelper {
      * Only moves that contribute to resolving the check are retained.
      * </p>
      *
-     * @param figureFields The list of possible fields the king can move to.
+     * @param figureFields The list of possible fields the king can moveOnChessboard to.
      * @param escapes The list of safe fields the king can escape to.
      * @param captures The list of fields where an attacking piece can be captured.
      *

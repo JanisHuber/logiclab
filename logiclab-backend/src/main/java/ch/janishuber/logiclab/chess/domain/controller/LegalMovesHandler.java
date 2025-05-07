@@ -11,24 +11,24 @@ import ch.janishuber.logiclab.chess.domain.util.LegalMovesOutOfCheckHelper;
 import java.io.Serializable;
 import java.util.List;
 
-public class CheckMoveHandler implements Serializable {
+public class LegalMovesHandler implements Serializable {
     private static final long serialVersionUID = 1L;
     private final ChessBoard chessBoard;
     private final FigureColor currentTurn;
 
     public final CheckmateHandler checkmateHandler;
 
-    public CheckMoveHandler(ChessBoard chessBoard, FigureColor currentTurn) {
+    public LegalMovesHandler(ChessBoard chessBoard, FigureColor currentTurn) {
         this.chessBoard = chessBoard;
         this.currentTurn = currentTurn;
 
         this.checkmateHandler = new CheckmateHandler(chessBoard, currentTurn);
     }
 
-    public List<Field> getCheckedMove(ChessFigure figure)
+    public List<Field> getLegalMoves(ChessFigure figure)
     {
         if (figure.figureColor != currentTurn) {
-            return null;
+            return List.of();
         }
         List<Field> figureFields = figure.getPossibleMoves(chessBoard);
 

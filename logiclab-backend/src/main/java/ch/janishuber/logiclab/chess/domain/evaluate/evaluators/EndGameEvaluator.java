@@ -2,7 +2,7 @@ package ch.janishuber.logiclab.chess.domain.evaluate.evaluators;
 
 import ch.janishuber.logiclab.chess.domain.board.ChessBoard;
 import ch.janishuber.logiclab.chess.domain.board.Field;
-import ch.janishuber.logiclab.chess.domain.controller.CheckMoveHandler;
+import ch.janishuber.logiclab.chess.domain.controller.LegalMovesHandler;
 import ch.janishuber.logiclab.chess.domain.enums.FigureColor;
 
 public class EndGameEvaluator {
@@ -81,11 +81,11 @@ public class EndGameEvaluator {
 
         for (Field field : chessBoard.getFields()) {
             if (field.getFigure() != null) {
-                CheckMoveHandler checkMoveHandler = new CheckMoveHandler(chessBoard, currentTurn);
-                if (checkMoveHandler.getCheckedMove(field.getFigure()) == null) {
+                LegalMovesHandler legalMovesHandler = new LegalMovesHandler(chessBoard, currentTurn);
+                if (legalMovesHandler.getLegalMoves(field.getFigure()) == null) {
                     break;
                 }
-                if (!checkMoveHandler.getCheckedMove(field.getFigure()).isEmpty()) {
+                if (!legalMovesHandler.getLegalMoves(field.getFigure()).isEmpty()) {
                     if (field.getFigure().figureColor == botColor) {
                         botCounter++;
                     } else {

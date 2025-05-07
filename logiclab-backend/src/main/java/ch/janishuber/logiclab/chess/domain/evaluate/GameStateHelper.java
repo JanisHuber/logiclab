@@ -2,7 +2,7 @@ package ch.janishuber.logiclab.chess.domain.evaluate;
 
 import ch.janishuber.logiclab.chess.domain.board.ChessBoard;
 import ch.janishuber.logiclab.chess.domain.board.Field;
-import ch.janishuber.logiclab.chess.domain.controller.CheckMoveHandler;
+import ch.janishuber.logiclab.chess.domain.controller.LegalMovesHandler;
 import ch.janishuber.logiclab.chess.domain.enums.FigureColor;
 
 import java.util.List;
@@ -11,10 +11,10 @@ import java.util.Optional;
 public class GameStateHelper {
 
     private static boolean hasNoLegalMoves(ChessBoard chessBoard, FigureColor currentTurn) {
-        CheckMoveHandler checkMoveHandler = new CheckMoveHandler(chessBoard, currentTurn);
+        LegalMovesHandler legalMovesHandler = new LegalMovesHandler(chessBoard, currentTurn);
         for (Field field : chessBoard.getFields()) {
             if (field.getFigure() != null && field.getFigure().figureColor == currentTurn) {
-                List<Field> checkedMove = checkMoveHandler.getCheckedMove(field.getFigure());
+                List<Field> checkedMove = legalMovesHandler.getLegalMoves(field.getFigure());
                 if (checkedMove != null && !checkedMove.isEmpty()) {
                     return false;
                 }
@@ -28,14 +28,14 @@ public class GameStateHelper {
      * @return Optional<Boolean> - true if stalemate, false if checkmate, empty if game is still ongoing.
      */
     public static Optional<Boolean> getStalemateStatus(ChessBoard chessBoard, FigureColor currentTurn) {
-        CheckMoveHandler checkMoveHandler = new CheckMoveHandler(chessBoard, currentTurn);
+        LegalMovesHandler legalMovesHandler = new LegalMovesHandler(chessBoard, currentTurn);
         boolean hasNoLegalMoves = hasNoLegalMoves(chessBoard, currentTurn);
 
         if (!hasNoLegalMoves) {
             return Optional.empty();
         }
 
-        if (checkMoveHandler.checkmateHandler.isMate(null) > 0) {
+        if (legalMovesHandler.checkmateHandler.isMate(null) > 0) {
             return Optional.of(false);
         }
 

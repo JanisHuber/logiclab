@@ -14,7 +14,7 @@ public class LegalMovesOutOfCheckHelper {
      * Filters out moves that would leave the king in checkmate.
      *
      * @param sourceList The list of possible moves to filter.
-     * @param figure The chess figure making the move.
+     * @param figure The chess figure making the moveOnChessboard.
      * @return The filtered list of moves that do not leave the king in checkmate.
      */
     public static List<Field> filterMovesPreventingCheck(ChessBoard board, CheckmateHandler checkmateHandler, List<Field> moveList, ChessFigure figure) {

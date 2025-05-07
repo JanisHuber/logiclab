@@ -37,17 +37,6 @@ public class PieceTables {
             { -20, -10, -10, -10, -10, -10, -10, -20 }
     };
 
-    public static int[][] rookTable = {
-            { 0, 0, 5, 10, 10, 5, 0, 0 },
-            { -5, 0, 0, 0, 0, 0, 0, -5 },
-            { -5, 0, 0, 0, 0, 0, 0, -5 },
-            { -5, 0, 0, 0, 0, 0, 0, -5 },
-            { -5, 0, 0, 0, 0, 0, 0, -5 },
-            { -5, 0, 0, 0, 0, 0, 0, -5 },
-            { -5, 10, 10, 10, 10, 10, 10, -5 },
-            { 0, 0, 5, 10, 10, 5, 0, 0 }
-    };
-
     public static int getPawnTableValue(Field field) {
         int row = getTableRow(field);
         int col = getTableCol(field);
@@ -64,12 +53,6 @@ public class PieceTables {
         int row = getTableRow(field);
         int col = getTableCol(field);
         return bishopTable[row][col];
-    }
-
-    public static int getRookTableValue(Field field) {
-        int row = getTableRow(field);
-        int col = getTableCol(field);
-        return rookTable[row][col];
     }
 
     private static int getTableRow(Field field) {

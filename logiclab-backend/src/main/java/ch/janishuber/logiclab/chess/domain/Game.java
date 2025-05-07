@@ -6,6 +6,7 @@ import ch.janishuber.logiclab.chess.domain.board.ChessBoard;
 import ch.janishuber.logiclab.chess.domain.board.Field;
 import ch.janishuber.logiclab.chess.domain.controller.ChessController;
 import ch.janishuber.logiclab.chess.domain.enums.FigureColor;
+import ch.janishuber.logiclab.chess.domain.evaluate.GameStateHelper;
 import ch.janishuber.logiclab.chess.domain.util.Move;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -37,23 +38,34 @@ public class Game {
         this.moveHistory = moveHistory;
     }
 
-    public static Game ofExisting(int gameId, String gameState, String boardState, String currentTurn,
-            boolean againstAI, FigureColor botColor, int botDifficulty, String moveHistory) {
+    public static Game ofExisting(int gameId, String gameState, String boardState, String currentTurn, boolean againstAI, FigureColor botColor, int botDifficulty, String moveHistory) {
         FigureColor figureColor = FigureColor.valueOf(currentTurn);
         ChessBoard chessBoard = ChessBoard.ofExisting(boardState);
-        ChessController chessController = ChessController.ofExisting(chessBoard, figureColor, againstAI, botColor,
-                botDifficulty, moveHistory);
+        ChessController chessController = ChessController.ofExisting(chessBoard, figureColor, againstAI, botColor, moveHistory);
         return new Game(gameId, gameState, chessController, againstAI, botColor, botDifficulty, moveHistory);
     }
 
     public static Game startNewGame(boolean againstAI, FigureColor botColor, int botDifficulty) {
-        ChessController chessController = new ChessController(againstAI, false, botColor, botDifficulty, "");
+        ChessController chessController = ChessController.startNewGame(againstAI, botColor, "");
         return new Game(GAME_ID_NOT_SET, "NEW", chessController, againstAI, botColor, botDifficulty, "");
     }
 
-    public Optional<Boolean> makeMove(MoveDto moveDto) {
+    public boolean makeMove(MoveDto moveDto) {
         Move move = convertToMove(moveDto);
-        return chessController.move(move.getSource(chessController.chessBoard), move.getTarget(chessController.chessBoard));
+        return makeMove(move);
+    }
+
+    public boolean makeMove(Move move) {
+        GameStateHelper.getStalemateStatus(chessController.chessBoard, chessController.currentTurn)
+                .ifPresent(stalemate -> {
+                    if (stalemate) {
+                        setGameState("STALEMATE");
+                    } else {
+                        setGameState("CHECKMATE");
+                    }
+                });
+        setCurrentTurn((getCurrentTurn().equals(FigureColor.WHITE.toString())) ? FigureColor.BLACK : FigureColor.WHITE);
+        return chessController.moveOnChessboard(move);
     }
 
     public List<Field> getPossibleMoves(String position) {
@@ -61,11 +73,16 @@ public class Game {
         int figureSourceColumn = Integer.parseInt(position.substring(1));
         Field field = chessController.chessBoard.getField(figureSourceRow, figureSourceColumn);
 
-        return chessController.getCheckedMove(field.getFigure());
+        return chessController.getLegalMoves(field.getFigure());
     }
 
     public Optional<Move> makeBotMove() {
-        return chessController.makeBotMove();
+        Optional<Move> botMove = chessController.getBotMove();
+        if (botMove.isEmpty()) {
+            return Optional.empty();
+        }
+        makeMove(botMove.get());
+        return botMove;
     }
 
     public int getGameId() {
@@ -76,12 +93,21 @@ public class Game {
         return this.moveHistory;
     }
 
-    public void addMoveToMoveHistory(String move) {
+    public void addMoveToMoveHistory(Move move) {
+        StringBuilder strB = new StringBuilder();
+        String source = move.getSource(chessController.chessBoard).getColumn() + move.getSource(chessController.chessBoard).getRow();
+        String target = move.getTarget(chessController.chessBoard).getColumn() + move.getTarget(chessController.chessBoard).getRow();
+        strB.append(source).append("-").append(target);
+
         if (this.moveHistory.isEmpty()) {
-            this.moveHistory = move;
+            this.moveHistory = strB.toString();
         } else {
-            this.moveHistory += "," + move;
+            this.moveHistory += "," + strB;
         }
+    }
+
+    public void addMoveToMoveHistory(MoveDto moveDto) {
+        addMoveToMoveHistory(convertToMove(moveDto));
     }
 
     public String getGameState() {
@@ -121,6 +147,10 @@ public class Game {
 
     public String getCurrentTurn() {
         return this.currentTurn;
+    }
+
+    public boolean isBotTurn() {
+        return this.againstAI && this.currentTurn.equals(this.botColor.toString());
     }
 
     private Move convertToMove(MoveDto moveDto) {

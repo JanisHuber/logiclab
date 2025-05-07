@@ -19,46 +19,47 @@ public class ChessController implements Serializable {
     public ChessBoard chessBoard;
     public FigureColor currentTurn = FigureColor.WHITE;
 
-    private boolean publicAgainstAI;
-    private int botDifficulty;
-    private FigureColor botColor;
-    private String moveHistoryGame;
+    private final boolean publicAgainstAI;
+    private final FigureColor botColor;
+    private final String moveHistoryGame;
     private transient ChessBot bot;
 
-    public CheckMoveHandler checkMoveHandler;
+    public LegalMovesHandler legalMovesHandler;
 
-    public ChessController(boolean againstAI, boolean noInit, FigureColor botColor, int botDifficulty, String moveHistoryGame)
-    {
+    private ChessController(boolean againstAI, boolean noInit, FigureColor botColor, String moveHistoryGame) {
         this.publicAgainstAI = againstAI;
-        this.botDifficulty = botDifficulty;
         this.botColor = botColor;
         this.moveHistoryGame = moveHistoryGame;
         if (!noInit) {
-            init(botDifficulty);
+            init();
         }
         if (publicAgainstAI) {
             //bot = new ChessBot(botDifficulty - 2, (botDifficulty > 5) ? botDifficulty - 4 : 0);
-            bot = new ChessBot(3, 3);
+            bot = new ChessBot(3, 10);
         }
     }
 
-    public static ChessController ofExisting(ChessBoard chessBoard, FigureColor currentTurn, boolean againstAI, FigureColor botColor, int botDifficulty, String moveHistoryGame) {
-        ChessController chessController = new ChessController(againstAI, true, botColor, botDifficulty, moveHistoryGame);
+    public static ChessController ofExisting(ChessBoard chessBoard, FigureColor currentTurn, boolean againstAI, FigureColor botColor, String moveHistoryGame) {
+        ChessController chessController = new ChessController(againstAI, true, botColor, moveHistoryGame);
         chessController.chessBoard = chessBoard;
         chessController.currentTurn = currentTurn;
         return chessController;
     }
 
-    private void init(int botDifficulty) {
+    public static ChessController startNewGame(boolean againstAI, FigureColor botColor, String moveHistoryGame) {
+        return new ChessController(againstAI, false, botColor, moveHistoryGame);
+    }
+
+    private void init() {
         chessBoard = BoardInitializerUtil.Initialize(new ChessBoard());
     }
 
     /**
-     * Makes the bot move if the game is against AI and it's the bot's turn.
+     * Makes the bot moveOnChessboard if the game is against AI and it's the bot's turn.
      * 
-     * @return Optional<Move> botMove empty if Bot couldn't make a move.
+     * @return Optional<Move> botMove empty if Bot couldn't make a moveOnChessboard.
      */
-    public Optional<Move> makeBotMove() {
+    public Optional<Move> getBotMove() {
         if (!publicAgainstAI || currentTurn != this.botColor) {
             return Optional.empty();
         }
@@ -67,45 +68,30 @@ public class ChessController implements Serializable {
         if (bestMove == null) {
             return Optional.empty();
         }
-
-        Field source = bestMove.getSource(chessBoard);
-        Field target = bestMove.getTarget(chessBoard);
-        System.out.println("Bot move: " + source.getColumn() + source.getRow() + "-" + target.getColumn() + target.getRow());
-        Optional<Boolean> hasMoved = move(source, target);
-        if (hasMoved.isPresent() && hasMoved.get()) {
-            return Optional.of(bestMove);
-        }
-        return Optional.empty();
+        return Optional.of(bestMove);
     }
 
-    public Optional<Boolean> move(Field currentField, Field target)
-    {
-        List<Field> fields = getCheckedMove(currentField.getFigure());
-        if (fields == null) {
-            System.out.println("Checkmate");
-            return Optional.empty();
-        }
-        if (!fields.contains(target)) {
-            return Optional.of(false);
-        } else {
+    public boolean moveOnChessboard(Move move) {
+        Field currentField = move.getSource(chessBoard);
+        Field target = move.getTarget(chessBoard);
+
+        List<Field> fields = getLegalMoves(currentField.getFigure());
+
+        if (fields.contains(target)) {
             applyMove(currentField, target);
-            return Optional.of(true);
+            return true;
         }
+        return false;
     }
 
-    public CheckMoveHandler getCheckMoveHandler() {
-        return new CheckMoveHandler(chessBoard, currentTurn);
-    }
+    public List<Field> getLegalMoves(ChessFigure figure) {
+        legalMovesHandler = new LegalMovesHandler(chessBoard, currentTurn);
 
-    public List<Field> getCheckedMove(ChessFigure figure) {
-        checkMoveHandler = new CheckMoveHandler(chessBoard, currentTurn);
-
-        return checkMoveHandler.getCheckedMove(figure);
+        return legalMovesHandler.getLegalMoves(figure);
     }
 
     private void applyMove(Field currentField, Field target) {
-        if (target.getFigure() != null)
-        {
+        if (target.getFigure() != null) {
             target.getFigure().position = null;
         }
         currentField.getFigure().position = target;

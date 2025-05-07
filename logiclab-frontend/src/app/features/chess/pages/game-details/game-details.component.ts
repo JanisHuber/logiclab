@@ -35,8 +35,10 @@ export class GameDetailsComponent {
     if (!this.gameId) return;
     //todo Client side validation
     if (figure.figureColor !== this.currentTurn && this.selectedFigure) {
-      this.possibleMoves = [];
-      this.selectedFigure = null;
+      this.gameService.makePlayerMove(this.gameId, {source: this.selectedFigure.position, target: figure.position}).subscribe((response) => {
+        this.updateBoard();
+        this.getBotMove();
+      });
       return;
     }
     if (this.selectedFigure === figure) {
@@ -47,7 +49,6 @@ export class GameDetailsComponent {
     if (figure.figureColor !== this.currentTurn) {
       return;
     }
-    console.log(figure.position);
     this.selectedFigure = figure;
     this.possibleMoves = [];
     this.gameService.getPlayerPossibleMoves(this.gameId, figure.position).subscribe((moves) => {

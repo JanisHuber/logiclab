@@ -8,14 +8,11 @@ import ch.janishuber.logiclab.chess.domain.Game;
 import ch.janishuber.logiclab.chess.domain.board.BoardMapperHelper;
 import ch.janishuber.logiclab.chess.domain.board.Field;
 import ch.janishuber.logiclab.chess.domain.enums.FigureColor;
-import ch.janishuber.logiclab.chess.domain.evaluate.GameStateHelper;
 import ch.janishuber.logiclab.chess.domain.util.Move;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,17 +29,13 @@ public class ChessResource {
     @Path("/new")
     public Response newGame(@QueryParam("againstAI") boolean againstAi, @QueryParam("botColor") FigureColor botColor,  @QueryParam("botDifficulty") int botDifficulty) {
         Game game = Game.startNewGame(againstAi, botColor, botDifficulty);
-        if (game.chessController.currentTurn == botColor) {
+        if (game.isBotTurn()) {
             Optional<Move> botMove = game.makeBotMove();
             if (botMove.isEmpty()) {
                 return Response.status(Response.Status.BAD_REQUEST).build();
             }
-            StringBuilder strB = new StringBuilder();
-            String source = botMove.get().getSource(game.chessController.chessBoard).getColumn() + botMove.get().getSource(game.chessController.chessBoard).getRow();
-            String target = botMove.get().getTarget(game.chessController.chessBoard).getColumn() + botMove.get().getTarget(game.chessController.chessBoard).getRow();
-            strB.append(source).append("-").append(target);
-            game.addMoveToMoveHistory(strB.toString());
-            game.setCurrentTurn((game.getCurrentTurn().equals(FigureColor.WHITE.toString())) ? FigureColor.BLACK : FigureColor.WHITE);
+
+            game.addMoveToMoveHistory(botMove.get());
         }
         int gameId = chessRepository.save(game);
         GameDto gameDto = new GameDto(gameId, game.getGameState(), game.getBoardState(), game.getCurrentTurn(), game.isAgainstAI(), game.getBotColor().toString());
@@ -61,28 +54,6 @@ public class ChessResource {
         return Response.ok(gameDto).build();
     }
 
-    @GET
-    @Path("/{id}/gameState")
-    public Response getGameState(@PathParam("id") int gameId) {
-        Optional<Game> game = chessRepository.getGame(gameId);
-        if (game.isEmpty()) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-        Game loadedGame = game.get();
-
-        GameStateHelper.getStalemateStatus(loadedGame.chessController.chessBoard, loadedGame.chessController.currentTurn)
-                .ifPresent(stalemate -> {
-                    if (stalemate) {
-                        loadedGame.setGameState("STALEMATE");
-                    } else {
-                        loadedGame.setGameState("CHECKMATE");
-                    }
-                });
-        chessRepository.updateGame(loadedGame);
-        GameDto gameDto = new GameDto(gameId, loadedGame.getGameState(), loadedGame.getBoardState(), loadedGame.getCurrentTurn(), loadedGame.isAgainstAI(), loadedGame.getBotColor().toString());
-        return Response.ok(gameDto).build();
-    }
-
     @POST
     @Path("{id}/player/move")
     public Response move(@PathParam("id") int gameId, MoveDto move) {
@@ -92,21 +63,13 @@ public class ChessResource {
         }
         Game loadedGame = game.get();
 
-        Optional<Boolean> hasMoved = loadedGame.makeMove(move);
-        if (hasMoved.isEmpty()) {
-            return Response.status(Response.Status.GONE).build(); // Player lost
-        }
-        if (!hasMoved.get()) {
-            return Response.status(Response.Status.BAD_REQUEST).build(); // Player couldn't move
+        boolean hasMoved = loadedGame.makeMove(move);
+        if (!hasMoved) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        StringBuilder strB = new StringBuilder();
-        strB.append(move.source()).append("-").append(move.target());
-        loadedGame.addMoveToMoveHistory(strB.toString());
-
-        loadedGame.setCurrentTurn((loadedGame.getCurrentTurn().equals(FigureColor.WHITE.toString())) ? FigureColor.BLACK : FigureColor.WHITE);
+        loadedGame.addMoveToMoveHistory(move);
         chessRepository.updateGame(loadedGame);
-
         return Response.ok(loadedGame).build();
     }
 
@@ -123,14 +86,7 @@ public class ChessResource {
         if (botMove.isEmpty()) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-
-        StringBuilder strB = new StringBuilder();
-        String source = botMove.get().getSource(loadedGame.chessController.chessBoard).getColumn() + botMove.get().getSource(loadedGame.chessController.chessBoard).getRow();
-        String target = botMove.get().getTarget(loadedGame.chessController.chessBoard).getColumn() + botMove.get().getTarget(loadedGame.chessController.chessBoard).getRow();
-        strB.append(source).append("-").append(target);
-        loadedGame.addMoveToMoveHistory(strB.toString());
-
-        loadedGame.setCurrentTurn((loadedGame.getCurrentTurn().equals(FigureColor.WHITE.toString())) ? FigureColor.BLACK : FigureColor.WHITE);
+        loadedGame.addMoveToMoveHistory(botMove.get());
         chessRepository.updateGame(loadedGame);
         return Response.ok(loadedGame).build();
     }
@@ -145,10 +101,7 @@ public class ChessResource {
         Game loadedGame = game.get();
 
         List<Field> possibleMoves = loadedGame.getPossibleMoves(position);
-        if (possibleMoves == null || possibleMoves.isEmpty()) {
-            List<FieldDto> response = new ArrayList<>();
-            return Response.ok(response).build();
-        }
+
         List<FieldDto> possibleMovesDto = BoardMapperHelper.convertToDTO(possibleMoves);
         return Response.ok(possibleMovesDto).build();
     }
