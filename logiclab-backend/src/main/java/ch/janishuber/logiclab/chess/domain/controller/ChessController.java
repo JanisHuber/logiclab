@@ -35,7 +35,7 @@ public class ChessController implements Serializable {
         }
         if (publicAgainstAI) {
             //bot = new ChessBot(botDifficulty - 2, (botDifficulty > 5) ? botDifficulty - 4 : 0);
-            bot = new ChessBot(3, 10);
+            bot = new ChessBot(4, 0);
         }
     }
 

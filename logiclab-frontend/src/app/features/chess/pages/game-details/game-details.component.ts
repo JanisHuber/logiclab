@@ -67,14 +67,12 @@ export class GameDetailsComponent {
     this.gameService.getGameDetails(this.gameId).subscribe((game) => {
       this.chessBoard = jsonToChessBoard(game.boardState);
       this.currentTurn = game.currentTurn;
-    });
-    this.gameService.getGameState(this.gameId).subscribe((gameState) => {
-      if (gameState.gameState === 'STALEMATE' || gameState.gameState === 'CHECKMATE') {
+      if (game.gameState === 'STALEMATE' || game.gameState === 'CHECKMATE') {
         this.gameOver = true;
-        if (gameState.gameState === 'STALEMATE') {
+        if (game.gameState === 'STALEMATE') {
           this.winner = "STALEMATE";
         } else {
-          this.winner = (gameState.currentTurn === 'BLACK') ? "White" : "Black";
+          this.winner = (game.currentTurn === 'BLACK') ? "White" : "Black";
         }
       }
     });

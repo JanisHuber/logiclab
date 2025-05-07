@@ -48,6 +48,9 @@ public class BoardMapperHelper {
 
     public static List<FieldDto> convertToDTO(List<Field> fields) {
         List<FieldDto> fieldDTOs = new ArrayList<>();
+        if (fields == null || fields.isEmpty()) {
+            return fieldDTOs;
+        }
         for (Field field : fields) {
             FieldDto dto = null;
             if (field.getFigure() != null) {

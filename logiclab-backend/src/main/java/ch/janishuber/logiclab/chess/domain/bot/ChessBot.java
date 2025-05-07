@@ -38,6 +38,7 @@ public class ChessBot {
                 String move = nextBookMove.get();
                 Optional<Move> bookMove = convertFENtoMove(move, chessBoard);
                 if (bookMove.isPresent()) {
+                    System.out.println("BookMove: " + bookMove.get());
                     return bookMove.get();
                 }
             }

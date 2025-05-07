@@ -23,10 +23,6 @@ export class GameService {
     return this.http.get<Game>(this.apiUrl + gameId);
   }
 
-  getGameState(gameId: number): Observable<Game> {
-    return this.http.get<Game>(this.apiUrl + gameId + '/gameState');
-  }
-
   makePlayerMove(gameId: number, move: Move): Observable<Game> {
     return this.http.post<Game>(this.apiUrl + gameId + '/player/move', move);
   }

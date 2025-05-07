@@ -4,23 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="33ce8ed2-a8a2-4bbd-9068-4647ea095a88" name="Changes" comment="--Various Bug fixes&#10;--False Checkmate &amp;&amp; Repeated Bot Moves &amp;&amp; Developed Pieces">
-      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/resources/chess_openings.csv" afterDir="false" />
+    <list default="true" id="33ce8ed2-a8a2-4bbd-9068-4647ea095a88" name="Changes" comment="--After Review">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/adapter/rest/ChessResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/adapter/rest/ChessResource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/board/BoardMapperHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/board/BoardMapperHelper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/bot/ChessBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/bot/ChessBot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/controller/CheckMoveHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/controller/LegalMovesHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/controller/ChessController.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/controller/ChessController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/evaluate/GameStateHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/evaluate/GameStateHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/evaluate/evaluateBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/evaluate/evaluateBoard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/evaluate/evaluators/EndGameEvaluator.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/evaluate/evaluators/EndGameEvaluator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/evaluate/evaluators/MiddleGameEvaluator.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/evaluate/evaluators/MiddleGameEvaluator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/evaluate/evaluators/OpeningGameEvaluator.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/evaluate/evaluators/OpeningGameEvaluator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/evaluate/piecetables/PieceTables.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/evaluate/piecetables/PieceTables.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/util/LegalMovesInCheckHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/util/LegalMovesInCheckHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/util/LegalMovesOutOfCheckHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/util/LegalMovesOutOfCheckHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/util/Move.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/chess/domain/util/Move.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/src/app/core/services/chess/game.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-frontend/src/app/core/services/chess/game.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/game-details/game-details.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/game-details/game-details.component.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -224,7 +217,7 @@
       <workItem from="1746016115125" duration="6379000" />
       <workItem from="1746077129348" duration="17486000" />
       <workItem from="1746162272381" duration="20505000" />
-      <workItem from="1746597180435" duration="19097000" />
+      <workItem from="1746597180435" duration="23534000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Maven Project">
       <option name="closed" value="true" />
@@ -298,7 +291,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746194769040</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="--After Review">
+      <option name="closed" value="true" />
+      <created>1746620429813</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1746620429813</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -325,6 +326,7 @@
     <MESSAGE value="--Before refactoring Row &amp; Column" />
     <MESSAGE value="--Refactored Rows &amp; Columns&#10;--&gt;Perform Move Convention" />
     <MESSAGE value="--Various Bug fixes&#10;--False Checkmate &amp;&amp; Repeated Bot Moves &amp;&amp; Developed Pieces" />
-    <option name="LAST_COMMIT_MESSAGE" value="--Various Bug fixes&#10;--False Checkmate &amp;&amp; Repeated Bot Moves &amp;&amp; Developed Pieces" />
+    <MESSAGE value="--After Review" />
+    <option name="LAST_COMMIT_MESSAGE" value="--After Review" />
   </component>
 </project>

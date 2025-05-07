@@ -61,26 +61,26 @@ public class LegalMovesInCheckHelper {
         List<String> possibleBlockSourcesString = turnFieldsToFigureNames(possibleBlockSources);
 
         if (!canCapture && !canBlock) {
-            return null;
+            return List.of();
         }
         if (canCapture) {
             if (canBlock) {
                 if (possibleBlockSourcesString.contains(figure.getClassName()) || possibleCaptureSourcesString.contains(figure.getClassName())) {
                     return retainTwoLists(figureFields, blocks, captures);
                 } else {
-                    return null;
+                    return List.of();
                 }
             }
             if (possibleCaptureSourcesString.contains(figure.getClassName())) {
                 figureFields.retainAll(captures);
             } else {
-                return null;
+                return List.of();
             }
         } else if (canBlock) {
             if (possibleBlockSourcesString.contains(figure.getClassName())) {
                 figureFields.retainAll(blocks);
             } else {
-                return null;
+                return List.of();
             }
         }
         return figureFields;
@@ -104,7 +104,7 @@ public class LegalMovesInCheckHelper {
         boolean canEscape = !escapes.isEmpty();
 
         if (!canCapture && !canEscape) {
-            return null;
+            return List.of();
         }
         if (canEscape && canCapture) {
             return retainTwoLists(figureFields, captures, escapes);
