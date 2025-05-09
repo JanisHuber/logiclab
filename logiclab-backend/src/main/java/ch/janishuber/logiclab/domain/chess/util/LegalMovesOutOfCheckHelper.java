@@ -13,7 +13,7 @@ public class LegalMovesOutOfCheckHelper {
     /**
      * Filters out moves that would leave the king in checkmate.
      *
-     * @param sourceList The list of possible moves to filter.
+     * @param moveList The list of possible moves to filter.
      * @param figure The chess figure making the moveOnChessboard.
      * @return The filtered list of moves that do not leave the king in checkmate.
      */

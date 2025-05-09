@@ -27,7 +27,7 @@ public class evaluateBoard {
                 return checkmateValue;
             }
         }
-        return pieceValue * 4 + mobilityValue + positionValue;
+        return pieceValue + mobilityValue + positionValue;
     }
 
     private static int getMobilityValue(ChessBoard chessBoard, FigureColor currentTurn) {
@@ -38,7 +38,7 @@ public class evaluateBoard {
                 value += (currentTurn == field.getFigure().figureColor) ? possibleMoves.size() : -possibleMoves.size();
             }
         }
-        return value;
+        return value / 2;
     }
 
     private static int getPieceValue(ChessBoard chessBoard, FigureColor currentTurn) {
@@ -55,7 +55,6 @@ public class evaluateBoard {
                 case "King" -> 100000;
                 default -> 0;
             };
-
             value += (field.getFigure().figureColor == currentTurn) ? figureValue : -figureValue;
         }
         return value;
@@ -63,44 +62,17 @@ public class evaluateBoard {
 
     private static int getPawnPositionValue(ChessBoard chessBoard, FigureColor botColor) {
         int value = 0;
-        int[][] centralFields = {{4, 4}, {4, 5}, {5, 4}, {5, 5}};
 
         for (Field field : chessBoard.getFields()) {
             if (field.getFigure() instanceof Pawn pawn) {
                 int tempValue = (botColor == field.getFigure().figureColor) ? PieceTables.getPawnTableValue(field) : -PieceTables.getPawnTableValue(field);
+                if (isPawnProtected(field, chessBoard)) {
+                    tempValue += 10;
+                }
                 value += tempValue;
-                /*int row = pawn.position.getRow();
-                int col = convertColumnToInt(pawn.position.getColumn());
-
-                if (pawn.figureColor == currentTurn) {
-                    if (isCentralField(row, col, centralFields)) {
-                        value += 20;
-                        if (isPawnProtected(field, chessBoard)) {
-                            value += 10;
-                        }
-                    }
-                } else {
-                    if (isCentralField(row, col, centralFields)) {
-                        value -= 10;
-                    }
-                }*/
             }
         }
-        return value;
-    }
-
-
-    private static int convertColumnToInt(String row) {
-        return row.charAt(0) - 'A' + 1;
-    }
-
-    private static boolean isCentralField(int row, int col, int[][] centralFields) {
-        for (int[] centralField : centralFields) {
-            if (centralField[0] == col && centralField[1] == row) {
-                return true;
-            }
-        }
-        return false;
+        return value / 2;
     }
 
     private static boolean isPawnProtected(Field field, ChessBoard chessBoard) {

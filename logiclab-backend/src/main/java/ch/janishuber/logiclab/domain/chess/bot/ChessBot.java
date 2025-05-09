@@ -162,8 +162,8 @@ public class ChessBot {
             }
         }
         sortedMoves.addAll(remainingMoves);
-
-        if (moveHistoryGame == null || moveHistoryGame.isEmpty()) {
+        return sortedMoves;
+        /*if (moveHistoryGame == null || moveHistoryGame.isEmpty()) {
             return sortedMoves;
         }
         String[] historyMoves = moveHistoryGame.split(",");
@@ -176,7 +176,7 @@ public class ChessBot {
             }
         }
 
-        return sortedMoves;
+        return sortedMoves;*/
     }
 
     /**
@@ -239,16 +239,16 @@ public class ChessBot {
             Field target = move.getTarget(chessBoard);
             if (target.getFigure() != null && target.getFigure().figureColor != currentTurn && target.getFigure().value > 1) {
                 noisyMoves.add(move);
-            } else if (moveResultsInCheck(chessBoard, move)) {
+            } else if (moveResultsInCheck(chessBoard, move, currentTurn)) {
                 noisyMoves.add(move);
             }
         }
         return noisyMoves;
     }
 
-    private boolean moveResultsInCheck(ChessBoard chessBoard, Move move) {
+    private boolean moveResultsInCheck(ChessBoard chessBoard, Move move, FigureColor currentTurn) {
         applyMove(chessBoard, move);
-        LegalMovesHandler legalMovesHandler = new LegalMovesHandler(chessBoard, this.currentTurn);
+        LegalMovesHandler legalMovesHandler = new LegalMovesHandler(chessBoard, currentTurn);
         boolean resultsInCheck = legalMovesHandler.checkmateHandler.isMate(null) > 0;
         undoMoves(chessBoard, 1);
         return resultsInCheck;
@@ -269,7 +269,6 @@ public class ChessBot {
 
         target.setFigure(source.getFigure());
         source.setFigure(null);
-        this.currentTurn = (this.currentTurn == FigureColor.WHITE) ? FigureColor.BLACK : FigureColor.WHITE;
 
         SimulatedMove simMove = new SimulatedMove(source, target, capturedFigure);
         moveHistory.add(simMove);
@@ -295,7 +294,6 @@ public class ChessBot {
                 capturedFigure.position = target;
             }
 
-            this.currentTurn = (this.currentTurn == FigureColor.WHITE) ? FigureColor.BLACK : FigureColor.WHITE;
         }
     }
 

@@ -40,24 +40,19 @@ public class PieceTables {
     public static int getPawnTableValue(Field field) {
         int row = getTableRow(field);
         int col = getTableCol(field);
-        if (field.getColumn().equals("E") && field.getRow() == 4) {
-            System.out.println("HERE");
-            System.out.println("For Field " + field.getColumn() + field.getRow() + "the row int is: " + row + " and the col int is: " + col);
-
-        }
         return pawnTable[col][row];
     }
 
     public static int getKnightTableValue(Field field) {
         int row = getTableRow(field);
         int col = getTableCol(field);
-        return knightTable[row][col];
+        return knightTable[col][row];
     }
 
     public static int getBishopTableValue(Field field) {
         int row = getTableRow(field);
         int col = getTableCol(field);
-        return bishopTable[row][col];
+        return bishopTable[col][row];
     }
 
     private static int getTableRow(Field field) {
