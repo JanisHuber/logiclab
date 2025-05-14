@@ -1,37 +1,13 @@
-<div class="flex flex-col items-center justify-center min-h-screen w-full">
-  <div class="flex items-center justify-center">
-    <div class="bg-base-300 p-2 rounded-lg">
-      <div class="grid grid-cols-8 aspect-square h-[70vh] w-[70vh] overflow-hidden rounded-lg">
-        <ng-container *ngFor="let row of [0,1,2,3,4,5,6,7]">
-          <ng-container *ngFor="let col of [0,1,2,3,4,5,6,7]">
-           <div (click)="fieldClicked(row, col)" [ngStyle]="{
-              'background-image': (row + col) % 2 === 0 ? 'url(assets/chess/beige_tile.png)' : 'url(assets/chess/brown_tile.png)',
-              'background-size': 'cover'
-            }"
-            class="aspect-square flex items-center justify-center relative hover:bg-secondary/20 cursor-pointer">
-              @if (isValidMove(col, row)) {
-                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <img src="assets/chess/possibleMove.png" class="w-1/2 h-1/2 opacity-30">
-              </div>
-              }
-              
-              <span *ngIf="row === 7" 
-                    class="absolute bottom-1 right-1 text-[0.6rem] sm:text-xs md:text-xs text-gray-800 font-medium">
-                {{['a','b','c','d','e','f','g','h'][col]}}
-              </span>
-              
-              <span *ngIf="col === 0" 
-                    class="absolute top-1 left-1 text-[0.6rem] sm:text-xs md:text-sm text-gray-700 font-medium">
-                {{8 - row }}
-              </span>
-
-              @if (board && board[row] && board[row][col] !== undefined) {
-                <app-chessfigure [figure]="board[row][col]"></app-chessfigure>
-              }
-            </div>
-          </ng-container>
-        </ng-container>
-      </div>
-    </div>
-  </div>
+<div class="grid grid-cols-8 aspect-square w-full h-full overflow-hidden rounded-lg">
+  <ng-container *ngFor="let row of [0,1,2,3,4,5,6,7]">
+    <ng-container *ngFor="let col of [0,1,2,3,4,5,6,7]">
+     <app-chessboard-field 
+       [row]="row" 
+       [col]="col" 
+       [board]="board" 
+       [possibleMoves]="possibleMoves"
+       (fieldClicked)="fieldClicked($event.row, $event.col)">
+     </app-chessboard-field>
+    </ng-container>
+  </ng-container>
 </div>

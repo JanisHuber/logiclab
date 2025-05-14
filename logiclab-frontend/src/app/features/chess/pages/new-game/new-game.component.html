@@ -3,7 +3,6 @@
     <h2 class="text-2xl font-bold mb-6 text-center">New Chess Game</h2>
     
     <form class="space-y-6" (ngSubmit)="startNewGame()">
-      <!-- Game Mode Selection -->
       <div class="form-control">
         <label class="label">
           <span class="label-text">Game Mode</span>
@@ -14,7 +13,6 @@
         </select>
       </div>
 
-      <!-- Bot Settings (shown only when bot mode is selected) -->
       <div class="space-y-4" *ngIf="gameMode === 'bot'">
         <div class="form-control">
           <label class="label">
@@ -34,7 +32,6 @@
           <select class="select select-bordered w-full" [(ngModel)]="playerColor" name="playerColor">
             <option value="white">White (First Move)</option>
             <option value="black">Black</option>
-            <option value="random">Random</option>
           </select>
         </div>
       </div>

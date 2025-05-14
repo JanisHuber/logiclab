@@ -42,12 +42,12 @@ public class Game {
     public static Game ofExisting(int gameId, String gameState, String boardState, String currentTurn, boolean againstAI, FigureColor botColor, int botDifficulty, String moveHistory) {
         FigureColor figureColor = FigureColor.valueOf(currentTurn);
         ChessBoard chessBoard = ChessBoard.ofExisting(boardState);
-        ChessController chessController = ChessController.ofExisting(chessBoard, figureColor, againstAI, botColor, moveHistory);
+        ChessController chessController = ChessController.ofExisting(chessBoard, figureColor, againstAI, botColor, moveHistory, botDifficulty);
         return new Game(gameId, gameState, chessController, againstAI, botColor, botDifficulty, moveHistory);
     }
 
     public static Game startNewGame(boolean againstAI, FigureColor botColor, int botDifficulty) {
-        ChessController chessController = ChessController.startNewGame(againstAI, botColor, "");
+        ChessController chessController = ChessController.startNewGame(againstAI, botColor, "", botDifficulty);
         return new Game(GAME_ID_NOT_SET, "NEW", chessController, againstAI, botColor, botDifficulty, "");
     }
 

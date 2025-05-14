@@ -1,9 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChessFigure } from '../../../../../core/models/chess/logic/chessfigure';
-import { ChessfigureComponent } from '../chessfigure/chessfigure.component';
-import { boardToApiPosition } from '../../../../../shared/shared/chess.helpers';
-import { Field } from '../../../../../core/models/chess/dto/field';
+import { ChessboardFieldComponent } from '../chessboard-field/chessboard-field.component';
 
 @Component({
   selector: 'app-chessboard',
@@ -12,7 +10,7 @@ import { Field } from '../../../../../core/models/chess/dto/field';
   standalone: true,
   imports: [
     CommonModule, 
-    ChessfigureComponent
+    ChessboardFieldComponent
   ]
 })
 
@@ -26,12 +24,5 @@ export class ChessboardComponent {
 
   fieldClicked(row: number, column: number) {
     this.onFieldClicked.emit({col: column, row: row});
-  }
-
-  isValidMove(row: number, column: number): boolean {
-    const apiPosition = boardToApiPosition(row, column);
-    return this.possibleMoves.some(move => 
-      move.row === apiPosition.convertedRow && move.col === apiPosition.convertedColumn
-    );
   }
 }

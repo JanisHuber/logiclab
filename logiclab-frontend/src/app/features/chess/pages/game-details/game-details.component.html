@@ -1,18 +1,35 @@
 @if (gameOver) {
     <app-game-overview [winner]="winner"></app-game-overview>
 } @else {
-    <div>
-        <p>Piece Value: {{ pieceValue }}</p>
-    </div>
-    <app-chessboard [board]="chessBoard" [currentTurn]="currentTurn" [possibleMoves]="possibleMoves" (onFieldClicked)="fieldClicked($event)" (startedNewGame)="onStartedNewGame()"></app-chessboard>
-    <div class="mt-4 flex flex-col sm:flex-row justify-between items-center gap-2 w-full max-w-[70vh]">
-        <div class="flex gap-4">
-          <button (click)="onStartedNewGame()" class="btn btn-primary btn-sm md:btn-md">Neues Spiel</button>
+    <div class="flex flex-col items-center justify-center min-h-screen w-full">
+        <div class="bg-base-300 p-2 rounded-lg w-[70vh] h-[70vh]">
+            <app-chessboard 
+                [board]="chessBoard"
+                [currentTurn]="currentTurn"
+                [selectedFigure]="selectedFigure"
+                [possibleMoves]="possibleMoves"
+                (onFieldClicked)="fieldClicked($event)">
+            </app-chessboard>
         </div>
-        @if (currentTurn === 'BLACK') {
-          <div class="badge badge-neutral">Schwarz ist am Zug</div>
-        } @else {
-          <div class="badge badge-neutral">Weiss ist am Zug</div>
-        }
-      </div>
+
+        <div class="mt-4 flex justify-between items-center w-[70vh]">
+            <button class="btn btn-primary btn-md" (click)="onStartedNewGame()">Neues Spiel</button>
+            <div class="flex gap-4 items-center">
+                @if (currentTurn === 'WHITE') {
+                    <div class="badge badge-lg badge-neutral">Weiß ist am Zug</div>
+                } @else {
+                    <div class="badge badge-lg badge-neutral">Schwarz ist am Zug</div>
+                }
+                @if (gameOver) {
+                    <div class="badge badge-lg badge-warning">
+                        @if (winner === "STALEMATE") {
+                            Unentschieden!
+                        } @else {
+                            Gewinner: {{winner}}
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
 }

@@ -29,7 +29,7 @@ public class ChessController {
 
     public LegalMovesHandler legalMovesHandler;
 
-    private ChessController(boolean againstAI, boolean noInit, FigureColor botColor, String moveHistoryGame) {
+    private ChessController(boolean againstAI, boolean noInit, FigureColor botColor, String moveHistoryGame, int botDifficulty) {
         this.publicAgainstAI = againstAI;
         this.botColor = botColor;
         this.moveHistoryGame = moveHistoryGame;
@@ -37,20 +37,20 @@ public class ChessController {
             init();
         }
         if (publicAgainstAI) {
-            //bot = new ChessBot(botDifficulty - 2, (botDifficulty > 5) ? botDifficulty - 4 : 0);
-            bot = new ChessBot(3, 0);
+            bot = new ChessBot(botDifficulty - 2, (botDifficulty > 5) ? botDifficulty - 4 : 0);
+            //bot = new ChessBot(3, 0);
         }
     }
 
-    public static ChessController ofExisting(ChessBoard chessBoard, FigureColor currentTurn, boolean againstAI, FigureColor botColor, String moveHistoryGame) {
-        ChessController chessController = new ChessController(againstAI, true, botColor, moveHistoryGame);
+    public static ChessController ofExisting(ChessBoard chessBoard, FigureColor currentTurn, boolean againstAI, FigureColor botColor, String moveHistoryGame, int botDifficultly) {
+        ChessController chessController = new ChessController(againstAI, true, botColor, moveHistoryGame, botDifficultly);
         chessController.chessBoard = chessBoard;
         chessController.currentTurn = currentTurn;
         return chessController;
     }
 
-    public static ChessController startNewGame(boolean againstAI, FigureColor botColor, String moveHistoryGame) {
-        return new ChessController(againstAI, false, botColor, moveHistoryGame);
+    public static ChessController startNewGame(boolean againstAI, FigureColor botColor, String moveHistoryGame, int botDifficulty) {
+        return new ChessController(againstAI, false, botColor, moveHistoryGame, botDifficulty);
     }
 
     private void init() {

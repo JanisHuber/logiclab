@@ -57,7 +57,6 @@ export class GameDetailsComponent {
     this.gameService.getGameDetails(this.gameId).subscribe((game) => {
       this.chessBoard = jsonToChessBoard(game.boardState);
       this.currentTurn = game.currentTurn;
-      this.getBoardPieceValue();
       this.updateGamestate(game);
     });
   }
@@ -69,22 +68,6 @@ export class GameDetailsComponent {
         this.winner = "STALEMATE";
       } else {
         this.winner = (game.currentTurn === 'BLACK') ? "White" : "Black";
-      }
-    }
-  }
-
-  private getBoardPieceValue() {
-    this.pieceValue = 0;
-    for (let row = 0; row < this.chessBoard.length; row++) {
-      for (let col = 0; col < this.chessBoard[row].length; col++) {
-        const figure = this.chessBoard[row][col];
-        if (figure !== null && figure !== undefined) {
-          if (figure.figureColor === 'WHITE') {
-            this.pieceValue += figure.value;
-          } else {
-            this.pieceValue -= figure.value;
-          }
-        }
       }
     }
   }
