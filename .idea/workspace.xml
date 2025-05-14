@@ -4,12 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="33ce8ed2-a8a2-4bbd-9068-4647ea095a88" name="Changes" comment="--Clean-Up&#10;--Added Castling &amp; Promoting">
-      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/rest/chess/main.java" afterDir="false" />
+    <list default="true" id="33ce8ed2-a8a2-4bbd-9068-4647ea095a88" name="Changes" comment="--Fixed frontend Handling for Moving">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/chess/bot/ChessBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/chess/bot/ChessBot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/chess/controller/ChessController.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/chess/controller/ChessController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/chess/evaluate/evaluateBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/chess/evaluate/evaluateBoard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/components/chessboard/chessboard.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/components/chessboard/chessboard.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/components/chessboard/chessboard.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/components/chessboard/chessboard.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/components/chessfigure/chessfigure.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/components/chessfigure/chessfigure.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/components/chessfigure/chessfigure.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/components/chessfigure/chessfigure.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/game-details/game-details.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/game-details/game-details.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/game-details/game-details.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/game-details/game-details.component.ts" afterDir="false" />
     </list>
@@ -225,7 +225,7 @@
       <workItem from="1747029476854" duration="1151000" />
       <workItem from="1747054704758" duration="28000" />
       <workItem from="1747055391520" duration="2285000" />
-      <workItem from="1747202193653" duration="12046000" />
+      <workItem from="1747202193653" duration="14263000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Maven Project">
       <option name="closed" value="true" />
@@ -331,7 +331,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747209622176</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="--">
+      <option name="closed" value="true" />
+      <created>1747217796043</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1747217796043</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -361,7 +369,9 @@
     <MESSAGE value="--After Review" />
     <MESSAGE value="--Fixed Min. Maximizing Player and evaluation" />
     <MESSAGE value="--Clean-Up&#10;--Added Castling &amp; Promoting" />
-    <option name="LAST_COMMIT_MESSAGE" value="--Clean-Up&#10;--Added Castling &amp; Promoting" />
+    <MESSAGE value="--" />
+    <MESSAGE value="--Fixed frontend Handling for Moving" />
+    <option name="LAST_COMMIT_MESSAGE" value="--Fixed frontend Handling for Moving" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -22,16 +22,10 @@ export class ChessboardComponent {
   @Input() selectedFigure: ChessFigure | null = null;
   @Input() possibleMoves: { col: string, row: number }[] = [];
 
-  @Output() figureClicked = new EventEmitter<ChessFigure>();
-  @Output() moveMade = new EventEmitter<{col: number, row: number}>();
-  @Output() startedNewGame = new EventEmitter<void>();
+  @Output() onFieldClicked = new EventEmitter<{col: number, row: number}>();
 
-  onFigureClicked(figure: ChessFigure) {
-    this.figureClicked.emit(figure);
-  }
-
-  makeMove(row: number, column: number) {
-    this.moveMade.emit({col: column, row: row});
+  fieldClicked(row: number, column: number) {
+    this.onFieldClicked.emit({col: column, row: row});
   }
 
   isValidMove(row: number, column: number): boolean {
@@ -39,10 +33,5 @@ export class ChessboardComponent {
     return this.possibleMoves.some(move => 
       move.row === apiPosition.convertedRow && move.col === apiPosition.convertedColumn
     );
-  }
-
-  startNewGame() {
-    //todo resign
-    this.startedNewGame.emit();
   }
 }

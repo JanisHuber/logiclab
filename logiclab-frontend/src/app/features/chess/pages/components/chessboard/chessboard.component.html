@@ -4,7 +4,7 @@
       <div class="grid grid-cols-8 aspect-square h-[70vh] w-[70vh] overflow-hidden rounded-lg">
         <ng-container *ngFor="let row of [0,1,2,3,4,5,6,7]">
           <ng-container *ngFor="let col of [0,1,2,3,4,5,6,7]">
-            <div (click)="makeMove(row, col)" [ngStyle]="{
+           <div (click)="fieldClicked(row, col)" [ngStyle]="{
               'background-image': (row + col) % 2 === 0 ? 'url(assets/chess/beige_tile.png)' : 'url(assets/chess/brown_tile.png)',
               'background-size': 'cover'
             }"
@@ -22,26 +22,16 @@
               
               <span *ngIf="col === 0" 
                     class="absolute top-1 left-1 text-[0.6rem] sm:text-xs md:text-sm text-gray-700 font-medium">
-                {{8 - row}}
+                {{8 - row }}
               </span>
 
               @if (board && board[row] && board[row][col] !== undefined) {
-                <app-chessfigure [figure]="board[row][col]" (figureClicked)="onFigureClicked($event)"></app-chessfigure>
+                <app-chessfigure [figure]="board[row][col]"></app-chessfigure>
               }
             </div>
           </ng-container>
         </ng-container>
       </div>
     </div>
-  </div>
-  <div class="mt-4 flex flex-col sm:flex-row justify-between items-center gap-2 w-full max-w-[70vh]">
-    <div class="flex gap-4">
-      <button (click)="startNewGame()" class="btn btn-primary btn-sm md:btn-md">Neues Spiel</button>
-    </div>
-    @if (currentTurn === 'BLACK') {
-      <div class="badge badge-neutral">Schwarz ist am Zug</div>
-    } @else {
-      <div class="badge badge-neutral">Weiss ist am Zug</div>
-    }
   </div>
 </div>

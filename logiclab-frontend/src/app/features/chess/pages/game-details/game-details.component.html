@@ -4,5 +4,15 @@
     <div>
         <p>Piece Value: {{ pieceValue }}</p>
     </div>
-    <app-chessboard [board]="chessBoard" [currentTurn]="currentTurn" [possibleMoves]="possibleMoves" (figureClicked)="onFigureClicked($event)" (moveMade)="onMoveMade($event)" (startedNewGame)="onStartedNewGame()"></app-chessboard>
+    <app-chessboard [board]="chessBoard" [currentTurn]="currentTurn" [possibleMoves]="possibleMoves" (onFieldClicked)="fieldClicked($event)" (startedNewGame)="onStartedNewGame()"></app-chessboard>
+    <div class="mt-4 flex flex-col sm:flex-row justify-between items-center gap-2 w-full max-w-[70vh]">
+        <div class="flex gap-4">
+          <button (click)="onStartedNewGame()" class="btn btn-primary btn-sm md:btn-md">Neues Spiel</button>
+        </div>
+        @if (currentTurn === 'BLACK') {
+          <div class="badge badge-neutral">Schwarz ist am Zug</div>
+        } @else {
+          <div class="badge badge-neutral">Weiss ist am Zug</div>
+        }
+      </div>
 }

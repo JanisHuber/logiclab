@@ -12,18 +12,10 @@ import { ChessFigure } from '../../../../../core/models/chess/logic/chessfigure'
 export class ChessfigureComponent {
   @Input() figure: ChessFigure | null = null;
 
-  @Output() figureClicked = new EventEmitter<ChessFigure>();
-
   getFigureImage(): string {
     if (!this.figure) return '';
     const color = this.figure.figureColor.toLowerCase();
     const type = this.figure.type.toLowerCase();
     return `assets/chess/figure_${color}_${type}.png`;
-  }
-
-  onClick() {
-    if (this.figure) {
-      this.figureClicked.emit(this.figure);
-    }
   }
 }
