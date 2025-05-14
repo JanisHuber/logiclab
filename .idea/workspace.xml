@@ -4,28 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="33ce8ed2-a8a2-4bbd-9068-4647ea095a88" name="Changes" comment="--Fixed Min. Maximizing Player and evaluation">
+    <list default="true" id="33ce8ed2-a8a2-4bbd-9068-4647ea095a88" name="Changes" comment="--Clean-Up&#10;--Added Castling &amp; Promoting">
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/rest/chess/main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/rest/CorsFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/rest/CorsFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/rest/chess/ChessResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/rest/chess/ChessResource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/rest/chess/dto/FigureDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/rest/chess/dto/FigureDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/rest/chess/dto/MoveDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/rest/chess/dto/MoveDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/chess/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/chess/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/chess/board/BoardMapperHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/chess/board/BoardMapperHelper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/chess/bot/ChessBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/chess/bot/ChessBot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/chess/bot/SimulatedMove.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/chess/bot/SimulatedMove.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/chess/controller/ChessController.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/chess/controller/ChessController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/chess/controller/LegalMovesHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/chess/controller/LegalMovesHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/chess/evaluate/GameStateHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/chess/evaluate/GameStateHelper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/chess/evaluate/evaluateBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/chess/evaluate/evaluateBoard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/chess/evaluate/piecetables/PieceTables.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/chess/evaluate/piecetables/PieceTables.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/chess/figures/King.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/chess/figures/King.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/chess/util/ChessFigure.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/domain/chess/util/ChessFigure.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-frontend/src/app/core/models/chess/dto/move.ts" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-frontend/src/app/core/models/chess/dto/move.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/components/chessboard/chessboard.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/components/chessboard/chessboard.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/game-details/game-details.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/game-details/game-details.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/game-details/game-details.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/game-details/game-details.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/game-overview/game-overview.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/game-overview/game-overview.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/game-overview/game-overview.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/game-overview/game-overview.component.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,56 +58,57 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;Application.test.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.requests | #1.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.requests | #2.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.requests | #4.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.requests | #5.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.rest-api | #1.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.rest-api | #2.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.rest-api | #3.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.DATABASE_acceptanceTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.GuessValidationTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.Unnamed.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UpdateGameStatusTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.acceptanceTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.createNewGame.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.domainTests.executor&quot;: &quot;Run&quot;,
-    &quot;Remote JVM Debug.Debug.executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Intellji/CSS - Projects/Open Liberty/logiclab-backend/src/test/java/domain&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs.jest.jest_package&quot;: &quot;&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.tabs&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Intellji\\CSS - Projects\\Open Liberty\\logiclab-frontend\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "Application.main.executor": "Run",
+    "Application.test.executor": "Run",
+    "HTTP Request.requests | #1.executor": "Run",
+    "HTTP Request.requests | #2.executor": "Run",
+    "HTTP Request.requests | #4.executor": "Run",
+    "HTTP Request.requests | #5.executor": "Run",
+    "HTTP Request.rest-api | #1.executor": "Run",
+    "HTTP Request.rest-api | #2.executor": "Run",
+    "HTTP Request.rest-api | #3.executor": "Run",
+    "JUnit.DATABASE_acceptanceTest.executor": "Run",
+    "JUnit.GuessValidationTest.executor": "Run",
+    "JUnit.Unnamed.executor": "Run",
+    "JUnit.UpdateGameStatusTest.executor": "Run",
+    "JUnit.acceptanceTest.executor": "Run",
+    "JUnit.createNewGame.executor": "Run",
+    "JUnit.domainTests.executor": "Run",
+    "Remote JVM Debug.Debug.executor": "Debug",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Intellji/CSS - Projects/Open Liberty/logiclab-backend/src/test/java/domain",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs.jest.jest_package": "",
+    "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "editor.preferences.tabs",
+    "ts.external.directory.path": "C:\\Intellji\\CSS - Projects\\Open Liberty\\logiclab-frontend\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mariadb&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mariadb"
     ],
-    &quot;com.intellij.ide.scratch.LRUPopupBuilder$1/&quot;: [
-      &quot;MariaDB&quot;,
-      &quot;MySQL&quot;
+    "com.intellij.ide.scratch.LRUPopupBuilder$1/": [
+      "MariaDB",
+      "MySQL"
     ],
-    &quot;com.intellij.ide.scratch.LRUPopupBuilder$1/SQL Dialect&quot;: [
-      &quot;MariaDB&quot;
+    "com.intellij.ide.scratch.LRUPopupBuilder$1/SQL Dialect": [
+      "MariaDB"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Intellji\CSS - Projects\Open Liberty\logiclab-backend\src\main\java\ch\janishuber\logiclab\adapter\rest\chess" />
@@ -238,7 +225,7 @@
       <workItem from="1747029476854" duration="1151000" />
       <workItem from="1747054704758" duration="28000" />
       <workItem from="1747055391520" duration="2285000" />
-      <workItem from="1747202193653" duration="5982000" />
+      <workItem from="1747202193653" duration="12046000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Maven Project">
       <option name="closed" value="true" />
@@ -336,7 +323,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746783674865</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="--Clean-Up&#10;--Added Castling &amp; Promoting">
+      <option name="closed" value="true" />
+      <created>1747209622176</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1747209622176</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -365,7 +360,8 @@
     <MESSAGE value="--Various Bug fixes&#10;--False Checkmate &amp;&amp; Repeated Bot Moves &amp;&amp; Developed Pieces" />
     <MESSAGE value="--After Review" />
     <MESSAGE value="--Fixed Min. Maximizing Player and evaluation" />
-    <option name="LAST_COMMIT_MESSAGE" value="--Fixed Min. Maximizing Player and evaluation" />
+    <MESSAGE value="--Clean-Up&#10;--Added Castling &amp; Promoting" />
+    <option name="LAST_COMMIT_MESSAGE" value="--Clean-Up&#10;--Added Castling &amp; Promoting" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

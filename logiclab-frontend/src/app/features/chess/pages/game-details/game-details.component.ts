@@ -26,7 +26,8 @@ export class GameDetailsComponent {
   possibleMoves: { col: string, row: number }[] = [];
   gameOver: boolean = false;
   winner: string | undefined;
-
+  pieceValue: number = 0;
+  
   ngOnInit() {
     this.updateBoard();
   }
@@ -66,6 +67,19 @@ export class GameDetailsComponent {
     this.gameId = Number(this.route.snapshot.paramMap.get('gameId'));
     this.gameService.getGameDetails(this.gameId).subscribe((game) => {
       this.chessBoard = jsonToChessBoard(game.boardState);
+      this.pieceValue = 0;
+      for (let row = 0; row < this.chessBoard.length; row++) {
+        for (let col = 0; col < this.chessBoard[row].length; col++) {
+          const figure = this.chessBoard[row][col];
+          if (figure !== null && figure !== undefined) {
+            if (figure.figureColor === 'WHITE') {
+              this.pieceValue += figure.value;
+            } else {
+              this.pieceValue -= figure.value;
+            }
+          }
+        }
+      }
       this.currentTurn = game.currentTurn;
       if (game.gameState === 'STALEMATE' || game.gameState === 'CHECKMATE') {
         this.gameOver = true;

@@ -33,6 +33,7 @@ public class ChessBot {
         for (String move : moveHistoryGame.split(",")) {
             moveHistoryList.add(move);
         }
+        /*
         if (OpeningBook.isInOpening(chessBoard, Collections.singletonList(moveHistoryGame))) {
             Optional<String> nextBookMove = OpeningBook.getNextMove(Collections.singletonList(moveHistoryGame));
             if (nextBookMove.isPresent()) {
@@ -44,33 +45,28 @@ public class ChessBot {
                 }
             }
         }
-
+        */
         Move bestMove = null;
-        int bestEval = (botColor == FigureColor.WHITE) ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+        int bestEval = Integer.MIN_VALUE;
 
         List<Move> possibleMoves = sortMoves(getAllPossibleCheckedMoves(chessBoard, currentTurn), chessBoard,
                 moveHistoryGame);
         for (Move move : possibleMoves) {
             int eval = evaluateMove(chessBoard, botColor, move, moveHistoryGame, currentTurn);
-            if ((botColor == FigureColor.WHITE && eval > bestEval)
-                    || (botColor == FigureColor.BLACK && eval < bestEval)) {
+            if (eval > bestEval) {
                 System.out.println("Old eval: " + bestEval + " New eval: " + eval);
                 bestEval = eval;
                 bestMove = move;
-                System.out.println("Best move: " + bestMove.source().getColumn() + bestMove.source().getRow() + "To: "
-                        + bestMove.target().getColumn() + bestMove.target().getRow() + " with evaluation: " + bestEval);
+                System.out.println("Best move: " + bestMove.source().getColumn() + bestMove.source().getRow() + "To: " + bestMove.target().getColumn() + bestMove.target().getRow() + " with evaluation: " + bestEval);
             }
         }
         return bestMove;
     }
 
-    private int evaluateMove(ChessBoard chessBoard, FigureColor botColor, Move move, String moveHistoryGame,
-            FigureColor currentTurn) {
+    private int evaluateMove(ChessBoard chessBoard, FigureColor botColor, Move move, String moveHistoryGame, FigureColor currentTurn) {
         applyMove(chessBoard, move);
         FigureColor nextTurn = (currentTurn == FigureColor.WHITE) ? FigureColor.BLACK : FigureColor.WHITE;
-        boolean isMaximizingPlayer = (nextTurn == botColor);
-        int eval = alphaBeta(chessBoard, botColor, depth - 1, Integer.MIN_VALUE, Integer.MAX_VALUE, isMaximizingPlayer,
-                moveHistoryGame, nextTurn);
+        int eval = alphaBeta(chessBoard, botColor, depth - 1, Integer.MIN_VALUE, Integer.MAX_VALUE, true, moveHistoryGame, nextTurn);
         undoMoves(chessBoard, 1);
         return eval;
     }
@@ -103,16 +99,13 @@ public class ChessBot {
         }
     }
 
-    private int getMinimizingEval(ChessBoard chessBoard, FigureColor botColor, int depth, int alpha, int beta,
-            List<Move> possibleMoves, String moveHistoryGame, FigureColor currentTurn) {
+    private int getMinimizingEval(ChessBoard chessBoard, FigureColor botColor, int depth, int alpha, int beta, List<Move> possibleMoves, String moveHistoryGame, FigureColor currentTurn) {
         int minEval = Integer.MAX_VALUE;
 
         for (Move move : possibleMoves) {
             applyMove(chessBoard, move);
             FigureColor nextTurn = (currentTurn == FigureColor.WHITE) ? FigureColor.BLACK : FigureColor.WHITE;
-            boolean isMaximizingPlayer = (nextTurn == botColor);
-            int eval = alphaBeta(chessBoard, botColor, depth - 1, alpha, beta, isMaximizingPlayer, moveHistoryGame,
-                    nextTurn);
+            int eval = alphaBeta(chessBoard, botColor, depth - 1, alpha, beta, true, moveHistoryGame, nextTurn);
             undoMoves(chessBoard, 1);
             minEval = Math.min(minEval, eval);
             beta = Math.min(beta, eval);
@@ -124,16 +117,13 @@ public class ChessBot {
         return minEval;
     }
 
-    private int getMaximizingEval(ChessBoard chessBoard, FigureColor botColor, int depth, int alpha, int beta,
-            List<Move> possibleMoves, String moveHistoryGame, FigureColor currentTurn) {
+    private int getMaximizingEval(ChessBoard chessBoard, FigureColor botColor, int depth, int alpha, int beta, List<Move> possibleMoves, String moveHistoryGame, FigureColor currentTurn) {
         int maxEval = Integer.MIN_VALUE;
 
         for (Move move : possibleMoves) {
             applyMove(chessBoard, move);
             FigureColor nextTurn = (currentTurn == FigureColor.WHITE) ? FigureColor.BLACK : FigureColor.WHITE;
-            boolean isMaximizingPlayer = (nextTurn == botColor);
-            int eval = alphaBeta(chessBoard, botColor, depth - 1, alpha, beta, isMaximizingPlayer, moveHistoryGame,
-                    nextTurn);
+            int eval = alphaBeta(chessBoard, botColor, depth - 1, alpha, beta, false, moveHistoryGame, nextTurn);
             undoMoves(chessBoard, 1);
             maxEval = Math.max(maxEval, eval);
             alpha = Math.max(alpha, eval);

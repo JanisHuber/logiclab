@@ -126,7 +126,6 @@ public class ChessController {
         currentField.getFigure().position = target;
         target.setFigure(currentField.getFigure());
         currentField.setFigure(null);
-        // Rook
         if (target.getColumn().equals("G")) {
             Field rookField = chessBoard.getField("H", target.getRow());
             Field newRookField = chessBoard.getField("F", target.getRow());

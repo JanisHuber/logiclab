@@ -1,5 +1,8 @@
 @if (gameOver) {
     <app-game-overview [winner]="winner"></app-game-overview>
 } @else {
+    <div>
+        <p>Piece Value: {{ pieceValue }}</p>
+    </div>
     <app-chessboard [board]="chessBoard" [currentTurn]="currentTurn" [possibleMoves]="possibleMoves" (figureClicked)="onFigureClicked($event)" (moveMade)="onMoveMade($event)" (startedNewGame)="onStartedNewGame()"></app-chessboard>
 }

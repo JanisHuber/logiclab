@@ -19,14 +19,14 @@ public class evaluateBoard {
             if (isStalemate.get()) {
                 return 0;
             } else {
-                return checkmateValue(chessBoard, currentTurn, botColor);
+                return checkmateValue(chessBoard, botColor);
             }
         }
         int overallValue = 0;
         GamePhase gamePhase = PhaseEvaluator.evaluatePhase(chessBoard);
-        int pieceValue = getPieceValue(chessBoard, currentTurn);
+        int pieceValue = getPieceValue(chessBoard, botColor);
         int positionValue = getPawnPositionValue(chessBoard, botColor);
-        int mobilityValue = getMobilityValue(chessBoard, currentTurn);
+        int mobilityValue = getMobilityValue(chessBoard, botColor);
 
         if (gamePhase == GamePhase.OPENING) {
             overallValue = pieceValue + mobilityValue / 2 + positionValue / 2;
@@ -38,32 +38,34 @@ public class evaluateBoard {
         return overallValue;
     }
 
-    private static int getMobilityValue(ChessBoard chessBoard, FigureColor currentTurn) {
+    private static int getMobilityValue(ChessBoard chessBoard, FigureColor botColor) {
         int value = 0;
         for (Field field : chessBoard.getFields()) {
             if (field.getFigure() != null) {
                 List<Field> possibleMoves = field.getFigure().getPossibleMoves(chessBoard);
-                value += (currentTurn == field.getFigure().figureColor) ? possibleMoves.size() : -possibleMoves.size();
+                value += (botColor == field.getFigure().figureColor) ? possibleMoves.size() : -possibleMoves.size();
             }
         }
         return value / 2;
     }
 
-    private static int getPieceValue(ChessBoard chessBoard, FigureColor currentTurn) {
+    private static int getPieceValue(ChessBoard chessBoard, FigureColor botColor) {
         int value = 0;
         for (Field field : chessBoard.getFields()) {
             if (field.getFigure() == null) continue;
-
             int figureValue = switch (field.getFigure().getClassName()) {
                 case "Pawn" -> 100;
                 case "Rook" -> 500;
                 case "Knight" -> 300;
                 case "Bishop" -> 325;
                 case "Queen" -> 900;
-                case "King" -> 100000;
                 default -> 0;
             };
-            value += (field.getFigure().figureColor == currentTurn) ? figureValue : -figureValue;
+            if (field.getFigure().figureColor == botColor) {
+                value += figureValue;
+            } else {
+                value -= figureValue;
+            }
         }
         return value;
     }
@@ -72,7 +74,7 @@ public class evaluateBoard {
         int value = 0;
 
         for (Field field : chessBoard.getFields()) {
-            if (field.getFigure() instanceof Pawn pawn) {
+            if (field.getFigure() instanceof Pawn) {
                 int tempValue = (botColor == field.getFigure().figureColor) ? PieceTables.getPawnTableValue(field) : -PieceTables.getPawnTableValue(field);
                 if (isPawnProtected(field, chessBoard)) {
                     tempValue += 10;
@@ -100,7 +102,7 @@ public class evaluateBoard {
         return false;
     }
 
-    private static int checkmateValue(ChessBoard chessBoard, FigureColor currentTurn, FigureColor botColor) {
+    private static int checkmateValue(ChessBoard chessBoard, FigureColor botColor) {
         int counterWhite = 0;
         int counterBlack = 0;
 
