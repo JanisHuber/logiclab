@@ -35,7 +35,7 @@ export class GameDetailsComponent {
     if (!this.gameId) return;
     //todo Client side validation
     if (figure.figureColor !== this.currentTurn && this.selectedFigure) {
-      this.gameService.makePlayerMove(this.gameId, {source: this.selectedFigure.position, target: figure.position}).subscribe((response) => {
+      this.gameService.makePlayerMove(this.gameId, {source: this.selectedFigure.position, target: figure.position, promotingFigureClassName: "Queen"}).subscribe((response) => {
         this.updateBoard();
         this.getBotMove();
       });
@@ -92,7 +92,7 @@ export class GameDetailsComponent {
     }
     this.possibleMoves = [];
     this.selectedFigure = null;
-    this.gameService.makePlayerMove(gameId, {source: source, target: target.convertedColumn + target.convertedRow}).subscribe((response) => {
+    this.gameService.makePlayerMove(gameId, {source: source, target: target.convertedColumn + target.convertedRow, promotingFigureClassName: "Queen"}).subscribe((response) => {
       this.updateBoard();
       this.getBotMove();
     });

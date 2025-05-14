@@ -9,10 +9,10 @@ import ch.janishuber.logiclab.domain.chess.util.LegalMovesInCheckHelper;
 import ch.janishuber.logiclab.domain.chess.util.LegalMovesOutOfCheckHelper;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class LegalMovesHandler implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class LegalMovesHandler {
     private final ChessBoard chessBoard;
     private final FigureColor currentTurn;
 
@@ -43,5 +43,28 @@ public class LegalMovesHandler implements Serializable {
         figureFields = LegalMovesOutOfCheckHelper.filterMovesPreventingCheck(chessBoard, checkmateHandler, figureFields, figure);
 
         return figureFields;
+    }
+
+    public List<Field> getLegalCastlingMoves(ChessFigure figure) {
+        List<Field> possibleMoves = new ArrayList<>();
+        if (figure.position.getRow() == 1 || figure.position.getRow() == 8 && !figure.hasMoved) {
+            Field rightRookField = chessBoard.getField("H", figure.position.getRow());
+            Field leftRookField = chessBoard.getField("A", figure.position.getRow());
+
+            if (rightRookField.getFigure() != null && !rightRookField.getFigure().hasMoved) {
+                List<Field> possibleMovesForRightRook = rightRookField.getFigure().getPossibleMoves(chessBoard);
+                if (possibleMovesForRightRook.contains(chessBoard.getField("F", figure.position.getRow()))) {
+                    possibleMoves.add(chessBoard.getField("G", figure.position.getRow()));
+                }
+
+            }
+            if (leftRookField.getFigure() != null && !leftRookField.getFigure().hasMoved) {
+                List<Field> possibleMovesForLeftRook = leftRookField.getFigure().getPossibleMoves(chessBoard);
+                if (possibleMovesForLeftRook.contains(chessBoard.getField("D", figure.position.getRow()))) {
+                    possibleMoves.add(chessBoard.getField("C", figure.position.getRow()));
+                }
+            }
+        }
+        return possibleMoves;
     }
 }

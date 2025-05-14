@@ -1,6 +1,12 @@
 @if (winner) {
     <div class="flex flex-col items-center justify-center h-screen">
         <h1 class="text-2xl font-bold">Game Over</h1>
-        <p class="text-lg">The winner is {{winner}}</p>
+        @if (winner === 'STALEMATE') {
+            <p class="text-lg">The game ended in a draw</p>
+        } @else {
+            <p class="text-lg">The winner is {{winner}}</p>
+        }
+        <button class="btn btn-primary mt-10" (click)="startNewGame()">Start New Game</button>
     </div>
 }
+

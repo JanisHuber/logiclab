@@ -57,6 +57,7 @@ public class ChessResource {
     @POST
     @Path("{id}/player/move")
     public Response move(@PathParam("id") int gameId, MoveDto move) {
+        System.out.println("Moving: " + move.promotingFigureClassName());
         Optional<Game> game = chessRepository.getGame(gameId);
         if (game.isEmpty()) {
             return Response.status(Response.Status.NOT_FOUND).build();

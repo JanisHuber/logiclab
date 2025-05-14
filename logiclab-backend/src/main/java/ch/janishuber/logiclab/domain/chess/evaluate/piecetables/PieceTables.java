@@ -6,8 +6,8 @@ import ch.janishuber.logiclab.domain.chess.enums.FigureColor;
 public class PieceTables {
     public static int[][] pawnTable = {
             { 0, 0, 0, 0, 0, 0, 0, 0 },
-            { 0, 0, 0, 0, 0, 0, 0, 0 },
-            { 0, 0, 0, 0, 0, 0, 0, 0 },
+            { 40, 40, 40, 40, 40, 40, 40, 40 },
+            { 10, 10, 10, 10, 10, 10, 10, 10 },
             { 5, 5, 10, 25, 25, 10, 5, 5 },
             { 0, 0, 0, 20, 20, 0, 0, 0 },
             { 5, -5, -10, 0, 0, -10, -5, 5 },

@@ -6,16 +6,13 @@ import ch.janishuber.logiclab.domain.chess.board.ChessBoard;
 import ch.janishuber.logiclab.domain.chess.board.Field;
 import ch.janishuber.logiclab.domain.chess.util.ChessFigure;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Queen extends ChessFigure implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Queen extends ChessFigure {
 
-    private List<Field> possibleMoves = new ArrayList<>();
+    private final List<Field> possibleMoves = new ArrayList<>();
     public int value = 9;
 
     public List<Field> getPossibleMoves(ChessBoard chessBoard) {

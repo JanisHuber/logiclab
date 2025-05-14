@@ -1,10 +1,8 @@
 package ch.janishuber.logiclab.domain.chess.board;
 
-import java.io.Serializable;
 import java.util.List;
 
-public class ChessBoard implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class ChessBoard {
 
     private List<Field> fields;
 

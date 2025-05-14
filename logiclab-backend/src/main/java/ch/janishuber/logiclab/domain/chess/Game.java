@@ -7,6 +7,7 @@ import ch.janishuber.logiclab.domain.chess.board.Field;
 import ch.janishuber.logiclab.domain.chess.controller.ChessController;
 import ch.janishuber.logiclab.domain.chess.enums.FigureColor;
 import ch.janishuber.logiclab.domain.chess.evaluate.GameStateHelper;
+import ch.janishuber.logiclab.domain.chess.figures.Queen;
 import ch.janishuber.logiclab.domain.chess.util.Move;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -52,11 +53,11 @@ public class Game {
 
     public boolean makeMove(MoveDto moveDto) {
         Move move = convertToMove(moveDto);
-        return makeMove(move);
+        return makeMove(move, moveDto.promotingFigureClassName());
     }
 
-    public boolean makeMove(Move move) {
-        boolean hasMoved = chessController.moveOnChessboard(move);
+    public boolean makeMove(Move move, String promotingFigureClassName) {
+        boolean hasMoved = chessController.moveOnChessboard(move, promotingFigureClassName);
         GameStateHelper.getStalemateStatus(chessController.chessBoard, chessController.currentTurn)
                 .ifPresent(stalemate -> {
                     if (stalemate) {
@@ -82,7 +83,7 @@ public class Game {
         if (botMove.isEmpty()) {
             return Optional.empty();
         }
-        makeMove(botMove.get());
+        makeMove(botMove.get(), "Queen");
         return botMove;
     }
 

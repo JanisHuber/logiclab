@@ -4,7 +4,10 @@ import ch.janishuber.logiclab.domain.chess.board.ChessBoard;
 import ch.janishuber.logiclab.domain.chess.board.Field;
 import ch.janishuber.logiclab.domain.chess.controller.LegalMovesHandler;
 import ch.janishuber.logiclab.domain.chess.enums.FigureColor;
+import ch.janishuber.logiclab.domain.chess.figures.Knight;
+import ch.janishuber.logiclab.domain.chess.util.ChessFigure;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +34,10 @@ public class GameStateHelper {
         LegalMovesHandler legalMovesHandler = new LegalMovesHandler(chessBoard, currentTurn);
         boolean hasNoLegalMoves = hasNoLegalMoves(chessBoard, currentTurn);
 
+        if (hasEnoughMaterial(chessBoard)) {
+            return Optional.of(true);
+        }
+
         if (!hasNoLegalMoves) {
             return Optional.empty();
         }
@@ -40,5 +47,36 @@ public class GameStateHelper {
         }
 
         return Optional.of(true);
+    }
+
+    public static boolean hasEnoughMaterial(ChessBoard chessBoard) {
+        List<ChessFigure> whitePieces = new ArrayList<>();
+        List<ChessFigure> blackPieces = new ArrayList<>();
+
+        for (Field field : chessBoard.getFields()) {
+            if (field.getFigure() != null) {
+                if (field.getFigure().figureColor == FigureColor.WHITE) {
+                    whitePieces.add(field.getFigure());
+                } else {
+                    blackPieces.add(field.getFigure());
+                }
+            }
+        }
+        return isOnlyKingAndKnight(whitePieces, blackPieces);
+    }
+
+    private static boolean isOnlyKingAndKnight(List<ChessFigure> whitePieces, List<ChessFigure> blackPieces) {
+        boolean isStalemate = false;
+        if (whitePieces.size() <= 2) {
+            for (ChessFigure piece : whitePieces) {
+                isStalemate = piece instanceof Knight || piece.getClassName().equals("Bishop") || piece.getClassName().equals("King");
+            }
+        }
+        if (blackPieces.size() <= 2) {
+            for (ChessFigure piece : blackPieces) {
+                isStalemate = piece instanceof Knight || piece.getClassName().equals("Bishop") || piece.getClassName().equals("King");
+            }
+        }
+        return isStalemate;
     }
 }

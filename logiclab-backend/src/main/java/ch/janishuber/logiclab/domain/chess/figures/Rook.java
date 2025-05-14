@@ -10,8 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Rook extends ChessFigure implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Rook extends ChessFigure {
 
     private List<Field> possibleMoves = new ArrayList<>();
     public int value = 5;

@@ -27,7 +27,8 @@ public class ChessBot {
         this.maxQuiescenceSearchDepth = maxQuiescenceSearchDepth;
     }
 
-    public Move getBestMove(ChessBoard chessBoard, FigureColor currentTurn, FigureColor botColor, String moveHistoryGame) {
+    public Move getBestMove(ChessBoard chessBoard, FigureColor currentTurn, FigureColor botColor,
+            String moveHistoryGame) {
         List<String> moveHistoryList = new ArrayList<>();
         for (String move : moveHistoryGame.split(",")) {
             moveHistoryList.add(move);
@@ -47,32 +48,39 @@ public class ChessBot {
         Move bestMove = null;
         int bestEval = (botColor == FigureColor.WHITE) ? Integer.MIN_VALUE : Integer.MAX_VALUE;
 
-        List<Move> possibleMoves = sortMoves(getAllPossibleCheckedMoves(chessBoard, currentTurn), chessBoard, moveHistoryGame);
+        List<Move> possibleMoves = sortMoves(getAllPossibleCheckedMoves(chessBoard, currentTurn), chessBoard,
+                moveHistoryGame);
         for (Move move : possibleMoves) {
             int eval = evaluateMove(chessBoard, botColor, move, moveHistoryGame, currentTurn);
-            if ((botColor == FigureColor.WHITE && eval > bestEval) || (botColor == FigureColor.BLACK && eval < bestEval)) {
+            if ((botColor == FigureColor.WHITE && eval > bestEval)
+                    || (botColor == FigureColor.BLACK && eval < bestEval)) {
                 System.out.println("Old eval: " + bestEval + " New eval: " + eval);
                 bestEval = eval;
                 bestMove = move;
-                System.out.println("Best move: " + bestMove.source().getColumn() + bestMove.source().getRow() + "To: " + bestMove.target().getColumn() + bestMove.target().getRow() + " with evaluation: " + bestEval);
+                System.out.println("Best move: " + bestMove.source().getColumn() + bestMove.source().getRow() + "To: "
+                        + bestMove.target().getColumn() + bestMove.target().getRow() + " with evaluation: " + bestEval);
             }
         }
         return bestMove;
     }
 
-    private int evaluateMove(ChessBoard chessBoard, FigureColor botColor, Move move, String moveHistoryGame, FigureColor currentTurn) {
+    private int evaluateMove(ChessBoard chessBoard, FigureColor botColor, Move move, String moveHistoryGame,
+            FigureColor currentTurn) {
         applyMove(chessBoard, move);
         FigureColor nextTurn = (currentTurn == FigureColor.WHITE) ? FigureColor.BLACK : FigureColor.WHITE;
         boolean isMaximizingPlayer = (nextTurn == botColor);
-        int eval = alphaBeta(chessBoard, botColor, depth - 1, Integer.MIN_VALUE, Integer.MAX_VALUE, isMaximizingPlayer, moveHistoryGame, nextTurn);
+        int eval = alphaBeta(chessBoard, botColor, depth - 1, Integer.MIN_VALUE, Integer.MAX_VALUE, isMaximizingPlayer,
+                moveHistoryGame, nextTurn);
         undoMoves(chessBoard, 1);
         return eval;
     }
 
-    private int alphaBeta(ChessBoard chessBoard, FigureColor botColor, int depth, int alpha, int beta, boolean isMaximizingPlayer, String moveHistoryGame, FigureColor currentTurn) {
+    private int alphaBeta(ChessBoard chessBoard, FigureColor botColor, int depth, int alpha, int beta,
+            boolean isMaximizingPlayer, String moveHistoryGame, FigureColor currentTurn) {
         if (depth == 0) {
             if (maxQuiescenceSearchDepth > 0) {
-                int result = quiescenceSearch(chessBoard, botColor, alpha, beta, isMaximizingPlayer, maxQuiescenceSearchDepth, moveHistoryGame, currentTurn);
+                int result = quiescenceSearch(chessBoard, botColor, alpha, beta, isMaximizingPlayer,
+                        maxQuiescenceSearchDepth, moveHistoryGame, currentTurn);
                 return result;
             } else {
                 int result = evaluateBoard.evaluateBoard(chessBoard, currentTurn, botColor);
@@ -80,26 +88,31 @@ public class ChessBot {
             }
         }
 
-        List<Move> possibleMoves = sortMoves(getAllPossibleCheckedMoves(chessBoard, currentTurn), chessBoard, moveHistoryGame);
+        List<Move> possibleMoves = sortMoves(getAllPossibleCheckedMoves(chessBoard, currentTurn), chessBoard,
+                moveHistoryGame);
         if (possibleMoves.isEmpty()) {
             return evaluateBoard.evaluateBoard(chessBoard, currentTurn, botColor);
         }
 
         if (isMaximizingPlayer) {
-            return getMaximizingEval(chessBoard, botColor, depth, alpha, beta, possibleMoves, moveHistoryGame, currentTurn);
+            return getMaximizingEval(chessBoard, botColor, depth, alpha, beta, possibleMoves, moveHistoryGame,
+                    currentTurn);
         } else {
-            return getMinimizingEval(chessBoard, botColor, depth, alpha, beta, possibleMoves, moveHistoryGame, currentTurn);
+            return getMinimizingEval(chessBoard, botColor, depth, alpha, beta, possibleMoves, moveHistoryGame,
+                    currentTurn);
         }
     }
 
-    private int getMinimizingEval(ChessBoard chessBoard, FigureColor botColor, int depth, int alpha, int beta, List<Move> possibleMoves, String moveHistoryGame, FigureColor currentTurn) {
+    private int getMinimizingEval(ChessBoard chessBoard, FigureColor botColor, int depth, int alpha, int beta,
+            List<Move> possibleMoves, String moveHistoryGame, FigureColor currentTurn) {
         int minEval = Integer.MAX_VALUE;
 
         for (Move move : possibleMoves) {
             applyMove(chessBoard, move);
             FigureColor nextTurn = (currentTurn == FigureColor.WHITE) ? FigureColor.BLACK : FigureColor.WHITE;
             boolean isMaximizingPlayer = (nextTurn == botColor);
-            int eval = alphaBeta(chessBoard, botColor, depth - 1, alpha, beta, isMaximizingPlayer, moveHistoryGame, nextTurn);
+            int eval = alphaBeta(chessBoard, botColor, depth - 1, alpha, beta, isMaximizingPlayer, moveHistoryGame,
+                    nextTurn);
             undoMoves(chessBoard, 1);
             minEval = Math.min(minEval, eval);
             beta = Math.min(beta, eval);
@@ -111,14 +124,16 @@ public class ChessBot {
         return minEval;
     }
 
-    private int getMaximizingEval(ChessBoard chessBoard, FigureColor botColor, int depth, int alpha, int beta, List<Move> possibleMoves, String moveHistoryGame, FigureColor currentTurn) {
+    private int getMaximizingEval(ChessBoard chessBoard, FigureColor botColor, int depth, int alpha, int beta,
+            List<Move> possibleMoves, String moveHistoryGame, FigureColor currentTurn) {
         int maxEval = Integer.MIN_VALUE;
 
         for (Move move : possibleMoves) {
             applyMove(chessBoard, move);
             FigureColor nextTurn = (currentTurn == FigureColor.WHITE) ? FigureColor.BLACK : FigureColor.WHITE;
             boolean isMaximizingPlayer = (nextTurn == botColor);
-            int eval = alphaBeta(chessBoard, botColor, depth - 1, alpha, beta, isMaximizingPlayer, moveHistoryGame, nextTurn);
+            int eval = alphaBeta(chessBoard, botColor, depth - 1, alpha, beta, isMaximizingPlayer, moveHistoryGame,
+                    nextTurn);
             undoMoves(chessBoard, 1);
             maxEval = Math.max(maxEval, eval);
             alpha = Math.max(alpha, eval);
@@ -163,20 +178,22 @@ public class ChessBot {
         }
         sortedMoves.addAll(remainingMoves);
         return sortedMoves;
-        /*if (moveHistoryGame == null || moveHistoryGame.isEmpty()) {
-            return sortedMoves;
-        }
-        String[] historyMoves = moveHistoryGame.split(",");
-        for (String move : historyMoves) {
-            Optional<Move> historyMove = convertFENtoMove(move, chessBoard);
-            if (historyMove.isPresent()) {
-                if (sortedMoves.contains(historyMove.get())) {
-                    sortedMoves.remove(historyMove);
-                }
-            }
-        }
-
-        return sortedMoves;*/
+        /*
+         * if (moveHistoryGame == null || moveHistoryGame.isEmpty()) {
+         * return sortedMoves;
+         * }
+         * String[] historyMoves = moveHistoryGame.split(",");
+         * for (String move : historyMoves) {
+         * Optional<Move> historyMove = convertFENtoMove(move, chessBoard);
+         * if (historyMove.isPresent()) {
+         * if (sortedMoves.contains(historyMove.get())) {
+         * sortedMoves.remove(historyMove);
+         * }
+         * }
+         * }
+         * 
+         * return sortedMoves;
+         */
     }
 
     /**
@@ -191,7 +208,8 @@ public class ChessBot {
      * @param isMaximizingPlayer
      * @return score of the best evaluation
      */
-    private int quiescenceSearch(ChessBoard chessBoard, FigureColor botColor, int alpha, int beta, boolean isMaximizingPlayer, int depth, String moveHistoryGame, FigureColor currentTurn) {
+    private int quiescenceSearch(ChessBoard chessBoard, FigureColor botColor, int alpha, int beta,
+            boolean isMaximizingPlayer, int depth, String moveHistoryGame, FigureColor currentTurn) {
         if (depth == 0) {
             System.out.println("Quiescence search depth reached");
             return evaluateBoard.evaluateBoard(chessBoard, currentTurn, botColor);
@@ -199,10 +217,12 @@ public class ChessBot {
         int standPat = evaluateBoard.evaluateBoard(chessBoard, currentTurn, botColor);
 
         if (isMaximizingPlayer) {
-            if (standPat >= beta) return beta;
+            if (standPat >= beta)
+                return beta;
             alpha = Math.max(alpha, standPat);
         } else {
-            if (standPat <= alpha) return alpha;
+            if (standPat <= alpha)
+                return alpha;
             beta = Math.min(beta, standPat);
         }
 
@@ -214,14 +234,17 @@ public class ChessBot {
         for (Move move : noisyMoves) {
             applyMove(chessBoard, move);
 
-            int score = quiescenceSearch(chessBoard, botColor, alpha, beta, !isMaximizingPlayer, depth - 1, moveHistoryGame, currentTurn);
+            int score = quiescenceSearch(chessBoard, botColor, alpha, beta, !isMaximizingPlayer, depth - 1,
+                    moveHistoryGame, currentTurn);
             undoMoves(chessBoard, 1);
 
             if (isMaximizingPlayer) {
-                if (score >= beta) return beta;
+                if (score >= beta)
+                    return beta;
                 alpha = Math.max(alpha, score);
             } else {
-                if (score <= alpha) return alpha;
+                if (score <= alpha)
+                    return alpha;
                 beta = Math.min(beta, score);
             }
         }
@@ -237,7 +260,8 @@ public class ChessBot {
 
         for (Move move : allMoves) {
             Field target = move.getTarget(chessBoard);
-            if (target.getFigure() != null && target.getFigure().figureColor != currentTurn && target.getFigure().value > 1) {
+            if (target.getFigure() != null && target.getFigure().figureColor != currentTurn
+                    && target.getFigure().value > 1) {
                 noisyMoves.add(move);
             } else if (moveResultsInCheck(chessBoard, move, currentTurn)) {
                 noisyMoves.add(move);
@@ -259,18 +283,62 @@ public class ChessBot {
         Field target = move.getTarget(chessBoard);
 
         ChessFigure capturedFigure = target.getFigure();
+        boolean wasPromotion = false;
+        ChessFigure promotedTo = null;
+        boolean wasCastling = false;
+        Field rookSource = null;
+        Field rookTarget = null;
+        ChessFigure rookFigure = null;
 
-        if (source.getFigure() != null) {
-            source.getFigure().position = target;
+        // Promotion erkennen (Bauer auf letzter Reihe und Umwandlung)
+        ChessFigure movingFigure = source.getFigure();
+        if (movingFigure != null && movingFigure.getClass().getSimpleName().equals("Pawn")
+                && (target.getRow() == 1 || target.getRow() == 8)) {
+            wasPromotion = true;
+            // Standard: Umwandlung zu Dame
+            promotedTo = createPromotedFigure(movingFigure.figureColor, target);
+            System.out.println("ChessBot promoted");
+        }
+
+        // Rochade erkennen (König zieht zwei Felder)
+        if (movingFigure != null && movingFigure.getClass().getSimpleName().equals("King")
+                && Math.abs(target.getColumn().charAt(0) - source.getColumn().charAt(0)) == 2) {
+            wasCastling = true;
+            // Rochade: Turm bewegen
+            if (target.getColumn().equals("G")) { // kurze Rochade
+                rookSource = chessBoard.getField("H", source.getRow());
+                rookTarget = chessBoard.getField("F", source.getRow());
+            } else if (target.getColumn().equals("C")) { // lange Rochade
+                rookSource = chessBoard.getField("A", source.getRow());
+                rookTarget = chessBoard.getField("D", source.getRow());
+            }
+            if (rookSource != null && rookTarget != null) {
+                rookFigure = rookSource.getFigure();
+                rookTarget.setFigure(rookFigure);
+                if (rookFigure != null)
+                    rookFigure.position = rookTarget;
+                rookSource.setFigure(null);
+            }
+        }
+
+        // Normale Bewegung
+        if (movingFigure != null) {
+            movingFigure.position = target;
         }
         if (target.getFigure() != null) {
             target.getFigure().position = null;
         }
-
-        target.setFigure(source.getFigure());
+        target.setFigure(movingFigure);
         source.setFigure(null);
 
-        SimulatedMove simMove = new SimulatedMove(source, target, capturedFigure);
+        // Promotion durchführen
+        if (wasPromotion && promotedTo != null) {
+            target.setFigure(promotedTo);
+            promotedTo.position = target;
+        }
+
+        SimulatedMove simMove = new SimulatedMove(source, target, capturedFigure, wasPromotion, promotedTo, wasCastling,
+                rookSource, rookTarget, rookFigure);
         moveHistory.add(simMove);
     }
 
@@ -278,15 +346,30 @@ public class ChessBot {
         int movesToUndo = Math.min(depth, moveHistory.size());
 
         for (int i = 0; i < movesToUndo; i++) {
-            SimulatedMove simMove = (SimulatedMove) moveHistory.remove(moveHistory.size() - 1);
+            SimulatedMove simMove = moveHistory.remove(moveHistory.size() - 1);
             Field source = simMove.source();
             Field target = simMove.target();
-            ChessFigure capturedFigure = simMove.figure();
+            ChessFigure capturedFigure = simMove.capturedFigure();
+            boolean wasPromotion = simMove.wasPromotion();
+            ChessFigure promotedTo = simMove.promotedTo();
+            boolean wasCastling = simMove.wasCastling();
+            Field rookSource = simMove.rookSource();
+            Field rookTarget = simMove.rookTarget();
+            ChessFigure rookFigure = simMove.rookFigure();
 
             ChessFigure movedFigure = target.getFigure();
-            source.setFigure(movedFigure);
-            if (movedFigure != null) {
-                movedFigure.position = source;
+
+            // Promotion rückgängig machen
+            if (wasPromotion && movedFigure != null && promotedTo != null) {
+                // Zurück in einen Bauern verwandeln
+                ChessFigure pawn = createPawn(movedFigure.figureColor, source);
+                source.setFigure(pawn);
+                pawn.position = source;
+            } else {
+                source.setFigure(movedFigure);
+                if (movedFigure != null) {
+                    movedFigure.position = source;
+                }
             }
 
             target.setFigure(capturedFigure);
@@ -294,6 +377,38 @@ public class ChessBot {
                 capturedFigure.position = target;
             }
 
+            // Rochade rückgängig machen
+            if (wasCastling && rookSource != null && rookTarget != null && rookFigure != null) {
+                rookSource.setFigure(rookFigure);
+                rookFigure.position = rookSource;
+                rookTarget.setFigure(null);
+            }
+        }
+    }
+
+    // Hilfsmethode für Promotion: Erzeugt eine Dame
+    private ChessFigure createPromotedFigure(FigureColor color, Field position) {
+        try {
+            Class<?> queenClass = Class.forName("ch.janishuber.logiclab.domain.chess.figures.Queen");
+            ChessFigure queen = (ChessFigure) queenClass.getDeclaredConstructor().newInstance();
+            queen.figureColor = color;
+            queen.position = position;
+            return queen;
+        } catch (Exception e) {
+            throw new RuntimeException("Fehler bei der Promotion: " + e.getMessage(), e);
+        }
+    }
+
+    // Hilfsmethode für Undo: Erzeugt einen Bauern
+    private ChessFigure createPawn(FigureColor color, Field position) {
+        try {
+            Class<?> pawnClass = Class.forName("ch.janishuber.logiclab.domain.chess.figures.Pawn");
+            ChessFigure pawn = (ChessFigure) pawnClass.getDeclaredConstructor().newInstance();
+            pawn.figureColor = color;
+            pawn.position = position;
+            return pawn;
+        } catch (Exception e) {
+            throw new RuntimeException("Fehler beim Rückgängig machen der Promotion: " + e.getMessage(), e);
         }
     }
 

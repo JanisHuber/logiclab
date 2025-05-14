@@ -4,10 +4,8 @@ package ch.janishuber.logiclab.domain.chess.board;
 import ch.janishuber.logiclab.domain.chess.util.ChessFigure;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.io.Serializable;
 
-public class Field implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Field {
     @JsonProperty
     private String column;
     @JsonProperty

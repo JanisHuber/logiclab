@@ -11,11 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class King extends ChessFigure implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class King extends ChessFigure {
 
-    private List<Field> possibleMoves = new ArrayList<>();
-    private boolean hasMoved = false;
+    private final List<Field> possibleMoves = new ArrayList<>();
     public int value = 1000;
 
     public List<Field> getPossibleMoves(ChessBoard chessBoard) {

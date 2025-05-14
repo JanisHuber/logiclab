@@ -12,8 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Pawn extends ChessFigure implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Pawn extends ChessFigure {
 
     public List<Field> getPossibleMoves(ChessBoard chessBoard) {
         List<Field> possibleMoves = new ArrayList<>();

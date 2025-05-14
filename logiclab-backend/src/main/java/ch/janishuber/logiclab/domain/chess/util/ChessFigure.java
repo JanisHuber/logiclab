@@ -27,12 +27,12 @@ import java.util.List;
         @JsonSubTypes.Type(value = King.class, name = "King"),
         @JsonSubTypes.Type(value = Pawn.class, name = "Pawn")
 })
-public abstract class ChessFigure implements Serializable {
-    private static final long serialVersionUID = 1L;
+public abstract class ChessFigure {
 
     public FigureColor figureColor;
     public Field position;
     public int value;
+    public boolean hasMoved = false;
 
     public abstract List<Field> getPossibleMoves(ChessBoard chessBoard);
     @JsonIgnore

@@ -14,20 +14,28 @@ import java.util.Optional;
 public class evaluateBoard {
 
     public static int evaluateBoard(ChessBoard chessBoard, FigureColor currentTurn, FigureColor botColor) {
-        int pieceValue = getPieceValue(chessBoard, currentTurn);
-        int positionValue = getPawnPositionValue(chessBoard, botColor);
-        int mobilityValue = getMobilityValue(chessBoard, currentTurn);
-        int checkmateValue = checkmateValue(chessBoard, currentTurn, botColor);
         Optional<Boolean> isStalemate = GameStateHelper.getStalemateStatus(chessBoard, currentTurn);
-
         if (isStalemate.isPresent()) {
             if (isStalemate.get()) {
                 return 0;
             } else {
-                return checkmateValue;
+                return checkmateValue(chessBoard, currentTurn, botColor);
             }
         }
-        return pieceValue + mobilityValue + positionValue;
+        int overallValue = 0;
+        GamePhase gamePhase = PhaseEvaluator.evaluatePhase(chessBoard);
+        int pieceValue = getPieceValue(chessBoard, currentTurn);
+        int positionValue = getPawnPositionValue(chessBoard, botColor);
+        int mobilityValue = getMobilityValue(chessBoard, currentTurn);
+
+        if (gamePhase == GamePhase.OPENING) {
+            overallValue = pieceValue + mobilityValue / 2 + positionValue / 2;
+        } else if (gamePhase == GamePhase.MIDDLEGAME) {
+            overallValue = pieceValue + mobilityValue / 2 + positionValue / 2;
+        } else if (gamePhase == GamePhase.ENDGAME) {
+            overallValue = pieceValue + positionValue;
+        }
+        return overallValue;
     }
 
     private static int getMobilityValue(ChessBoard chessBoard, FigureColor currentTurn) {

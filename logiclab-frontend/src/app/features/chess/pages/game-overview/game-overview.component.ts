@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { GameService } from '../../../../core/services/chess/game.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-game-overview',
@@ -11,14 +12,9 @@ export class GameOverviewComponent {
   @Input() winner: string | undefined;
   @Input() gameId: number | undefined;
 
-  moveHistory: string = '';
+  constructor(private gameService: GameService, private router: Router) { }
 
-  constructor(private gameService: GameService) { }
-  
-  ngOnInit() {
-    if (!this.gameId) return;
-    this.gameService.getMoveHistory(this.gameId).subscribe((history) => {
-      this.moveHistory = history;
-    });  
+  startNewGame() {
+    this.router.navigate(['/chess/new']);
   }
 }

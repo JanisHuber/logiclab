@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("t")
-public class CheckmateHandler implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class CheckmateHandler {
 
     private final ChessBoard chessBoard;
     private final FigureColor currentTurn;
