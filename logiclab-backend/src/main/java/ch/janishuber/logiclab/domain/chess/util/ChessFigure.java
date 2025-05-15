@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-import java.io.Serializable;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -32,7 +31,7 @@ public abstract class ChessFigure {
     public FigureColor figureColor;
     public Field position;
     public int value;
-    public boolean hasMoved = false;
+    public boolean hasMoved;
 
     public abstract List<Field> getPossibleMoves(ChessBoard chessBoard);
     @JsonIgnore

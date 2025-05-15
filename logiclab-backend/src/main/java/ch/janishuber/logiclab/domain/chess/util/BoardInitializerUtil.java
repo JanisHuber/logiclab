@@ -46,36 +46,42 @@ public class BoardInitializerUtil {
         f.setFigure(new Pawn());
         f.getFigure().position = f;
         f.getFigure().figureColor = (row == 2) ? FigureColor.WHITE : FigureColor.BLACK;
+        f.getFigure().hasMoved = false;
     }
 
     private static void addRook(Field f, int row) {
         f.setFigure(new Rook());
         f.getFigure().position = f;
         f.getFigure().figureColor = (row == 1) ? FigureColor.WHITE : FigureColor.BLACK;
+        f.getFigure().hasMoved = false;
     }
 
     private static void addKnight(Field f, int row) {
         f.setFigure(new Knight());
         f.getFigure().position = f;
         f.getFigure().figureColor = (row == 1) ? FigureColor.WHITE : FigureColor.BLACK;
+        f.getFigure().hasMoved = false;
     }
 
     private static void addBishop(Field f, int row) {
         f.setFigure(new Bishop());
         f.getFigure().position = f;
         f.getFigure().figureColor = (row == 1) ? FigureColor.WHITE : FigureColor.BLACK;
+        f.getFigure().hasMoved = false;
     }
 
     private static void addQueen(Field f, int row) {
         f.setFigure(new Queen());
         f.getFigure().position = f;
         f.getFigure().figureColor = (row == 1) ? FigureColor.WHITE : FigureColor.BLACK;
+        f.getFigure().hasMoved = false;
     }
 
     private static void addKing(Field f, int row) {
         f.setFigure(new King());
         f.getFigure().position = f;
         f.getFigure().figureColor = (row == 1) ? FigureColor.WHITE : FigureColor.BLACK;
+        f.getFigure().hasMoved = false;
     }
 
     private static boolean isRookPosition(int row, String column) {

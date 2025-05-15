@@ -1,4 +1,4 @@
-package ch.janishuber.logiclab.domain.chess.evaluate.piecetables;
+package ch.janishuber.logiclab.domain.chess.evaluate;
 
 import ch.janishuber.logiclab.domain.chess.board.Field;
 import ch.janishuber.logiclab.domain.chess.enums.FigureColor;
@@ -37,6 +37,17 @@ public class PieceTables {
             { -20, -10, -10, -10, -10, -10, -10, -20 }
     };
 
+    public static int[][] kingMidGameTable = {
+            { -30, -40, -40, -50, -50, -40, -40, -30 },
+            { -30, -40, -40, -50, -50, -40, -40, -30 },
+            { -30, -40, -40, -50, -50, -40, -40, -30 },
+            { -30, -40, -40, -50, -50, -40, -40, -30 },
+            { 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 },
+            { 10 , 10 , 10 , 10 , 10 , 10 , 10 , 10 },
+            { 10 , 10 , 10 , 10 , 10 , 10 , 10 , 10 },
+            { 0 , 30 , 20 , 0 , 0 , 10 , 30 , 0 }
+    };
+
     public static int getPawnTableValue(Field field) {
         int row = getTableRow(field);
         int col = getTableCol(field);
@@ -53,6 +64,12 @@ public class PieceTables {
         int row = getTableRow(field);
         int col = getTableCol(field);
         return bishopTable[col][row];
+    }
+
+    public static int getKingMidGameTableValue(Field field) {
+        int row = getTableRow(field);
+        int col = getTableCol(field);
+        return kingMidGameTable[col][row];
     }
 
     private static int getTableRow(Field field) {

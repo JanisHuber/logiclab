@@ -37,8 +37,8 @@ public class ChessController {
             init();
         }
         if (publicAgainstAI) {
-            bot = new ChessBot(botDifficulty - 2, (botDifficulty > 5) ? botDifficulty - 4 : 0);
-            //bot = new ChessBot(3, 0);
+            //bot = new ChessBot(botDifficulty - 2, (botDifficulty > 5) ? botDifficulty - 4 : 0);
+            bot = new ChessBot(3, 3);
         }
     }
 

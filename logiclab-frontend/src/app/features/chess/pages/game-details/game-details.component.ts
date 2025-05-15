@@ -38,6 +38,10 @@ export class GameDetailsComponent {
     const figure = this.chessBoard[targetPosition.row][targetPosition.col];
 
     if (this.selectedFigure) {
+      if (figure && this.isFigureAlreadySelected(figure)) {
+        this.unselectFigure();
+        return;
+      }
       if (figure && this.isFigureSelectable(figure)) {
         this.selectFigure(figure, this.gameId);
         return;
@@ -105,6 +109,10 @@ export class GameDetailsComponent {
 
   private isFigureSelectable(figure: ChessFigure) {
     return figure.figureColor === this.currentTurn;
+  }
+
+  private isFigureAlreadySelected(figure: ChessFigure) {
+    return this.selectedFigure?.position === figure.position;
   }
 
   getBotMove() {

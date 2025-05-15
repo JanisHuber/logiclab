@@ -47,20 +47,20 @@ public class LegalMovesHandler {
 
     public List<Field> getLegalCastlingMoves(ChessFigure figure) {
         List<Field> possibleMoves = new ArrayList<>();
-        if (figure.position.getRow() == 1 || figure.position.getRow() == 8 && !figure.hasMoved) {
+        if ((figure.position.getRow() == 1 || figure.position.getRow() == 8) && !figure.hasMoved) {
             Field rightRookField = chessBoard.getField("H", figure.position.getRow());
             Field leftRookField = chessBoard.getField("A", figure.position.getRow());
 
             if (rightRookField.getFigure() != null && !rightRookField.getFigure().hasMoved) {
                 List<Field> possibleMovesForRightRook = rightRookField.getFigure().getPossibleMoves(chessBoard);
-                if (possibleMovesForRightRook.contains(chessBoard.getField("F", figure.position.getRow()))) {
+                if (possibleMovesForRightRook.contains(chessBoard.getField("F", figure.position.getRow())) && chessBoard.getField("F", figure.position.getRow()).getFigure() == null) {
                     possibleMoves.add(chessBoard.getField("G", figure.position.getRow()));
                 }
 
             }
             if (leftRookField.getFigure() != null && !leftRookField.getFigure().hasMoved) {
                 List<Field> possibleMovesForLeftRook = leftRookField.getFigure().getPossibleMoves(chessBoard);
-                if (possibleMovesForLeftRook.contains(chessBoard.getField("D", figure.position.getRow()))) {
+                if (possibleMovesForLeftRook.contains(chessBoard.getField("D", figure.position.getRow())) && chessBoard.getField("D", figure.position.getRow()).getFigure() == null) {
                     possibleMoves.add(chessBoard.getField("C", figure.position.getRow()));
                 }
             }

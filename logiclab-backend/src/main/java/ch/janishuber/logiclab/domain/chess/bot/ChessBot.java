@@ -4,19 +4,19 @@ import ch.janishuber.logiclab.domain.chess.board.ChessBoard;
 import ch.janishuber.logiclab.domain.chess.board.Field;
 import ch.janishuber.logiclab.domain.chess.controller.LegalMovesHandler;
 import ch.janishuber.logiclab.domain.chess.enums.FigureColor;
-import ch.janishuber.logiclab.domain.chess.evaluate.OpeningBook;
+import ch.janishuber.logiclab.domain.chess.util.GamePhase;
+import ch.janishuber.logiclab.domain.chess.evaluate.PhaseEvaluator;
 import ch.janishuber.logiclab.domain.chess.evaluate.evaluateBoard;
 import ch.janishuber.logiclab.domain.chess.util.ChessFigure;
 import ch.janishuber.logiclab.domain.chess.util.Move;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 @SuppressWarnings("ALL")
 public class ChessBot {
-    private final int depth;
+    private int depth;
     private final int maxQuiescenceSearchDepth;
 
     private final List<SimulatedMove> moveHistory = new ArrayList<>();
@@ -27,8 +27,10 @@ public class ChessBot {
         this.maxQuiescenceSearchDepth = maxQuiescenceSearchDepth;
     }
 
-    public Move getBestMove(ChessBoard chessBoard, FigureColor currentTurn, FigureColor botColor,
-            String moveHistoryGame) {
+    public Move getBestMove(ChessBoard chessBoard, FigureColor currentTurn, FigureColor botColor, String moveHistoryGame) {
+        if (PhaseEvaluator.evaluatePhase(chessBoard) == GamePhase.ENDGAME) {
+            this.depth = 6;
+        }
         List<String> moveHistoryList = new ArrayList<>();
         for (String move : moveHistoryGame.split(",")) {
             moveHistoryList.add(move);
@@ -49,8 +51,7 @@ public class ChessBot {
         Move bestMove = null;
         int bestEval = Integer.MIN_VALUE;
 
-        List<Move> possibleMoves = sortMoves(getAllPossibleCheckedMoves(chessBoard, currentTurn), chessBoard,
-                moveHistoryGame);
+        List<Move> possibleMoves = sortMoves(getAllPossibleCheckedMoves(chessBoard, currentTurn), chessBoard, moveHistoryGame);
         for (Move move : possibleMoves) {
             int eval = evaluateMove(chessBoard, botColor, move, moveHistoryGame, currentTurn);
             if (eval > bestEval) {
@@ -66,36 +67,32 @@ public class ChessBot {
     private int evaluateMove(ChessBoard chessBoard, FigureColor botColor, Move move, String moveHistoryGame, FigureColor currentTurn) {
         applyMove(chessBoard, move);
         FigureColor nextTurn = (currentTurn == FigureColor.WHITE) ? FigureColor.BLACK : FigureColor.WHITE;
-        int eval = alphaBeta(chessBoard, botColor, depth - 1, Integer.MIN_VALUE, Integer.MAX_VALUE, true, moveHistoryGame, nextTurn);
+        int eval = alphaBeta(chessBoard, botColor, depth - 1, Integer.MIN_VALUE, Integer.MAX_VALUE, false, moveHistoryGame, nextTurn);
         undoMoves(chessBoard, 1);
         return eval;
     }
 
-    private int alphaBeta(ChessBoard chessBoard, FigureColor botColor, int depth, int alpha, int beta,
-            boolean isMaximizingPlayer, String moveHistoryGame, FigureColor currentTurn) {
+    private int alphaBeta(ChessBoard chessBoard, FigureColor botColor, int depth, int alpha, int beta, boolean isMaximizingPlayer, String moveHistoryGame, FigureColor currentTurn) {
         if (depth == 0) {
             if (maxQuiescenceSearchDepth > 0) {
                 int result = quiescenceSearch(chessBoard, botColor, alpha, beta, isMaximizingPlayer,
                         maxQuiescenceSearchDepth, moveHistoryGame, currentTurn);
                 return result;
             } else {
-                int result = evaluateBoard.evaluateBoard(chessBoard, currentTurn, botColor);
+                int result = evaluateBoard.evaluateBoard(chessBoard, botColor);
                 return result;
             }
         }
 
-        List<Move> possibleMoves = sortMoves(getAllPossibleCheckedMoves(chessBoard, currentTurn), chessBoard,
-                moveHistoryGame);
+        List<Move> possibleMoves = sortMoves(getAllPossibleCheckedMoves(chessBoard, currentTurn), chessBoard, moveHistoryGame);
         if (possibleMoves.isEmpty()) {
-            return evaluateBoard.evaluateBoard(chessBoard, currentTurn, botColor);
+            return evaluateBoard.evaluateBoard(chessBoard, botColor);
         }
 
         if (isMaximizingPlayer) {
-            return getMaximizingEval(chessBoard, botColor, depth, alpha, beta, possibleMoves, moveHistoryGame,
-                    currentTurn);
+            return getMaximizingEval(chessBoard, botColor, depth, alpha, beta, possibleMoves, moveHistoryGame, currentTurn);
         } else {
-            return getMinimizingEval(chessBoard, botColor, depth, alpha, beta, possibleMoves, moveHistoryGame,
-                    currentTurn);
+            return getMinimizingEval(chessBoard, botColor, depth, alpha, beta, possibleMoves, moveHistoryGame, currentTurn);
         }
     }
 
@@ -202,9 +199,9 @@ public class ChessBot {
             boolean isMaximizingPlayer, int depth, String moveHistoryGame, FigureColor currentTurn) {
         if (depth == 0) {
             System.out.println("Quiescence search depth reached");
-            return evaluateBoard.evaluateBoard(chessBoard, currentTurn, botColor);
+            return evaluateBoard.evaluateBoard(chessBoard, botColor);
         }
-        int standPat = evaluateBoard.evaluateBoard(chessBoard, currentTurn, botColor);
+        int standPat = evaluateBoard.evaluateBoard(chessBoard, botColor);
 
         if (isMaximizingPlayer) {
             if (standPat >= beta)
@@ -280,22 +277,17 @@ public class ChessBot {
         Field rookTarget = null;
         ChessFigure rookFigure = null;
 
-        // Promotion erkennen (Bauer auf letzter Reihe und Umwandlung)
         ChessFigure movingFigure = source.getFigure();
         if (movingFigure != null && movingFigure.getClass().getSimpleName().equals("Pawn")
                 && (target.getRow() == 1 || target.getRow() == 8)) {
             wasPromotion = true;
-            // Standard: Umwandlung zu Dame
             promotedTo = createPromotedFigure(movingFigure.figureColor, target);
-            System.out.println("ChessBot promoted");
         }
 
-        // Rochade erkennen (König zieht zwei Felder)
         if (movingFigure != null && movingFigure.getClass().getSimpleName().equals("King")
                 && Math.abs(target.getColumn().charAt(0) - source.getColumn().charAt(0)) == 2) {
             wasCastling = true;
-            // Rochade: Turm bewegen
-            if (target.getColumn().equals("G")) { // kurze Rochade
+            if (target.getColumn().equals("G")) {
                 rookSource = chessBoard.getField("H", source.getRow());
                 rookTarget = chessBoard.getField("F", source.getRow());
             } else if (target.getColumn().equals("C")) { // lange Rochade
@@ -311,7 +303,6 @@ public class ChessBot {
             }
         }
 
-        // Normale Bewegung
         if (movingFigure != null) {
             movingFigure.position = target;
         }
@@ -321,7 +312,6 @@ public class ChessBot {
         target.setFigure(movingFigure);
         source.setFigure(null);
 
-        // Promotion durchführen
         if (wasPromotion && promotedTo != null) {
             target.setFigure(promotedTo);
             promotedTo.position = target;
@@ -349,9 +339,7 @@ public class ChessBot {
 
             ChessFigure movedFigure = target.getFigure();
 
-            // Promotion rückgängig machen
             if (wasPromotion && movedFigure != null && promotedTo != null) {
-                // Zurück in einen Bauern verwandeln
                 ChessFigure pawn = createPawn(movedFigure.figureColor, source);
                 source.setFigure(pawn);
                 pawn.position = source;
@@ -367,7 +355,6 @@ public class ChessBot {
                 capturedFigure.position = target;
             }
 
-            // Rochade rückgängig machen
             if (wasCastling && rookSource != null && rookTarget != null && rookFigure != null) {
                 rookSource.setFigure(rookFigure);
                 rookFigure.position = rookSource;
@@ -376,7 +363,6 @@ public class ChessBot {
         }
     }
 
-    // Hilfsmethode für Promotion: Erzeugt eine Dame
     private ChessFigure createPromotedFigure(FigureColor color, Field position) {
         try {
             Class<?> queenClass = Class.forName("ch.janishuber.logiclab.domain.chess.figures.Queen");
@@ -389,7 +375,6 @@ public class ChessBot {
         }
     }
 
-    // Hilfsmethode für Undo: Erzeugt einen Bauern
     private ChessFigure createPawn(FigureColor color, Field position) {
         try {
             Class<?> pawnClass = Class.forName("ch.janishuber.logiclab.domain.chess.figures.Pawn");

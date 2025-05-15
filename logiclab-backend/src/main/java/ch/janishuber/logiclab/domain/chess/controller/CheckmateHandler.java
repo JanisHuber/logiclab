@@ -5,8 +5,6 @@ import ch.janishuber.logiclab.domain.chess.board.ChessBoard;
 import ch.janishuber.logiclab.domain.chess.board.Field;
 import ch.janishuber.logiclab.domain.chess.enums.FigureColor;
 import ch.janishuber.logiclab.domain.chess.util.ChessFigure;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 

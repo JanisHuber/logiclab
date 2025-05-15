@@ -4,14 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="33ce8ed2-a8a2-4bbd-9068-4647ea095a88" name="Changes" comment="--Fixed frontend Handling for Moving">
+    <list default="true" id="33ce8ed2-a8a2-4bbd-9068-4647ea095a88" name="Changes" comment="--Refactor Frontend: Seperate Things of concern">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/components/chessboard/chessboard.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/components/chessboard/chessboard.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/components/chessboard/chessboard.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/components/chessboard/chessboard.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/components/chessfigure/chessfigure.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/components/chessfigure/chessfigure.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/components/chessfigure/chessfigure.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/components/chessfigure/chessfigure.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/game-details/game-details.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/game-details/game-details.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/game-details/game-details.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-frontend/src/app/features/chess/pages/game-details/game-details.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/rest/chess/ChessResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/rest/chess/ChessResource.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -225,7 +220,7 @@
       <workItem from="1747029476854" duration="1151000" />
       <workItem from="1747054704758" duration="28000" />
       <workItem from="1747055391520" duration="2285000" />
-      <workItem from="1747202193653" duration="14263000" />
+      <workItem from="1747202193653" duration="16529000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Maven Project">
       <option name="closed" value="true" />
@@ -339,7 +334,23 @@
       <option name="project" value="LOCAL" />
       <updated>1747217796043</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="--Fixed frontend Handling for Moving">
+      <option name="closed" value="true" />
+      <created>1747227576677</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1747227576677</updated>
+    </task>
+    <task id="LOCAL-00016" summary="--Refactor Frontend: Seperate Things of concern">
+      <option name="closed" value="true" />
+      <created>1747231757769</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1747231757769</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -371,7 +382,8 @@
     <MESSAGE value="--Clean-Up&#10;--Added Castling &amp; Promoting" />
     <MESSAGE value="--" />
     <MESSAGE value="--Fixed frontend Handling for Moving" />
-    <option name="LAST_COMMIT_MESSAGE" value="--Fixed frontend Handling for Moving" />
+    <MESSAGE value="--Refactor Frontend: Seperate Things of concern" />
+    <option name="LAST_COMMIT_MESSAGE" value="--Refactor Frontend: Seperate Things of concern" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

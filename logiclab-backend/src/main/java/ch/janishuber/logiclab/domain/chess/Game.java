@@ -6,8 +6,7 @@ import ch.janishuber.logiclab.domain.chess.board.ChessBoard;
 import ch.janishuber.logiclab.domain.chess.board.Field;
 import ch.janishuber.logiclab.domain.chess.controller.ChessController;
 import ch.janishuber.logiclab.domain.chess.enums.FigureColor;
-import ch.janishuber.logiclab.domain.chess.evaluate.GameStateHelper;
-import ch.janishuber.logiclab.domain.chess.figures.Queen;
+import ch.janishuber.logiclab.domain.chess.util.GameStateHelper;
 import ch.janishuber.logiclab.domain.chess.util.Move;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -18,9 +17,9 @@ public class Game {
     private final int gameId;
     private String gameState;
     private String currentTurn;
-    private boolean againstAI;
-    private FigureColor botColor;
-    private int botDifficulty;
+    private final boolean againstAI;
+    private final FigureColor botColor;
+    private final int botDifficulty;
     private String moveHistory;
     public final transient ChessController chessController;
     private static final ObjectMapper objectMapper = new ObjectMapper();

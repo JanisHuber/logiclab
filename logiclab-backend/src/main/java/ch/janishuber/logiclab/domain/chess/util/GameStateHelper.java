@@ -1,13 +1,10 @@
-package ch.janishuber.logiclab.domain.chess.evaluate;
+package ch.janishuber.logiclab.domain.chess.util;
 
 import ch.janishuber.logiclab.domain.chess.board.ChessBoard;
 import ch.janishuber.logiclab.domain.chess.board.Field;
 import ch.janishuber.logiclab.domain.chess.controller.LegalMovesHandler;
 import ch.janishuber.logiclab.domain.chess.enums.FigureColor;
-import ch.janishuber.logiclab.domain.chess.figures.Knight;
-import ch.janishuber.logiclab.domain.chess.util.ChessFigure;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,10 +31,6 @@ public class GameStateHelper {
         LegalMovesHandler legalMovesHandler = new LegalMovesHandler(chessBoard, currentTurn);
         boolean hasNoLegalMoves = hasNoLegalMoves(chessBoard, currentTurn);
 
-        if (hasEnoughMaterial(chessBoard)) {
-            return Optional.of(true);
-        }
-
         if (!hasNoLegalMoves) {
             return Optional.empty();
         }
@@ -46,37 +39,38 @@ public class GameStateHelper {
             return Optional.of(false);
         }
 
+        if (!hasEnoughMaterial(chessBoard)) {
+            return Optional.of(true);
+        }
+
         return Optional.of(true);
     }
 
-    public static boolean hasEnoughMaterial(ChessBoard chessBoard) {
-        List<ChessFigure> whitePieces = new ArrayList<>();
-        List<ChessFigure> blackPieces = new ArrayList<>();
+    public static boolean hasEnoughMaterial(ChessBoard board) {
+        int whiteCount = 0;
+        int blackCount = 0;
+        boolean whiteHasOnlyMinor = true;
+        boolean blackHasOnlyMinor = true;
 
-        for (Field field : chessBoard.getFields()) {
-            if (field.getFigure() != null) {
-                if (field.getFigure().figureColor == FigureColor.WHITE) {
-                    whitePieces.add(field.getFigure());
-                } else {
-                    blackPieces.add(field.getFigure());
-                }
+        for (Field field : board.getFields()) {
+            ChessFigure fig = field.getFigure();
+            if (fig == null) continue;
+
+            boolean isMinorPiece = fig.getClassName().equals("Knight") || fig.getClassName().equals("Bishop");
+            boolean isKing = fig.getClassName().equals("King");
+
+            if (fig.figureColor == FigureColor.WHITE) {
+                if (!isMinorPiece && !isKing) whiteHasOnlyMinor = false;
+                whiteCount++;
+            } else {
+                if (!isMinorPiece && !isKing) blackHasOnlyMinor = false;
+                blackCount++;
             }
         }
-        return isOnlyKingAndKnight(whitePieces, blackPieces);
+
+        if (whiteCount == 1 && blackCount == 1) return false;
+        if (whiteHasOnlyMinor && whiteCount <= 2 && blackHasOnlyMinor && blackCount <= 2) return true;
+        return false;
     }
 
-    private static boolean isOnlyKingAndKnight(List<ChessFigure> whitePieces, List<ChessFigure> blackPieces) {
-        boolean isStalemate = false;
-        if (whitePieces.size() <= 2) {
-            for (ChessFigure piece : whitePieces) {
-                isStalemate = piece instanceof Knight || piece.getClassName().equals("Bishop") || piece.getClassName().equals("King");
-            }
-        }
-        if (blackPieces.size() <= 2) {
-            for (ChessFigure piece : blackPieces) {
-                isStalemate = piece instanceof Knight || piece.getClassName().equals("Bishop") || piece.getClassName().equals("King");
-            }
-        }
-        return isStalemate;
-    }
 }
