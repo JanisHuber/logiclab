@@ -5,8 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="33ce8ed2-a8a2-4bbd-9068-4647ea095a88" name="Changes" comment="--Refactor Frontend: Seperate Things of concern">
+      <change afterPath="$PROJECT_DIR$/.github/workflows/buildDockerImage.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/copilot.data.migration.agent.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/copilot.data.migration.edit.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-backend/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-database/init.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logiclab-frontend/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/rest/chess/ChessResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/logiclab-backend/src/main/java/ch/janishuber/logiclab/adapter/rest/chess/ChessResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-database/chess/setup.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logiclab-database/mastermind/setup.sql" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,6 +28,7 @@
       <list>
         <option value="Record" />
         <option value="Class" />
+        <option value="Dockerfile" />
       </list>
     </option>
   </component>
@@ -48,62 +59,62 @@
   &quot;associatedIndex&quot;: 4
 }</component>
   <component name="ProjectId" id="2udB7xuG5hGKWS01vomgb37x8lQ" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "Application.main.executor": "Run",
-    "Application.test.executor": "Run",
-    "HTTP Request.requests | #1.executor": "Run",
-    "HTTP Request.requests | #2.executor": "Run",
-    "HTTP Request.requests | #4.executor": "Run",
-    "HTTP Request.requests | #5.executor": "Run",
-    "HTTP Request.rest-api | #1.executor": "Run",
-    "HTTP Request.rest-api | #2.executor": "Run",
-    "HTTP Request.rest-api | #3.executor": "Run",
-    "JUnit.DATABASE_acceptanceTest.executor": "Run",
-    "JUnit.GuessValidationTest.executor": "Run",
-    "JUnit.Unnamed.executor": "Run",
-    "JUnit.UpdateGameStatusTest.executor": "Run",
-    "JUnit.acceptanceTest.executor": "Run",
-    "JUnit.createNewGame.executor": "Run",
-    "JUnit.domainTests.executor": "Run",
-    "Remote JVM Debug.Debug.executor": "Debug",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Intellji/CSS - Projects/Open Liberty/logiclab-backend/src/test/java/domain",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs.jest.jest_package": "",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "editor.preferences.tabs",
-    "ts.external.directory.path": "C:\\Intellji\\CSS - Projects\\Open Liberty\\logiclab-frontend\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;Application.main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.test.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.requests | #1.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.requests | #2.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.requests | #4.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.requests | #5.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.rest-api | #1.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.rest-api | #2.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.rest-api | #3.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DATABASE_acceptanceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GuessValidationTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.Unnamed.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UpdateGameStatusTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.acceptanceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.createNewGame.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.domainTests.executor&quot;: &quot;Run&quot;,
+    &quot;Remote JVM Debug.Debug.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Intellji/CSS - Projects/Open Liberty/logiclab-backend/src/test/java/domain&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs.jest.jest_package&quot;: &quot;&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.tabs&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Intellji\\CSS - Projects\\Open Liberty\\logiclab-frontend\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mariadb"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mariadb&quot;
     ],
-    "com.intellij.ide.scratch.LRUPopupBuilder$1/": [
-      "MariaDB",
-      "MySQL"
+    &quot;com.intellij.ide.scratch.LRUPopupBuilder$1/&quot;: [
+      &quot;MariaDB&quot;,
+      &quot;MySQL&quot;
     ],
-    "com.intellij.ide.scratch.LRUPopupBuilder$1/SQL Dialect": [
-      "MariaDB"
+    &quot;com.intellij.ide.scratch.LRUPopupBuilder$1/SQL Dialect&quot;: [
+      &quot;MariaDB&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Intellji\CSS - Projects\Open Liberty\logiclab-backend\src\main\java\ch\janishuber\logiclab\adapter\rest\chess" />
@@ -148,15 +159,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <option name="filePath" />
-      <method v="2" />
-    </configuration>
     <configuration name="Debug" type="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
       <option name="SERVER_MODE" value="false" />
@@ -191,8 +193,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.21565.193" />
-        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-IU-243.21565.193" />
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.23892.409" />
+        <option value="bundled-js-predefined-d6986cc7102b-e03c56caf84a-JavaScript-IU-252.23892.409" />
       </set>
     </attachedChunks>
   </component>
@@ -221,6 +223,11 @@
       <workItem from="1747054704758" duration="28000" />
       <workItem from="1747055391520" duration="2285000" />
       <workItem from="1747202193653" duration="16529000" />
+      <workItem from="1755844763023" duration="498000" />
+      <workItem from="1756109566133" duration="17000" />
+      <workItem from="1756277772136" duration="3919000" />
+      <workItem from="1757488393115" duration="108000" />
+      <workItem from="1757488576175" duration="1440000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Maven Project">
       <option name="closed" value="true" />

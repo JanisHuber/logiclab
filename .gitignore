@@ -117,3 +117,5 @@ fabric.properties
 
 # Personalized
 db.properties
+
+*.env
